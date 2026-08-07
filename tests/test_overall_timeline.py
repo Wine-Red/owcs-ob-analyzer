@@ -1,0 +1,134 @@
+from __future__ import annotations
+
+import os
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication
+
+from owcs_ob_analyzer.models import AnalysisSnapshot, TimelineEvent
+from owcs_ob_analyzer.ui.hotkeys import GlobalHotkeyPoller
+from owcs_ob_analyzer.ui.overlay import OverlayWindow
+from owcs_ob_analyzer.ui.timeline_panel import OverallTimelinePanel
+
+
+def _snapshot() -> AnalysisSnapshot:
+    return AnalysisSnapshot(
+        slots=(),
+        captured_at=72.0,
+        cycle_latency_ms=4.0,
+        classified_slots=0,
+        source_name="test",
+        desktop_bounds=(0, 0, 2560, 1600),
+        elapsed_s=72.0,
+        timeline=(
+            TimelineEvent("left", 0, "hero_pick", 1.0, "ana"),
+            TimelineEvent("right", 2, "death", 31.0, "moira"),
+            TimelineEvent("left", 0, "hero_switch", 51.0, "tracer", "ana"),
+            TimelineEvent("right", 2, "respawn", 68.0, "moira"),
+        ),
+    )
+
+
+def test_overall_timeline_filters_and_interaction_mode() -> None:
+    app = QApplication.instance() or QApplication([])
+    panel = OverallTimelinePanel()
+    panel.update_snapshot(_snapshot())
+    try:
+        assert panel.current_time.text() == "01:12"
+        assert panel.event_list.count() == 4
+        assert panel.event_list.item(0).text().startswith("01:08  右3  复活")
+        assert panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
+
+        panel.player_filter.setCurrentIndex(1)
+        assert panel.event_list.count() == 2
+        panel.event_filter.setCurrentIndex(panel.event_filter.findData("hero_switch"))
+        assert panel.event_list.count() == 1
+        assert "切换至 Tracer" in panel.event_list.item(0).text()
+
+        panel.set_interactive(True)
+        assert panel.interactive
+        assert not panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
+        assert not panel.windowFlags() & Qt.WindowType.WindowDoesNotAcceptFocus
+        assert not panel.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+        panel.set_interactive(False)
+        assert panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
+        assert panel.windowFlags() & Qt.WindowType.WindowDoesNotAcceptFocus
+        assert panel.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+    finally:
+        panel.close()
+        app.processEvents()
+
+
+def test_global_hotkeys_emit_only_on_key_down_edges() -> None:
+    app = QApplication.instance() or QApplication([])
+    state: dict[int, bool] = {}
+    poller = GlobalHotkeyPoller(lambda key: state.get(key, False))
+    poller.timer.stop()
+    seen: list[str] = []
+    poller.visibility_pressed.connect(lambda: seen.append("visibility"))
+    poller.interaction_pressed.connect(lambda: seen.append("interaction"))
+
+    state[poller.VK_F8] = True
+    poller._poll()
+    poller._poll()
+    state[poller.VK_F8] = False
+    poller._poll()
+    state[poller.VK_F8] = True
+    state[poller.VK_F9] = True
+    poller._poll()
+
+    assert seen == ["visibility", "visibility", "interaction"]
+    app.processEvents()
+
+
+def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> None:
+    app = QApplication.instance() or QApplication([])
+    state: dict[int, bool] = {}
+    poller = GlobalHotkeyPoller(lambda key: state.get(key, False))
+    poller.timer.stop()
+    seen: list[str] = []
+    poller.visibility_pressed.connect(lambda: seen.append("visibility"))
+    poller.interaction_pressed.connect(lambda: seen.append("interaction"))
+
+    state[poller.VK_CONTROL] = True
+    state[poller.VK_ALT] = True
+    state[poller.VK_O] = True
+    poller._poll()
+    poller._dispatch_registered_hotkey(poller.ID_VISIBILITY_CHORD)
+    state[poller.VK_O] = False
+    poller._poll()
+    state[poller.VK_I] = True
+    poller._poll()
+
+    assert seen == ["visibility", "interaction"]
+    app.processEvents()
+
+
+def test_overlay_connects_global_hotkeys_to_visibility_and_interaction() -> None:
+    app = QApplication.instance() or QApplication([])
+    window = OverlayWindow()
+    window.hotkeys.timer.stop()
+    try:
+        window.hotkeys.visibility_pressed.emit()
+        assert not window.overlays_enabled
+        assert not window.player_overlay.enabled
+        assert not window.timeline_panel.enabled
+
+        window.hotkeys.interaction_pressed.emit()
+        assert window.overlays_enabled
+        assert window.timeline_panel.interactive
+        window.hotkeys.interaction_pressed.emit()
+        assert not window.timeline_panel.interactive
+
+        window.interaction_button.click()
+        assert window.overlays_enabled
+        assert window.timeline_panel.interactive
+        assert window.interaction_button.text() == "退出事件操作"
+        window.interaction_button.click()
+        assert not window.timeline_panel.interactive
+        assert window.interaction_button.text() == "操作事件栏"
+    finally:
+        window.close()
+        app.processEvents()
