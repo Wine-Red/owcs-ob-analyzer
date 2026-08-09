@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
 )
 
 from ..models import AnalysisSnapshot
+from ..state_output import StateOutputServer
 from ..worker import AnalysisWorker
 from .hotkeys import GlobalHotkeyPoller
 from .player_overlay import PlayerTimelineOverlay
@@ -24,9 +25,17 @@ from .windowing import bring_to_front
 
 
 class OverlayWindow(QWidget):
-    def __init__(self, image_path: Path | None = None) -> None:
+    def __init__(
+        self,
+        image_path: Path | None = None,
+        *,
+        state_output: StateOutputServer | None = None,
+        state_output_error: str | None = None,
+    ) -> None:
         super().__init__()
         self.image_path = image_path
+        self.state_output = state_output
+        self.state_output_error = state_output_error
         self.worker: AnalysisWorker | None = None
         self.player_overlay = PlayerTimelineOverlay()
         self.timeline_panel = OverallTimelinePanel()
@@ -50,6 +59,9 @@ class OverlayWindow(QWidget):
         self.hotkeys.foreground_pressed.connect(self.bring_overlays_to_front)
         self.hotkeys.status_changed.connect(self._update_hotkey_status)
         self._hotkeys_registered = False
+        if self.state_output_error:
+            self.metrics.setText(f"状态输出不可用 · {self.state_output_error}")
+            self.metrics.setToolTip(self.state_output_error)
 
     def _build_ui(self) -> None:
         shell = QFrame(self)
@@ -99,7 +111,7 @@ class OverlayWindow(QWidget):
         body.addLayout(header)
 
         footer = QHBoxLayout()
-        self.source = QLabel("采集源 · 主显示器顶部 16%")
+        self.source = QLabel("采集源 · 主显示器顶部 24%")
         self.source.setObjectName("footer")
         footer.addWidget(self.source)
         footer.addStretch(1)
@@ -166,6 +178,8 @@ class OverlayWindow(QWidget):
         self.status_dot.setStyleSheet("color: #FFD27A")
         self.status_text.setText("正在初始化")
         self.toggle_button.setText("停止识别")
+        if self.state_output is not None:
+            self.state_output.begin_session()
         worker = AnalysisWorker(self.image_path)
         worker.snapshot_ready.connect(self.update_snapshot)
         worker.failed.connect(self.handle_error)
@@ -181,6 +195,8 @@ class OverlayWindow(QWidget):
         self.toggle_button.setEnabled(False)
 
     def worker_finished(self) -> None:
+        if self.state_output is not None:
+            self.state_output.mark_source_stopped()
         self.worker = None
         self.toggle_button.setEnabled(True)
         self.toggle_button.setText("开始识别")
@@ -191,6 +207,17 @@ class OverlayWindow(QWidget):
         self.timeline_panel.hide()
 
     def update_snapshot(self, snapshot: AnalysisSnapshot) -> None:
+        if self.state_output is not None:
+            self.state_output.publish(snapshot)
+        if snapshot.hud_status != "locked":
+            self.status_dot.setStyleSheet("color: #FFD27A")
+            self.status_text.setText("定位选手栏")
+            fps = f"{snapshot.capture_fps:.1f} FPS" if snapshot.capture_fps else "采样中"
+            self.metrics.setText(f"{fps}  ·  等待稳定定位")
+            self.source.setText(f"采集源 · {snapshot.source_name}")
+            self.player_overlay.update_snapshot(snapshot)
+            self.timeline_panel.update_snapshot(snapshot)
+            return
         self.status_dot.setStyleSheet("color: #72DDB5")
         self.status_text.setText("实时识别中")
         fps = f"{snapshot.capture_fps:.1f} FPS" if snapshot.capture_fps else "采样中"
@@ -202,6 +229,8 @@ class OverlayWindow(QWidget):
         self.timeline_panel.update_snapshot(snapshot)
 
     def handle_error(self, message: str) -> None:
+        if self.state_output is not None:
+            self.state_output.mark_source_stopped(message)
         self.status_dot.setStyleSheet("color: #FF756F")
         self.status_text.setText("采集失败")
         self.metrics.setText(message)
@@ -263,6 +292,9 @@ class OverlayWindow(QWidget):
         self.worker = None
         self.player_overlay.close()
         self.timeline_panel.close()
+        if self.state_output is not None:
+            self.state_output.mark_source_stopped()
+            self.state_output.stop()
         super().closeEvent(event)
         app = QApplication.instance()
         if app is not None:

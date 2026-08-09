@@ -6,6 +6,7 @@ htmlcov/
 .venv/
 build/
 dist/
+release/
 *.egg-info/
 .diagnostics/
 .tmp-*/

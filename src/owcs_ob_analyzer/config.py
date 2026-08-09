@@ -35,7 +35,10 @@ class HudLayout:
 # aspect setting remains 16:9. These coordinates therefore use the game's
 # logical 16:9 HUD canvas, not the physical client height reported by DXGI.
 DEFAULT_LAYOUT = HudLayout(
-    top_capture_ratio=0.16,
+    # Include the broadcast-safe area used by tournament observers. The
+    # logical 16:9 geometry remains unchanged; only a vertical translation is
+    # discovered inside this larger, still top-only capture.
+    top_capture_ratio=0.24,
     logical_aspect_ratio=16 / 9,
     hero_rois={
         "left": (
@@ -93,6 +96,7 @@ def crop_from_top(
     full_size: tuple[int, int],
     box: NormalizedBox,
     logical_aspect_ratio: float = 16 / 9,
+    vertical_offset_px: int = 0,
 ):
     """Crop a logical-HUD box from a top-only physical client frame."""
     width, physical_height = full_size
@@ -100,6 +104,12 @@ def crop_from_top(
     x1, y1, x2, y2 = box
     left = max(0, min(top_frame.shape[1], round(x1 * width)))
     right = max(0, min(top_frame.shape[1], round(x2 * width)))
-    top = max(0, min(top_frame.shape[0], round(y1 * logical_height)))
-    bottom = max(0, min(top_frame.shape[0], round(y2 * logical_height)))
+    top = max(
+        0,
+        min(top_frame.shape[0], round(y1 * logical_height) + vertical_offset_px),
+    )
+    bottom = max(
+        0,
+        min(top_frame.shape[0], round(y2 * logical_height) + vertical_offset_px),
+    )
     return top_frame[top:bottom, left:right]

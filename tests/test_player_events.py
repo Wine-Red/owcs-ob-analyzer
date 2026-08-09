@@ -25,7 +25,11 @@ class _LifeRecognizer:
 
 
 def test_each_slot_keeps_its_own_switch_death_and_respawn_timeline() -> None:
-    analyzer = RealtimeAnalyzer(max_hero_jobs=10)
+    analyzer = RealtimeAnalyzer(
+        max_hero_jobs=10,
+        auto_locate_hud=False,
+        enable_player_name_ocr=False,
+    )
     heroes = _HeroRecognizer()
     lives = _LifeRecognizer()
     analyzer.hero_recognizer = heroes

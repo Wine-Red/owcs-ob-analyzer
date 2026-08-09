@@ -73,7 +73,7 @@ def overwatch_client_bounds() -> tuple[int, int, int, int] | None:
 
 
 class ImageFrameSource:
-    def __init__(self, path: Path, top_ratio: float = 0.16) -> None:
+    def __init__(self, path: Path, top_ratio: float = 0.24) -> None:
         self.path = Path(path)
         image = cv2.imdecode(np.fromfile(self.path, dtype=np.uint8), cv2.IMREAD_COLOR)
         if image is None:
@@ -107,7 +107,7 @@ class ImageFrameSource:
 
 
 class DxcamFrameSource:
-    def __init__(self, top_ratio: float = 0.16, output_index: int = 0) -> None:
+    def __init__(self, top_ratio: float = 0.24, output_index: int = 0) -> None:
         import dxcam
 
         self.camera = dxcam.create(output_idx=output_index, output_color="BGR")
@@ -152,7 +152,7 @@ class DxcamFrameSource:
 
 
 class MssFrameSource:
-    def __init__(self, top_ratio: float = 0.16, monitor_index: int = 1) -> None:
+    def __init__(self, top_ratio: float = 0.24, monitor_index: int = 1) -> None:
         import mss
 
         self.session = mss.mss()
@@ -198,7 +198,7 @@ class MssFrameSource:
         self.session.close()
 
 
-def create_screen_source(top_ratio: float = 0.16) -> FrameSource:
+def create_screen_source(top_ratio: float = 0.24) -> FrameSource:
     failures: list[str] = []
     try:
         return DxcamFrameSource(top_ratio)

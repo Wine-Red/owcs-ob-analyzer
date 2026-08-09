@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 import os
 from pathlib import Path
 
@@ -57,6 +58,21 @@ def test_player_overlay_is_click_through_transparent_and_hud_anchored() -> None:
         assert first.icon.pixmap() is not None and not first.icon.pixmap().isNull()
         assert first.player_name.pixmap() is not None and not first.player_name.pixmap().isNull()
         assert "00:12 阵亡" in first.events.text()
+        dpr = max(1.0, app.primaryScreen().devicePixelRatio())
+        overlay.update_snapshot(
+            replace(snapshot, hud_offset_y_px=72, hud_confidence=0.95)
+        )
+        assert first.y() == 214 + round(72 / dpr)
+
+        overlay.update_snapshot(
+            replace(
+                snapshot,
+                hud_status="searching",
+                hud_offset_y_px=None,
+                hud_confidence=0.0,
+            )
+        )
+        assert not overlay.isVisible()
         overlay.set_enabled(False)
         assert not overlay.isVisible()
         overlay.update_snapshot(snapshot)

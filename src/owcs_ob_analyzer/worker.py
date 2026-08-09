@@ -26,6 +26,7 @@ class AnalysisWorker(QThread):
         self._stop_event.set()
 
     def run(self) -> None:
+        analyzer = None
         try:
             analyzer = RealtimeAnalyzer()
             self._source = (
@@ -62,6 +63,8 @@ class AnalysisWorker(QThread):
         except Exception as exc:
             self.failed.emit(str(exc))
         finally:
+            if analyzer is not None:
+                analyzer.close()
             if self._source is not None:
                 try:
                     self._source.close()

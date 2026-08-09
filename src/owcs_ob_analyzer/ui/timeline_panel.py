@@ -32,8 +32,8 @@ def _player_label(side: str, slot: int) -> str:
     return f"{'左' if side == 'left' else '右'}{slot + 1}"
 
 
-def _timeline_copy(event: TimelineEvent) -> str:
-    player = _player_label(event.side, event.slot)
+def _timeline_copy(event: TimelineEvent, player_name: str | None = None) -> str:
+    player = player_name or _player_label(event.side, event.slot)
     if event.kind == "hero_pick":
         detail = f"确认英雄 {_hero_name(event.hero)}"
     elif event.kind == "hero_switch":
@@ -53,7 +53,7 @@ class OverallTimelinePanel(QWidget):
         self.enabled = True
         self.interactive = True
         self._snapshot: AnalysisSnapshot | None = None
-        self._timeline_signature: tuple[TimelineEvent, ...] | None = None
+        self._timeline_signature: tuple[object, ...] | None = None
         self.setWindowTitle("OWCS Overall Timeline")
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint
@@ -181,9 +181,13 @@ class OverallTimelinePanel(QWidget):
         self._snapshot = snapshot
         self._sync_geometry(snapshot)
         self.current_time.setText(_clock(snapshot.elapsed_s))
-        signature = tuple(snapshot.timeline)
+        names = tuple(row.player_name for row in snapshot.slots)
+        signature = (*snapshot.timeline, *names)
         if signature != self._timeline_signature:
             self._timeline_signature = signature
+            for index, row in enumerate(snapshot.slots, start=1):
+                label = row.player_name or _player_label(row.side, row.slot)
+                self.player_filter.setItemText(index, label)
             self._render_events()
         if self.enabled and not self.isVisible():
             self.show()
@@ -200,8 +204,14 @@ class OverallTimelinePanel(QWidget):
             and (selected_kind is None or event.kind == selected_kind)
         ]
         self.event_list.clear()
+        player_names = {
+            (row.side, row.slot): row.player_name
+            for row in self._snapshot.slots
+        }
         for event in events:
-            item = QListWidgetItem(_timeline_copy(event))
+            item = QListWidgetItem(
+                _timeline_copy(event, player_names.get((event.side, event.slot)))
+            )
             if event.kind == "death":
                 item.setForeground(QColor("#FFAAA6"))
             elif event.kind == "respawn":

@@ -8,15 +8,18 @@ version = "0.1.0"
 description = "Real-time Overwatch custom spectator HUD analyzer"
 requires-python = ">=3.10"
 dependencies = [
+  "aiohttp>=3.10,<4",
   "numpy>=1.26,<3",
   "opencv-python>=4.9,<5",
   "PySide6>=6.7,<7",
+  "rapidocr-onnxruntime>=1.4.4,<2",
   "mss>=9,<11",
   "dxcam>=0.0.5; platform_system == 'Windows'",
 ]
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
+release = ["pyinstaller>=6.10,<7"]
 
 [project.scripts]
 owcs-ob-analyzer = "owcs_ob_analyzer.app:main"

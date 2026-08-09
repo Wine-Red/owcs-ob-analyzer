@@ -7,7 +7,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
 
-from owcs_ob_analyzer.models import AnalysisSnapshot, TimelineEvent
+from owcs_ob_analyzer.models import AnalysisSnapshot, SlotSnapshot, TimelineEvent
 from owcs_ob_analyzer.ui import hotkeys as hotkey_module
 from owcs_ob_analyzer.ui import overlay as overlay_module
 from owcs_ob_analyzer.ui.hotkeys import GlobalHotkeyPoller
@@ -17,7 +17,25 @@ from owcs_ob_analyzer.ui.timeline_panel import OverallTimelinePanel
 
 def _snapshot() -> AnalysisSnapshot:
     return AnalysisSnapshot(
-        slots=(),
+        slots=tuple(
+            SlotSnapshot(
+                side=side,
+                slot=slot,
+                hero=None,
+                hero_confidence=0.0,
+                life_state="unknown",
+                life_confidence=0.0,
+                player_name=(
+                    "PLAYER"
+                    if (side, slot) == ("left", 0)
+                    else "测试选手"
+                    if (side, slot) == ("right", 2)
+                    else None
+                ),
+            )
+            for side in ("left", "right")
+            for slot in range(5)
+        ),
         captured_at=72.0,
         cycle_latency_ms=4.0,
         classified_slots=0,
@@ -40,7 +58,9 @@ def test_overall_timeline_filters_and_remains_clickable() -> None:
     try:
         assert panel.current_time.text() == "01:12"
         assert panel.event_list.count() == 4
-        assert panel.event_list.item(0).text().startswith("01:08  右3  复活")
+        assert panel.event_list.item(0).text().startswith("01:08  测试选手  复活")
+        assert panel.player_filter.itemText(1) == "PLAYER"
+        assert panel.player_filter.itemText(8) == "测试选手"
         assert panel.interactive
         assert not panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
         assert not panel.windowFlags() & Qt.WindowType.WindowDoesNotAcceptFocus

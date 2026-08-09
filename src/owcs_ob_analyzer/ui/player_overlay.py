@@ -129,6 +129,7 @@ class PlayerTimelineOverlay(QWidget):
     def __init__(self) -> None:
         super().__init__()
         self.enabled = True
+        self._hud_offset_y_px = 0
         self.setWindowTitle("OWCS Player Timelines")
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint
@@ -181,6 +182,9 @@ class PlayerTimelineOverlay(QWidget):
         )
 
     def update_snapshot(self, snapshot: AnalysisSnapshot) -> None:
+        if snapshot.hud_status != "locked":
+            self.hide()
+            return
         self._sync_geometry(snapshot)
         for row in snapshot.slots:
             self.cards[(row.side, row.slot)].update_snapshot(row)
@@ -193,6 +197,8 @@ class PlayerTimelineOverlay(QWidget):
             self.hide()
 
     def _sync_geometry(self, snapshot: AnalysisSnapshot) -> None:
+        if snapshot.hud_offset_y_px is not None:
+            self._hud_offset_y_px = snapshot.hud_offset_y_px
         primary = QApplication.primaryScreen()
         dpr = max(1.0, primary.devicePixelRatio())
         if snapshot.desktop_bounds is None:
@@ -224,6 +230,6 @@ class PlayerTimelineOverlay(QWidget):
             for slot, box in enumerate(DEFAULT_LAYOUT.status_rois[side]):
                 x1, _, x2, y2 = box
                 card_left = round(x1 * physical_width / dpr) + 1
-                card_top = round(y2 * hud_height) + 4
+                card_top = round(y2 * hud_height) + round(self._hud_offset_y_px / dpr) + 4
                 card_width = max(76, round((x2 - x1) * physical_width / dpr) - 3)
                 self.cards[(side, slot)].setGeometry(card_left, card_top, card_width, 76)

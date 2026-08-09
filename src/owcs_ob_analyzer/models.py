@@ -4,6 +4,8 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 LifeState = Literal["alive", "dead", "unknown"]
+HudStatus = Literal["searching", "locked"]
+PlayerNameStatus = Literal["confirmed", "unknown"]
 PlayerEventKind = Literal["hero_pick", "hero_switch", "death", "respawn"]
 
 
@@ -51,6 +53,8 @@ class SlotSnapshot:
     pending_hero: str | None = None
     events: tuple[PlayerEvent, ...] = ()
     player_name: str | None = None
+    player_name_confidence: float = 0.0
+    player_name_status: PlayerNameStatus = "unknown"
     player_name_image_png: bytes | None = None
 
 
@@ -65,6 +69,9 @@ class AnalysisSnapshot:
     desktop_bounds: tuple[int, int, int, int] | None = None
     elapsed_s: float = 0.0
     timeline: tuple[TimelineEvent, ...] = ()
+    hud_status: HudStatus = "locked"
+    hud_offset_y_px: int | None = 0
+    hud_confidence: float = 1.0
 
     def as_dict(self) -> dict[str, object]:
         return {
@@ -75,6 +82,11 @@ class AnalysisSnapshot:
             "capture_fps": round(self.capture_fps, 1),
             "desktop_bounds": self.desktop_bounds,
             "elapsed_s": round(self.elapsed_s, 3),
+            "hud": {
+                "status": self.hud_status,
+                "offset_y_px": self.hud_offset_y_px,
+                "confidence": round(self.hud_confidence, 4),
+            },
             "timeline": [
                 {
                     "side": event.side,
@@ -96,6 +108,8 @@ class AnalysisSnapshot:
                     "life_confidence": round(row.life_confidence, 4),
                     "pending_hero": row.pending_hero,
                     "player_name": row.player_name,
+                    "player_name_confidence": round(row.player_name_confidence, 4),
+                    "player_name_status": row.player_name_status,
                     "events": [
                         {
                             "kind": event.kind,
