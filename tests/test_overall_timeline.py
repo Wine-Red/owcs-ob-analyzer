@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication
 
 from owcs_ob_analyzer.models import AnalysisSnapshot, TimelineEvent
 from owcs_ob_analyzer.ui import hotkeys as hotkey_module
+from owcs_ob_analyzer.ui import overlay as overlay_module
 from owcs_ob_analyzer.ui.hotkeys import GlobalHotkeyPoller
 from owcs_ob_analyzer.ui.overlay import OverlayWindow
 from owcs_ob_analyzer.ui.timeline_panel import OverallTimelinePanel
@@ -72,12 +73,12 @@ def test_global_hotkey_chords_emit_only_on_key_down_edges() -> None:
 
     state[poller.VK_CONTROL] = True
     state[poller.VK_ALT] = True
-    state[poller.VK_O] = True
+    state[poller.VK_H] = True
     poller._poll()
     poller._poll()
-    state[poller.VK_O] = False
+    state[poller.VK_H] = False
     poller._poll()
-    state[poller.VK_O] = True
+    state[poller.VK_H] = True
     state[poller.VK_I] = True
     poller._poll()
 
@@ -108,7 +109,7 @@ def test_windows_registration_contains_only_the_two_letter_chords() -> None:
         (
             poller.ID_VISIBILITY_CHORD,
             hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
-            poller.VK_O,
+            poller.VK_H,
         ),
         (
             poller.ID_FOREGROUND_CHORD,
@@ -130,10 +131,10 @@ def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> Non
 
     state[poller.VK_CONTROL] = True
     state[poller.VK_ALT] = True
-    state[poller.VK_O] = True
+    state[poller.VK_H] = True
     poller._poll()
     poller._dispatch_registered_hotkey(poller.ID_VISIBILITY_CHORD)
-    state[poller.VK_O] = False
+    state[poller.VK_H] = False
     poller._poll()
     state[poller.VK_I] = True
     poller._poll()
@@ -164,12 +165,69 @@ def test_overlay_foreground_action_never_disables_timeline_clicks(monkeypatch) -
         window.hotkeys.foreground_pressed.emit()
         assert window.timeline_panel.interactive
         assert brought_to_front == [window, window]
-
-        window.foreground_button.click()
-        assert window.overlays_enabled
-        assert window.timeline_panel.interactive
-        assert brought_to_front == [window, window, window]
-        assert window.foreground_button.text() == "置顶工具"
+        assert not hasattr(window, "foreground_button")
+        assert not hasattr(window, "collapse_button")
+        assert not hasattr(window, "rails")
+        assert not hasattr(window, "cards")
+        assert window.hotkey_hint.text() == (
+            "Ctrl+Alt+H 显示/隐藏浮层 · Ctrl+Alt+I 重新置顶 · 拖动移动"
+        )
     finally:
         window.close()
         app.processEvents()
+
+
+def test_close_button_stops_worker_closes_overlays_and_quits(monkeypatch) -> None:
+    app = QApplication.instance() or QApplication([])
+    window = OverlayWindow()
+    window.hotkeys.timer.stop()
+
+    class Worker:
+        stopped = False
+        waits: list[int] = []
+
+        @staticmethod
+        def isRunning() -> bool:
+            return True
+
+        def stop(self) -> None:
+            self.stopped = True
+
+        def wait(self, timeout: int) -> bool:
+            self.waits.append(timeout)
+            return True
+
+    class App:
+        quit_count = 0
+
+        def quit(self) -> None:
+            self.quit_count += 1
+
+    fake_app = App()
+
+    class ApplicationFacade:
+        @staticmethod
+        def instance():
+            return fake_app
+
+    class TimerFacade:
+        @staticmethod
+        def singleShot(_delay: int, callback) -> None:
+            callback()
+
+    worker = Worker()
+    window.worker = worker
+    monkeypatch.setattr(overlay_module, "QApplication", ApplicationFacade)
+    monkeypatch.setattr(overlay_module, "QTimer", TimerFacade)
+
+    window.close_button.click()
+
+    assert window._closing
+    assert worker.stopped
+    assert worker.waits == [5000]
+    assert window.worker is None
+    assert not window.player_overlay.isVisible()
+    assert not window.timeline_panel.isVisible()
+    assert fake_app.quit_count == 1
+    window.deleteLater()
+    app.processEvents()

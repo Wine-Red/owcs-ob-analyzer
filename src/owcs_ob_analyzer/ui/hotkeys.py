@@ -49,11 +49,11 @@ class GlobalHotkeyPoller(QObject):
 
     VK_CONTROL = 0x11
     VK_ALT = 0x12
+    VK_H = 0x48
     VK_I = 0x49
-    VK_O = 0x4F
     ID_VISIBILITY_CHORD = 0xB803
     ID_FOREGROUND_CHORD = 0xB804
-    visibility_key_label = "Ctrl+Alt+O"
+    visibility_key_label = "Ctrl+Alt+H"
     foreground_key_label = "Ctrl+Alt+I"
 
     def __init__(
@@ -72,7 +72,7 @@ class GlobalHotkeyPoller(QObject):
         self._native_filter: _WindowsHotkeyEventFilter | None = None
         self._window_handle: int | None = None
         self.available = self._key_reader is not None
-        self.registration_summary = "快捷键等待注册"
+        self.registration_summary = self.function_summary()
 
         self.timer = QTimer(self)
         self.timer.setInterval(45)
@@ -82,12 +82,12 @@ class GlobalHotkeyPoller(QObject):
 
     def register(self) -> None:
         if self._explicit_key_reader:
-            self.registration_summary = "快捷键测试监听"
+            self.registration_summary = self.function_summary()
             self.status_changed.emit(self.registration_summary)
             return
         if sys.platform != "win32" or self.window is None:
             self._enable_polling_fallback()
-            self.registration_summary = "快捷键使用兼容监听"
+            self.registration_summary = self.function_summary()
             self.status_changed.emit(self.registration_summary)
             return
 
@@ -95,7 +95,7 @@ class GlobalHotkeyPoller(QObject):
         app = QApplication.instance()
         if app is None:
             self._enable_polling_fallback()
-            self.registration_summary = "快捷键使用兼容监听"
+            self.registration_summary = self.function_summary()
             self.status_changed.emit(self.registration_summary)
             return
 
@@ -121,26 +121,21 @@ class GlobalHotkeyPoller(QObject):
 
         self._enable_polling_fallback()
         self.available = bool(self._registered_ids) or self._poll_enabled
-        required_ids = {self.ID_VISIBILITY_CHORD, self.ID_FOREGROUND_CHORD}
-        if required_ids.issubset(self._registered_ids):
-            self.registration_summary = (
-                f"{self.visibility_key_label} 显隐 · "
-                f"{self.foreground_key_label} 置顶工具"
-            )
-        elif self._poll_enabled:
-            self.registration_summary = (
-                f"{self.visibility_key_label} / {self.foreground_key_label} 兼容监听"
-                "（全局注册被占用，请退出旧实例后重启）"
-            )
-        else:
-            self.registration_summary = "全局快捷键不可用"
+        self.registration_summary = self.function_summary()
         self.status_changed.emit(self.registration_summary)
+
+    @classmethod
+    def function_summary(cls) -> str:
+        return (
+            f"{cls.visibility_key_label} 显示/隐藏浮层 · "
+            f"{cls.foreground_key_label} 重新置顶"
+        )
 
     @classmethod
     def bindings(cls) -> tuple[tuple[int, int, int], ...]:
         modifiers = MOD_CONTROL | MOD_ALT | MOD_NOREPEAT
         return (
-            (cls.ID_VISIBILITY_CHORD, modifiers, cls.VK_O),
+            (cls.ID_VISIBILITY_CHORD, modifiers, cls.VK_H),
             (cls.ID_FOREGROUND_CHORD, modifiers, cls.VK_I),
         )
 
@@ -198,7 +193,7 @@ class GlobalHotkeyPoller(QObject):
         states = (
             (
                 "visibility",
-                ctrl_alt and self._key_reader(self.VK_O),
+                ctrl_alt and self._key_reader(self.VK_H),
                 self.visibility_pressed,
             ),
             (

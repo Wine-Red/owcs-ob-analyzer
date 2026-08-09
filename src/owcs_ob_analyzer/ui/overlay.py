@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from PySide6.QtCore import QPoint, QSize, Qt, QTimer
-from PySide6.QtGui import QColor, QPixmap
+from PySide6.QtCore import QPoint, Qt, QTimer
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
     QApplication,
     QFrame,
@@ -11,106 +11,16 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
-    QSizePolicy,
     QVBoxLayout,
     QWidget,
 )
 
-from ..models import AnalysisSnapshot, SlotSnapshot
+from ..models import AnalysisSnapshot
 from ..worker import AnalysisWorker
 from .hotkeys import GlobalHotkeyPoller
-from .player_overlay import PlayerTimelineOverlay, load_hero_icon
+from .player_overlay import PlayerTimelineOverlay
 from .timeline_panel import OverallTimelinePanel
 from .windowing import bring_to_front
-
-
-HERO_LABELS = {
-    "soldier-76": "Soldier: 76",
-    "wrecking-ball": "Wrecking Ball",
-    "junker-queen": "Junker Queen",
-    "jetpack-cat": "Jetpack Cat",
-}
-
-
-class PlayerCard(QFrame):
-    def __init__(self, side: str, slot: int) -> None:
-        super().__init__()
-        self.side = side
-        self.slot = slot
-        self.setObjectName("playerCard")
-        self.setProperty("life", "unknown")
-        self.setMinimumWidth(108)
-        self.setAccessibleName(f"{side} {slot + 1}号选手")
-
-        row = QHBoxLayout(self)
-        row.setContentsMargins(7, 6, 7, 6)
-        row.setSpacing(7)
-        self.icon = QLabel("?")
-        self.icon.setObjectName("heroIcon")
-        self.icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.icon.setFixedSize(34, 34)
-        row.addWidget(self.icon)
-
-        copy = QVBoxLayout()
-        copy.setSpacing(0)
-        self.player_name = QLabel(f"{'左' if side == 'left' else '右'}{slot + 1}")
-        self.player_name.setObjectName("playerName")
-        self.player_name.setFixedHeight(12)
-        self.hero = QLabel("等待识别")
-        self.hero.setObjectName("heroName")
-        self.hero.setTextInteractionFlags(Qt.TextInteractionFlag.NoTextInteraction)
-        self.state = QLabel("● 未知")
-        self.state.setObjectName("lifeState")
-        copy.addWidget(self.player_name)
-        copy.addWidget(self.hero)
-        copy.addWidget(self.state)
-        row.addLayout(copy, 1)
-
-    def update_snapshot(self, row: SlotSnapshot) -> None:
-        hero = row.hero
-        display = HERO_LABELS.get(hero or "", (hero or "等待识别").replace("-", " ").title())
-        if row.pending_hero:
-            display = f"{display} · 校验"
-        self.hero.setText(display)
-        state_copy = {
-            "alive": "● 存活",
-            "dead": "× 已阵亡",
-            "unknown": "— 未知",
-        }[row.life_state]
-        self.state.setText(state_copy)
-        if row.player_name:
-            self.player_name.setPixmap(QPixmap())
-            self.player_name.setText(row.player_name)
-        elif row.player_name_image_png:
-            name_pixmap = QPixmap()
-            if name_pixmap.loadFromData(row.player_name_image_png):
-                self.player_name.setText("")
-                self.player_name.setPixmap(
-                    name_pixmap.scaled(
-                        QSize(92, 12),
-                        Qt.AspectRatioMode.KeepAspectRatio,
-                        Qt.TransformationMode.SmoothTransformation,
-                    )
-                )
-        confidence = f"英雄 {row.hero_confidence:.0%} / 状态 {row.life_confidence:.0%}"
-        self.setToolTip(confidence)
-        self.setProperty("life", row.life_state)
-        self.style().unpolish(self)
-        self.style().polish(self)
-
-        if hero:
-            pixmap = load_hero_icon(hero, 34)
-            if not pixmap.isNull():
-                self.icon.setPixmap(
-                    pixmap.scaled(
-                        QSize(34, 34),
-                        Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-                        Qt.TransformationMode.SmoothTransformation,
-                    )
-                )
-                return
-        self.icon.setPixmap(QPixmap())
-        self.icon.setText("?")
 
 
 class OverlayWindow(QWidget):
@@ -122,7 +32,7 @@ class OverlayWindow(QWidget):
         self.timeline_panel = OverallTimelinePanel()
         self.overlays_enabled = True
         self.drag_origin: QPoint | None = None
-        self.expanded_height = 196
+        self._closing = False
         self.setObjectName("overlay")
         self.setWindowTitle("OWCS OB Analyzer")
         self.setWindowFlags(
@@ -131,8 +41,8 @@ class OverlayWindow(QWidget):
             | Qt.WindowType.Tool
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setMinimumWidth(760)
-        self.resize(820, self.expanded_height)
+        self.setMinimumWidth(640)
+        self.resize(720, 92)
         self._build_ui()
         self._apply_style()
         self.hotkeys = GlobalHotkeyPoller(parent=self, window=self)
@@ -140,9 +50,6 @@ class OverlayWindow(QWidget):
         self.hotkeys.foreground_pressed.connect(self.bring_overlays_to_front)
         self.hotkeys.status_changed.connect(self._update_hotkey_status)
         self._hotkeys_registered = False
-        self.rails.hide()
-        self.collapse_button.setText("⌄")
-        self.collapse_button.setToolTip("展开选手总览")
 
     def _build_ui(self) -> None:
         shell = QFrame(self)
@@ -183,50 +90,20 @@ class OverlayWindow(QWidget):
         self.timeline_button.setAccessibleName("显示或隐藏全部分析浮层")
         self.timeline_button.clicked.connect(self.toggle_analysis_overlays)
         header.addWidget(self.timeline_button)
-        self.foreground_button = QPushButton("置顶工具")
-        self.foreground_button.setAccessibleName("重新置顶并激活分析工具")
-        self.foreground_button.setToolTip("重新置顶工具和事件栏；也可按 Ctrl+Alt+I")
-        self.foreground_button.clicked.connect(self.bring_overlays_to_front)
-        header.addWidget(self.foreground_button)
-        self.collapse_button = QPushButton("⌃")
-        self.collapse_button.setObjectName("iconButton")
-        self.collapse_button.setToolTip("收起选手状态")
-        self.collapse_button.setAccessibleName("收起或展开选手状态")
-        self.collapse_button.clicked.connect(self.toggle_collapsed)
-        header.addWidget(self.collapse_button)
-        close = QPushButton("×")
-        close.setObjectName("iconButton")
-        close.setToolTip("关闭")
-        close.setAccessibleName("关闭浮窗")
-        close.clicked.connect(self.close)
-        header.addWidget(close)
+        self.close_button = QPushButton("×")
+        self.close_button.setObjectName("iconButton")
+        self.close_button.setToolTip("完全退出")
+        self.close_button.setAccessibleName("退出 OWCS OB Analyzer")
+        self.close_button.clicked.connect(self.exit_application)
+        header.addWidget(self.close_button)
         body.addLayout(header)
-
-        self.rails = QWidget()
-        rail_layout = QVBoxLayout(self.rails)
-        rail_layout.setContentsMargins(0, 0, 0, 0)
-        rail_layout.setSpacing(6)
-        self.cards: dict[tuple[str, int], PlayerCard] = {}
-        for side, label in (("left", "左侧"), ("right", "右侧")):
-            line = QHBoxLayout()
-            line.setSpacing(5)
-            side_label = QLabel(label)
-            side_label.setObjectName("sideLabel")
-            side_label.setFixedWidth(34)
-            line.addWidget(side_label)
-            for slot in range(5):
-                card = PlayerCard(side, slot)
-                self.cards[(side, slot)] = card
-                line.addWidget(card, 1)
-            rail_layout.addLayout(line)
-        body.addWidget(self.rails)
 
         footer = QHBoxLayout()
         self.source = QLabel("采集源 · 主显示器顶部 16%")
         self.source.setObjectName("footer")
         footer.addWidget(self.source)
         footer.addStretch(1)
-        self.hotkey_hint = QLabel("快捷键等待注册 · 拖动移动")
+        self.hotkey_hint = QLabel(f"{GlobalHotkeyPoller.function_summary()} · 拖动移动")
         self.hotkey_hint.setObjectName("footer")
         footer.addWidget(self.hotkey_hint)
         body.addLayout(footer)
@@ -248,28 +125,6 @@ class OverlayWindow(QWidget):
             QLabel#statusDot { color: #78909C; font-size: 13px; }
             QLabel#statusText { color: #D8E5EA; font-size: 12px; font-weight: 600; }
             QLabel#metrics, QLabel#footer { color: #90A4AE; font-size: 11px; }
-            QLabel#sideLabel {
-                color: #9DB0BA; font-family: "Bahnschrift SemiCondensed";
-                font-size: 11px; font-weight: 600;
-            }
-            QFrame#playerCard {
-                background: rgba(28, 39, 50, 145);
-                border: 1px solid rgba(166, 190, 202, 32);
-                border-left: 3px solid #687B85;
-                border-radius: 8px;
-            }
-            QFrame#playerCard[life="alive"] { border-left-color: #72DDB5; }
-            QFrame#playerCard[life="dead"] { border-left-color: #FF756F; background: rgba(46, 30, 34, 158); }
-            QLabel#heroIcon {
-                background: rgba(255, 255, 255, 12);
-                border: 1px solid rgba(255, 255, 255, 20); border-radius: 6px;
-                color: #71838D; font-family: "Cascadia Mono"; font-weight: 700;
-            }
-            QLabel#heroName { color: #F3F7F8; font-size: 11px; font-weight: 600; }
-            QLabel#playerName { color: #F7FAFB; font-size: 10px; font-weight: 700; }
-            QLabel#lifeState { color: #91A3AC; font-size: 10px; }
-            QFrame#playerCard[life="alive"] QLabel#lifeState { color: #72DDB5; }
-            QFrame#playerCard[life="dead"] QLabel#lifeState { color: #FF8B86; }
             QPushButton {
                 min-height: 28px; padding: 0 11px; border-radius: 7px;
                 color: #DDE9ED; background: rgba(255, 255, 255, 12);
@@ -278,10 +133,6 @@ class OverlayWindow(QWidget):
             }
             QPushButton:hover { background: rgba(255, 255, 255, 24); }
             QPushButton:focus { border-color: #8CE8D0; }
-            QPushButton[active="true"] {
-                color: #A6F0DE; background: rgba(64, 117, 103, 130);
-                border-color: rgba(166, 240, 222, 150); font-weight: 700;
-            }
             QPushButton#primaryButton {
                 color: #08211C; background: #8CE8D0; border-color: #A9F5E1; font-weight: 700;
             }
@@ -347,8 +198,6 @@ class OverlayWindow(QWidget):
             f"{fps}  ·  本轮 {snapshot.cycle_latency_ms:.0f} ms  ·  英雄复核 {snapshot.classified_slots}/2"
         )
         self.source.setText(f"采集源 · {snapshot.source_name}")
-        for row in snapshot.slots:
-            self.cards[(row.side, row.slot)].update_snapshot(row)
         self.player_overlay.update_snapshot(snapshot)
         self.timeline_panel.update_snapshot(snapshot)
 
@@ -359,13 +208,6 @@ class OverlayWindow(QWidget):
         self.metrics.setToolTip(message)
         self.player_overlay.hide()
         self.timeline_panel.hide()
-
-    def toggle_collapsed(self) -> None:
-        collapsed = self.rails.isVisible()
-        self.rails.setVisible(not collapsed)
-        self.collapse_button.setText("⌄" if collapsed else "⌃")
-        self.collapse_button.setToolTip("展开选手状态" if collapsed else "收起选手状态")
-        self.adjustSize()
 
     def toggle_analysis_overlays(self) -> None:
         enabled = not self.overlays_enabled
@@ -387,9 +229,9 @@ class OverlayWindow(QWidget):
 
     def _update_hotkey_status(self, status: str) -> None:
         self.hotkey_hint.setText(f"{status} · 拖动移动")
-        self.foreground_button.setToolTip(
-            f"重新置顶工具和事件栏；{self.hotkeys.foreground_key_label}"
-        )
+
+    def exit_application(self) -> None:
+        self.close()
 
     def mousePressEvent(self, event) -> None:
         if event.button() == Qt.MouseButton.LeftButton:
@@ -406,11 +248,22 @@ class OverlayWindow(QWidget):
         super().mouseReleaseEvent(event)
 
     def closeEvent(self, event) -> None:
+        if self._closing:
+            event.accept()
+            return
+        self._closing = True
         self.hotkeys.shutdown()
         self._hotkeys_registered = False
-        if self.worker is not None and self.worker.isRunning():
-            self.worker.stop()
-            self.worker.wait(2500)
+        worker = self.worker
+        if worker is not None and worker.isRunning():
+            worker.stop()
+            if not worker.wait(5000):
+                worker.terminate()
+                worker.wait(1000)
+        self.worker = None
         self.player_overlay.close()
         self.timeline_panel.close()
         super().closeEvent(event)
+        app = QApplication.instance()
+        if app is not None:
+            QTimer.singleShot(0, app.quit)
