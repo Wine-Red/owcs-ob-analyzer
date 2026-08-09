@@ -118,17 +118,36 @@ def test_windows_registration_contains_only_the_two_letter_chords(monkeypatch) -
     class Windll:
         user32 = User32()
 
+    class NativeWindow:
+        @staticmethod
+        def winId() -> int:
+            return 1234
+
+    class NativeApp:
+        def installNativeEventFilter(self, _event_filter) -> None:
+            pass
+
+        def removeNativeEventFilter(self, _event_filter) -> None:
+            pass
+
+    native_app = NativeApp()
+
+    class ApplicationFacade:
+        @staticmethod
+        def instance():
+            return native_app
+
     app = QApplication.instance() or QApplication([])
-    window = OverlayWindow()
-    window.hotkeys.timer.stop()
     monkeypatch.setattr(hotkey_module.sys, "platform", "win32")
     monkeypatch.setattr(hotkey_module.ctypes, "windll", Windll())
+    monkeypatch.setattr(hotkey_module, "QApplication", ApplicationFacade)
     monkeypatch.setattr(
         GlobalHotkeyPoller,
         "_create_key_reader",
         staticmethod(lambda: lambda _key: False),
     )
-    poller = GlobalHotkeyPoller(window=window)
+    poller = GlobalHotkeyPoller(window=NativeWindow())
+    poller.timer.stop()
     try:
         poller.register()
         registered = [
@@ -153,7 +172,6 @@ def test_windows_registration_contains_only_the_two_letter_chords(monkeypatch) -
         }
     finally:
         poller.shutdown()
-        window.close()
         app.processEvents()
 
 
