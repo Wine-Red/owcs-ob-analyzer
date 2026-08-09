@@ -8,6 +8,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
 
 from owcs_ob_analyzer.models import AnalysisSnapshot, TimelineEvent
+from owcs_ob_analyzer.ui import hotkeys as hotkey_module
 from owcs_ob_analyzer.ui.hotkeys import GlobalHotkeyPoller
 from owcs_ob_analyzer.ui.overlay import OverlayWindow
 from owcs_ob_analyzer.ui.timeline_panel import OverallTimelinePanel
@@ -61,7 +62,7 @@ def test_overall_timeline_filters_and_interaction_mode() -> None:
         app.processEvents()
 
 
-def test_global_hotkeys_emit_only_on_key_down_edges() -> None:
+def test_global_hotkey_chords_emit_only_on_key_down_edges() -> None:
     app = QApplication.instance() or QApplication([])
     state: dict[int, bool] = {}
     poller = GlobalHotkeyPoller(lambda key: state.get(key, False))
@@ -70,17 +71,90 @@ def test_global_hotkeys_emit_only_on_key_down_edges() -> None:
     poller.visibility_pressed.connect(lambda: seen.append("visibility"))
     poller.interaction_pressed.connect(lambda: seen.append("interaction"))
 
-    state[poller.VK_F8] = True
+    state[poller.VK_CONTROL] = True
+    state[poller.VK_ALT] = True
+    state[poller.VK_O] = True
     poller._poll()
     poller._poll()
-    state[poller.VK_F8] = False
+    state[poller.VK_O] = False
     poller._poll()
-    state[poller.VK_F8] = True
-    state[poller.VK_F9] = True
+    state[poller.VK_O] = True
+    state[poller.VK_I] = True
     poller._poll()
 
     assert seen == ["visibility", "visibility", "interaction"]
     app.processEvents()
+
+
+def test_bare_function_keys_are_not_observed() -> None:
+    app = QApplication.instance() or QApplication([])
+    state = {0x77: True, 0x78: True}  # F8 and F9
+    poller = GlobalHotkeyPoller(lambda key: state.get(key, False))
+    poller.timer.stop()
+    seen: list[str] = []
+    poller.visibility_pressed.connect(lambda: seen.append("visibility"))
+    poller.interaction_pressed.connect(lambda: seen.append("interaction"))
+
+    poller._poll()
+
+    assert seen == []
+    app.processEvents()
+
+
+def test_windows_registration_contains_only_the_two_letter_chords(monkeypatch) -> None:
+    class ApiCall:
+        def __init__(self, result=True) -> None:
+            self.result = result
+            self.calls = []
+
+        def __call__(self, *args):
+            self.calls.append(args)
+            return self.result
+
+    class User32:
+        RegisterHotKey = ApiCall()
+        UnregisterHotKey = ApiCall()
+
+    class Windll:
+        user32 = User32()
+
+    app = QApplication.instance() or QApplication([])
+    window = OverlayWindow()
+    window.hotkeys.timer.stop()
+    monkeypatch.setattr(hotkey_module.sys, "platform", "win32")
+    monkeypatch.setattr(hotkey_module.ctypes, "windll", Windll())
+    monkeypatch.setattr(
+        GlobalHotkeyPoller,
+        "_create_key_reader",
+        staticmethod(lambda: lambda _key: False),
+    )
+    poller = GlobalHotkeyPoller(window=window)
+    try:
+        poller.register()
+        registered = [
+            (int(hotkey_id), int(modifiers), int(virtual_key))
+            for _hwnd, hotkey_id, modifiers, virtual_key in Windll.user32.RegisterHotKey.calls
+        ]
+        assert registered == [
+            (
+                poller.ID_VISIBILITY_CHORD,
+                hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
+                poller.VK_O,
+            ),
+            (
+                poller.ID_INTERACTION_CHORD,
+                hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
+                poller.VK_I,
+            ),
+        ]
+        assert poller._registered_ids == {
+            poller.ID_VISIBILITY_CHORD,
+            poller.ID_INTERACTION_CHORD,
+        }
+    finally:
+        poller.shutdown()
+        window.close()
+        app.processEvents()
 
 
 def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> None:
@@ -106,10 +180,15 @@ def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> Non
     app.processEvents()
 
 
-def test_overlay_connects_global_hotkeys_to_visibility_and_interaction() -> None:
+def test_overlay_connects_global_hotkeys_to_visibility_and_interaction(monkeypatch) -> None:
     app = QApplication.instance() or QApplication([])
     window = OverlayWindow()
     window.hotkeys.timer.stop()
+    brought_to_front = []
+    monkeypatch.setattr(
+        "owcs_ob_analyzer.ui.overlay.bring_to_front",
+        lambda target: brought_to_front.append(target) or True,
+    )
     try:
         window.hotkeys.visibility_pressed.emit()
         assert not window.overlays_enabled
@@ -119,12 +198,14 @@ def test_overlay_connects_global_hotkeys_to_visibility_and_interaction() -> None
         window.hotkeys.interaction_pressed.emit()
         assert window.overlays_enabled
         assert window.timeline_panel.interactive
+        assert brought_to_front == [window]
         window.hotkeys.interaction_pressed.emit()
         assert not window.timeline_panel.interactive
 
         window.interaction_button.click()
         assert window.overlays_enabled
         assert window.timeline_panel.interactive
+        assert brought_to_front == [window, window]
         assert window.interaction_button.text() == "退出事件操作"
         window.interaction_button.click()
         assert not window.timeline_panel.interactive

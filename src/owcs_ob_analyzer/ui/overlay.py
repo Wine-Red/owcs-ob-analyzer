@@ -21,6 +21,7 @@ from ..worker import AnalysisWorker
 from .hotkeys import GlobalHotkeyPoller
 from .player_overlay import PlayerTimelineOverlay, load_hero_icon
 from .timeline_panel import OverallTimelinePanel
+from .windowing import bring_to_front
 
 
 HERO_LABELS = {
@@ -184,7 +185,7 @@ class OverlayWindow(QWidget):
         header.addWidget(self.timeline_button)
         self.interaction_button = QPushButton("操作事件栏")
         self.interaction_button.setAccessibleName("切换左侧事件栏鼠标交互模式")
-        self.interaction_button.setToolTip("解除事件栏鼠标穿透；也可按 F9")
+        self.interaction_button.setToolTip("置顶工具并解除事件栏鼠标穿透；也可按 Ctrl+Alt+I")
         self.interaction_button.clicked.connect(self.toggle_overlay_interaction)
         header.addWidget(self.interaction_button)
         self.collapse_button = QPushButton("⌃")
@@ -389,12 +390,12 @@ class OverlayWindow(QWidget):
             self.raise_()
             self.player_overlay.raise_()
             self.timeline_panel.raise_()
-            self.timeline_panel.activateWindow()
+            bring_to_front(self)
 
     def _update_hotkey_status(self, status: str) -> None:
         self.hotkey_hint.setText(f"{status} · 拖动移动")
         self.interaction_button.setToolTip(
-            f"解除或恢复事件栏鼠标穿透；{self.hotkeys.interaction_key_label} / Ctrl+Alt+I"
+            f"置顶工具并解除或恢复事件栏鼠标穿透；{self.hotkeys.interaction_key_label}"
         )
 
     def _sync_interaction_button(self) -> None:

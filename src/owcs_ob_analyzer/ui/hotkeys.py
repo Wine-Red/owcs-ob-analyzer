@@ -41,23 +41,20 @@ class _WindowsHotkeyEventFilter(QAbstractNativeEventFilter):
 
 
 class GlobalHotkeyPoller(QObject):
-    """Register Win32 hotkeys, with read-only key polling as a visible fallback."""
+    """Register conflict-resistant Win32 chords with polling as a fallback."""
 
     visibility_pressed = Signal()
     interaction_pressed = Signal()
     status_changed = Signal(str)
 
-    VK_F8 = 0x77
-    VK_F9 = 0x78
-    VK_F10 = 0x79
     VK_CONTROL = 0x11
     VK_ALT = 0x12
     VK_I = 0x49
     VK_O = 0x4F
-    ID_F8 = 0xB801
-    ID_F9 = 0xB802
     ID_VISIBILITY_CHORD = 0xB803
     ID_INTERACTION_CHORD = 0xB804
+    visibility_key_label = "Ctrl+Alt+O"
+    interaction_key_label = "Ctrl+Alt+I"
 
     def __init__(
         self,
@@ -67,8 +64,6 @@ class GlobalHotkeyPoller(QObject):
     ) -> None:
         super().__init__(parent)
         self.window = window
-        self.interaction_virtual_key = self.VK_F9
-        self.interaction_key_label = "F9"
         self._explicit_key_reader = key_reader is not None
         self._key_reader = key_reader or self._create_key_reader()
         self._action_down = {"visibility": False, "interaction": False}
@@ -97,8 +92,6 @@ class GlobalHotkeyPoller(QObject):
             return
 
         self.shutdown()
-        self.interaction_virtual_key = self.VK_F9
-        self.interaction_key_label = "F9"
         app = QApplication.instance()
         if app is None:
             self._enable_polling_fallback()
@@ -113,37 +106,10 @@ class GlobalHotkeyPoller(QObject):
         user32 = ctypes.windll.user32
         user32.RegisterHotKey.argtypes = [wintypes.HWND, ctypes.c_int, wintypes.UINT, wintypes.UINT]
         user32.RegisterHotKey.restype = wintypes.BOOL
-        if user32.RegisterHotKey(
-            wintypes.HWND(self._window_handle),
-            self.ID_F8,
-            MOD_NOREPEAT,
-            self.VK_F8,
-        ):
-            self._registered_ids.add(self.ID_F8)
-
-        interaction_registered = user32.RegisterHotKey(
-            wintypes.HWND(self._window_handle),
-            self.ID_F9,
-            MOD_NOREPEAT,
-            self.VK_F9,
-        )
-        if interaction_registered:
-            self._registered_ids.add(self.ID_F9)
-        else:
-            self.interaction_virtual_key = self.VK_F10
-            self.interaction_key_label = "F10"
-            if user32.RegisterHotKey(
-                wintypes.HWND(self._window_handle),
-                self.ID_F9,
-                MOD_NOREPEAT,
-                self.VK_F10,
-            ):
-                self._registered_ids.add(self.ID_F9)
-
-        # Function keys on many laptops are translated into firmware/media keys.
-        # Keep ordinary-letter chords as reliable alternatives and poll all
-        # bindings even when RegisterHotKey succeeds.  The shared edge state
-        # prevents a native WM_HOTKEY and the polling fallback from firing twice.
+        # Bare function keys are intentionally not registered or polled. F8/F9
+        # are commonly owned by games and GPU screenshot overlays, and polling
+        # cannot consume their input. Registered letter chords remain global
+        # while Overwatch is focused and avoid triggering those bindings.
         for hotkey_id, modifiers, virtual_key in (
             (self.ID_VISIBILITY_CHORD, MOD_CONTROL | MOD_ALT | MOD_NOREPEAT, self.VK_O),
             (self.ID_INTERACTION_CHORD, MOD_CONTROL | MOD_ALT | MOD_NOREPEAT, self.VK_I),
@@ -158,23 +124,19 @@ class GlobalHotkeyPoller(QObject):
 
         self._enable_polling_fallback()
         self.available = bool(self._registered_ids) or self._poll_enabled
-        primary_registered = {
-            self.ID_F8,
-            self.ID_F9,
-        }.issubset(self._registered_ids)
-        if primary_registered:
-            suffix = "（F9 被占用）" if self.interaction_key_label == "F10" else ""
+        required_ids = {self.ID_VISIBILITY_CHORD, self.ID_INTERACTION_CHORD}
+        if required_ids.issubset(self._registered_ids):
             self.registration_summary = (
-                f"F8 / Ctrl+Alt+O 显隐 · "
-                f"{self.interaction_key_label} / Ctrl+Alt+I 交互{suffix}"
+                f"{self.visibility_key_label} 显隐 · "
+                f"{self.interaction_key_label} 置顶并操作"
             )
-        elif self._registered_ids or self._poll_enabled:
+        elif self._poll_enabled:
             self.registration_summary = (
-                f"F8 / Ctrl+Alt+O 显隐 · "
-                f"{self.interaction_key_label} / Ctrl+Alt+I 交互"
+                f"{self.visibility_key_label} / {self.interaction_key_label} 兼容监听"
+                "（全局注册被占用，请退出旧实例后重启）"
             )
         else:
-            self.registration_summary = f"F8 / {self.interaction_key_label} 不可用"
+            self.registration_summary = "全局快捷键不可用"
         self.status_changed.emit(self.registration_summary)
 
     def shutdown(self) -> None:
@@ -201,10 +163,10 @@ class GlobalHotkeyPoller(QObject):
             self.timer.start()
 
     def _dispatch_registered_hotkey(self, hotkey_id: int) -> bool:
-        if hotkey_id in (self.ID_F8, self.ID_VISIBILITY_CHORD):
+        if hotkey_id == self.ID_VISIBILITY_CHORD:
             self._emit_action_edge("visibility", self.visibility_pressed)
             return True
-        if hotkey_id in (self.ID_F9, self.ID_INTERACTION_CHORD):
+        if hotkey_id == self.ID_INTERACTION_CHORD:
             self._emit_action_edge("interaction", self.interaction_pressed)
             return True
         return False
@@ -231,13 +193,12 @@ class GlobalHotkeyPoller(QObject):
         states = (
             (
                 "visibility",
-                self._key_reader(self.VK_F8) or (ctrl_alt and self._key_reader(self.VK_O)),
+                ctrl_alt and self._key_reader(self.VK_O),
                 self.visibility_pressed,
             ),
             (
                 "interaction",
-                self._key_reader(self.interaction_virtual_key)
-                or (ctrl_alt and self._key_reader(self.VK_I)),
+                ctrl_alt and self._key_reader(self.VK_I),
                 self.interaction_pressed,
             ),
         )

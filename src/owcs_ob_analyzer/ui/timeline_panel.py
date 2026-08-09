@@ -89,7 +89,7 @@ class OverallTimelinePanel(QWidget):
         header.addWidget(self.current_time)
         body.addLayout(header)
 
-        self.mode_hint = QLabel("点击控制条“操作事件栏”或按 F9")
+        self.mode_hint = QLabel("点击控制条“操作事件栏”或按 Ctrl+Alt+I")
         self.mode_hint.setObjectName("modeHint")
         body.addWidget(self.mode_hint)
 
@@ -246,9 +246,9 @@ class OverallTimelinePanel(QWidget):
         self.setWindowFlags(flags)
         self.setProperty("interactive", "true" if interactive else "false")
         self.mode_hint.setText(
-            "可操作 · 点击控制条按钮或按 F9 退出"
+            "可操作 · 点击控制条按钮或按 Ctrl+Alt+I 退出"
             if interactive
-            else "点击控制条“操作事件栏”或按 F9"
+            else "点击控制条“操作事件栏”或按 Ctrl+Alt+I"
         )
         self.style().unpolish(self)
         self.style().polish(self)
