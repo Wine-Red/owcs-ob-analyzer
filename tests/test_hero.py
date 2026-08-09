@@ -1,9 +1,50 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+import cv2
 import numpy as np
 
 from owcs_ob_analyzer.models import HeroMatch
-from owcs_ob_analyzer.recognition.hero import HeroStabilizer, PortraitChangeGate
+from owcs_ob_analyzer.recognition.hero import (
+    HeroRecognizer,
+    HeroStabilizer,
+    PortraitChangeGate,
+)
+
+
+ROOT = Path(__file__).parents[1]
+HERO_ICONS = ROOT / "src" / "owcs_ob_analyzer" / "resources" / "heroes" / "illustrated"
+ANA_REGRESSION = Path(__file__).parent / "data" / "hero_ana_regression.png"
+
+
+def _load_image(path: Path) -> np.ndarray:
+    return cv2.imdecode(np.fromfile(path, dtype=np.uint8), cv2.IMREAD_COLOR)
+
+
+def test_official_template_matcher_fixes_ana_hazard_regression() -> None:
+    recognizer = HeroRecognizer(HERO_ICONS)
+    match = recognizer.match(_load_image(ANA_REGRESSION))
+    scores = dict(match.candidates)
+
+    assert match.hero == "ana"
+    assert match.candidates[0][0] == "ana"
+    assert scores["ana"] - scores.get("hazard", -1.0) >= recognizer.min_margin
+
+
+def test_official_template_matcher_is_scale_independent() -> None:
+    recognizer = HeroRecognizer(HERO_ICONS)
+    portrait = _load_image(ANA_REGRESSION)
+    for scale in (0.5, 1.0, 1.5):
+        resized = cv2.resize(portrait, None, fx=scale, fy=scale)
+        assert recognizer.match(resized).hero == "ana"
+
+
+def test_official_template_matcher_rejects_featureless_input() -> None:
+    recognizer = HeroRecognizer(HERO_ICONS)
+    match = recognizer.match(np.full((48, 64, 3), 127, dtype=np.uint8))
+    assert match.hero is None
+    assert match.confidence == 0.0
 
 
 def test_hero_switch_requires_temporal_confirmation() -> None:

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
 
 import cv2
 import numpy as np
@@ -23,144 +22,132 @@ def _hamming(left: str, right: str) -> int:
     )
 
 
-class HeroPortraitClassifier:
-    """Tiny colour-invariant HOG prototype model used as supporting evidence."""
-
-    def __init__(self, model_path: Path) -> None:
-        payload = np.load(model_path, allow_pickle=False)
-        self.heroes = [str(value) for value in payload["heroes"].tolist()]
-        self.prototypes = np.asarray(payload["prototypes"], dtype=np.float32)
-        self.prototype_heroes = np.asarray(payload["prototype_heroes"], dtype=np.int32)
-        self.reviewed_heroes = set(
-            str(value)
-            for value in (
-                payload["reviewed_heroes"].tolist()
-                if "reviewed_heroes" in payload.files
-                else self.heroes
-            )
-        )
-        self.min_similarity = float(np.asarray(payload["min_similarity"]).reshape(-1)[0])
-        self.min_margin = float(np.asarray(payload["min_margin"]).reshape(-1)[0])
-        self.hog = cv2.HOGDescriptor((48, 48), (16, 16), (8, 8), (8, 8), 9)
-
-    def _features(self, image: np.ndarray) -> np.ndarray:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        gray = cv2.resize(gray, (48, 48), interpolation=cv2.INTER_AREA)
-        equalized = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4)).apply(gray)
-        vector = self.hog.compute(equalized).reshape(-1).astype(np.float32)
-        return vector / max(float(np.linalg.norm(vector)), 1e-6)
-
-    def predict(self, images: Sequence[np.ndarray]) -> HeroMatch:
-        features = [self._features(image) for image in images if image.size]
-        if not features:
-            return HeroMatch(None, 0.0, [])
-        rows: list[tuple[str, float]] = []
-        for hero_index, hero in enumerate(self.heroes):
-            indices = np.flatnonzero(self.prototype_heroes == hero_index)
-            if not len(indices):
-                continue
-            per_view = [float(np.max(self.prototypes[indices] @ feature)) for feature in features]
-            rows.append((hero, float(np.median(per_view))))
-        rows.sort(key=lambda row: row[1], reverse=True)
-        if not rows:
-            return HeroMatch(None, 0.0, [])
-        best = rows[0]
-        runner = rows[1][1] if len(rows) > 1 else -1.0
-        margin = best[1] - runner
-        accepted = best[1] >= self.min_similarity and margin >= self.min_margin
-        confidence = float(np.clip(0.5 + (best[1] - 0.55) * 0.8 + margin * 2.0, 0.0, 0.99))
-        hero = best[0] if accepted and best[0] in self.reviewed_heroes else None
-        return HeroMatch(hero, confidence, rows[:5])
-
-
 class HeroRecognizer:
-    """SIFT portrait matcher resilient to scale, desaturation, and team tint."""
+    """Fail-closed matcher for the official illustrated HUD portraits.
 
-    min_visible_features = 55
+    Spectator portraits are deterministic crops of the official square art.
+    We therefore render the small set of possible HUD crops once, compare
+    colour-independent edge magnitude, and only publish a hero when both the
+    absolute similarity and the lead over the runner-up are strong.
+    """
+
+    canonical_size = (64, 48)  # width, height
+    min_similarity = 0.50
+    min_margin = 0.20
+    _geometry = (
+        (1.84, 1.20, 0.37),
+        (1.78, 1.16, 0.33),
+        (1.78, 1.16, 0.41),
+        (1.78, 1.24, 0.33),
+        (1.78, 1.24, 0.41),
+        (1.90, 1.16, 0.33),
+        (1.90, 1.16, 0.41),
+        (1.90, 1.24, 0.33),
+        (1.90, 1.24, 0.41),
+    )
 
     def __init__(self, icon_dir: Path, model_path: Path | None = None) -> None:
         self.icon_dir = Path(icon_dir)
-        self.detector = cv2.SIFT_create(nfeatures=300)
-        self.matcher = cv2.BFMatcher(cv2.NORM_L2)
-        self.references: dict[str, list[np.ndarray]] = {}
+        # Retain this argument for callers built against the first release. The
+        # learned model is deliberately excluded from formal output because it
+        # can confidently confuse visually similar heroes.
+        del model_path
+        heroes: list[str] = []
+        template_rows: list[np.ndarray] = []
+        template_hero_indices: list[int] = []
         for path in sorted(self.icon_dir.glob("*.png")):
-            image = cv2.imdecode(np.fromfile(path, dtype=np.uint8), cv2.IMREAD_COLOR)
+            image = cv2.imdecode(np.fromfile(path, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
             if image is None:
                 continue
-            image = cv2.resize(image, (128, 128), interpolation=cv2.INTER_AREA)
-            variants: list[np.ndarray] = []
-            for variant in (image, cv2.flip(image, 1)):
-                _, descriptors = self.detector.detectAndCompute(variant, None)
-                if descriptors is not None:
-                    variants.append(descriptors)
-            if variants:
-                self.references[path.stem.lower()] = variants
-        if not self.references:
+            image = self._composite_alpha(image)
+            hero_index = len(heroes)
+            heroes.append(path.stem.lower())
+            for scale, x_offset, y_offset in self._geometry:
+                for mirrored in (False, True):
+                    rendered = self._render_hud_crop(
+                        image,
+                        scale,
+                        x_offset,
+                        y_offset,
+                        mirrored,
+                    )
+                    template_rows.append(self._features(rendered, resize=False))
+                    template_hero_indices.append(hero_index)
+        if not heroes:
             raise RuntimeError(f"未找到可读取的英雄头像：{self.icon_dir}")
-        self.learned = None
-        if model_path is not None and Path(model_path).is_file():
-            try:
-                self.learned = HeroPortraitClassifier(Path(model_path))
-            except (OSError, ValueError, KeyError):
-                self.learned = None
+        self.heroes = heroes
+        self.templates = np.ascontiguousarray(template_rows, dtype=np.float32)
+        self.template_hero_indices = np.asarray(template_hero_indices, dtype=np.int32)
 
     @staticmethod
-    def _views(image: np.ndarray) -> list[np.ndarray]:
+    def _composite_alpha(image: np.ndarray) -> np.ndarray:
+        if image.ndim == 3 and image.shape[2] == 4:
+            alpha = image[:, :, 3:4].astype(np.float32) / 255.0
+            return np.asarray(
+                image[:, :, :3] * alpha + 127.0 * (1.0 - alpha),
+                dtype=np.uint8,
+            )
+        return image[:, :, :3]
+
+    @classmethod
+    def _render_hud_crop(
+        cls,
+        image: np.ndarray,
+        scale_factor: float,
+        x_factor: float,
+        y_factor: float,
+        mirrored: bool,
+    ) -> np.ndarray:
+        width, height = cls.canonical_size
+        source = cv2.flip(image, 1) if mirrored else image
+        size = max(width, height, round(height * scale_factor))
+        scaled = cv2.resize(source, (size, size), interpolation=cv2.INTER_AREA)
+        left = max(0, round(width - height * x_factor))
+        top = max(0, round(height * y_factor))
+        return scaled[top : top + height, left : left + width]
+
+    @classmethod
+    def _features(cls, image: np.ndarray, *, resize: bool = True) -> np.ndarray:
         if image.size == 0:
-            return []
-        height, width = image.shape[:2]
-        views = [cv2.resize(image, (128, 128), interpolation=cv2.INTER_CUBIC)]
-        if width != height:
-            size = min(width, height)
-            left = max(0, (width - size) // 2)
-            top = max(0, (height - size) // 2)
-            views.append(cv2.resize(image[top : top + size, left : left + size], (128, 128)))
-        return views
+            return np.zeros(
+                cls.canonical_size[0] * cls.canonical_size[1],
+                dtype=np.float32,
+            )
+        if resize:
+            width, height = cls.canonical_size
+            interpolation = cv2.INTER_AREA if image.shape[1] > width else cv2.INTER_CUBIC
+            image = cv2.resize(image, (width, height), interpolation=interpolation)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.GaussianBlur(gray, (3, 3), 0)
+        dx = cv2.Sobel(gray, cv2.CV_32F, 1, 0, ksize=3)
+        dy = cv2.Sobel(gray, cv2.CV_32F, 0, 1, ksize=3)
+        vector = cv2.magnitude(dx, dy).reshape(-1)
+        vector -= float(vector.mean())
+        norm = float(np.linalg.norm(vector))
+        if norm <= 1e-6:
+            return np.zeros_like(vector)
+        return vector / norm
 
     def match(self, image: np.ndarray) -> HeroMatch:
-        descriptor_sets: list[np.ndarray] = []
-        views = self._views(image)
-        for sample in views:
-            _, descriptors = self.detector.detectAndCompute(sample, None)
-            if descriptors is not None and len(descriptors) >= self.min_visible_features:
-                descriptor_sets.append(descriptors)
-        # Keep the learned model on the original HUD crop. Square SIFT views
-        # are useful for local features, but duplicating them would overweight
-        # the centre crop in the prototype vote.
-        learned = self.learned.predict([image]) if self.learned is not None else None
-        if not descriptor_sets:
-            return HeroMatch(None, 0.0, learned.candidates if learned else [])
-
-        scores: list[tuple[str, float]] = []
-        for hero, references in self.references.items():
-            variants: list[float] = []
-            for descriptors in descriptor_sets:
-                for reference in references:
-                    pairs = self.matcher.knnMatch(descriptors, reference, k=2)
-                    good = [first for first, second in pairs if first.distance < 0.75 * second.distance]
-                    variants.append(len(good) / max(10.0, min(len(descriptors), len(reference)) * 0.35))
-            scores.append((hero, min(1.0, max(variants, default=0.0))))
-        scores.sort(key=lambda row: row[1], reverse=True)
-        best = scores[0]
-        runner = scores[1][1] if len(scores) > 1 else 0.0
-        margin = max(0.0, best[1] - runner)
-        confidence = min(0.99, best[1] * 0.75 + margin * 0.50)
-        accepted = (
-            confidence >= 0.38
-            or (best[1] >= 0.32 and margin >= 0.05)
-            or (best[1] >= 0.38 and margin >= 0.015)
+        if image.size == 0:
+            return HeroMatch(None, 0.0, [])
+        feature = self._features(image)
+        if not np.any(feature):
+            return HeroMatch(None, 0.0, [])
+        template_scores = self.templates @ feature
+        hero_scores = np.full(len(self.heroes), -1.0, dtype=np.float32)
+        np.maximum.at(hero_scores, self.template_hero_indices, template_scores)
+        ranking = sorted(
+            zip(self.heroes, (float(score) for score in hero_scores)),
+            key=lambda row: row[1],
+            reverse=True,
         )
-        if learned is not None and learned.hero == best[0]:
-            confidence = min(0.99, max(confidence, learned.confidence * 0.92) + 0.04)
-            accepted = accepted or learned.confidence >= 0.78
-        elif (
-            not accepted
-            and learned is not None
-            and learned.hero is not None
-            and learned.confidence >= 0.92
-        ):
-            return learned
-        return HeroMatch(best[0] if accepted else None, confidence, scores[:5])
+        best = ranking[0]
+        runner_score = ranking[1][1] if len(ranking) > 1 else -1.0
+        margin = best[1] - runner_score
+        accepted = best[1] >= self.min_similarity and margin >= self.min_margin
+        confidence = float(np.clip(best[1], 0.0, 0.99))
+        return HeroMatch(best[0] if accepted else None, confidence, ranking[:5])
 
 
 @dataclass

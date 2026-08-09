@@ -47,7 +47,6 @@ class RealtimeAnalyzer:
         self.max_hero_jobs = max(1, max_hero_jobs)
         self.hero_recognizer = HeroRecognizer(
             resources / "heroes" / "illustrated",
-            resources / "models" / "hero_portrait.npz",
         )
         self.life_recognizer = LifeStateRecognizer()
         self.timeline_origin: float | None = None

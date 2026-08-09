@@ -16,7 +16,7 @@ EXPECTED_HEROES = [
     "sierra",
     "roadhog",
     "wuyang",
-    "echo",
+    "genji",
     "anran",
     "freja",
     "moira",
