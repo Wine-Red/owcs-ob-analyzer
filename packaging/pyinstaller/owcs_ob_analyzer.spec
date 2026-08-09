@@ -1,13 +1,22 @@
 from pathlib import Path
 
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+from PyInstaller.utils.hooks import get_package_paths
 
 
 SPEC_DIR = Path(SPECPATH)
 PROJECT_ROOT = SPEC_DIR.parents[1]
 SOURCE_ROOT = PROJECT_ROOT / "src"
 
-datas = collect_data_files("rapidocr_onnxruntime")
+_, rapidocr_package = get_package_paths("rapidocr_onnxruntime")
+recognition_model = (
+    Path(rapidocr_package) / "models" / "ch_PP-OCRv4_rec_infer.onnx"
+)
+datas = [
+    (
+        str(recognition_model),
+        "owcs_ob_analyzer/resources/ocr",
+    )
+]
 datas.append(
     (
         str(SOURCE_ROOT / "owcs_ob_analyzer" / "resources"),
@@ -15,14 +24,11 @@ datas.append(
     )
 )
 
-hiddenimports = collect_submodules("rapidocr_onnxruntime")
-hiddenimports.extend(
-    [
-        "dxcam",
-        "mss.windows",
-        "onnxruntime.capi._pybind_state",
-    ]
-)
+hiddenimports = [
+    "dxcam",
+    "mss.windows",
+    "onnxruntime.capi._pybind_state",
+]
 
 a = Analysis(
     [str(SPEC_DIR / "entrypoint.py")],
@@ -36,6 +42,13 @@ a = Analysis(
     excludes=["paddle", "paddleocr", "torch", "tensorflow"],
     noarchive=False,
 )
+# The application never opens or writes video. OpenCV's standalone FFmpeg
+# backend is therefore dead weight, while cv2's image codecs remain available.
+a.binaries = [
+    entry
+    for entry in a.binaries
+    if "opencv_videoio_ffmpeg" not in entry[0].casefold()
+]
 pyz = PYZ(a.pure)
 
 exe = EXE(

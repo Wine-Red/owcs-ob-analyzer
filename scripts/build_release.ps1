@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
-$VenvPython = Join-Path $RepoRoot ".venv\Scripts\python.exe"
+$VenvPython = Join-Path $RepoRoot ".release-venv\Scripts\python.exe"
 $PyProject = Join-Path $RepoRoot "pyproject.toml"
 $Spec = Join-Path $RepoRoot "packaging\pyinstaller\owcs_ob_analyzer.spec"
 $WorkDir = Join-Path $RepoRoot "build\pyinstaller"
@@ -24,7 +24,7 @@ function Assert-ChildPath([string]$Candidate, [string]$Parent) {
 
 if (-not $Python) {
     if (-not (Test-Path -LiteralPath $VenvPython)) {
-        & py -3.10 -m venv (Join-Path $RepoRoot ".venv")
+        & py -3.10 -m venv (Join-Path $RepoRoot ".release-venv")
         if ($LASTEXITCODE -ne 0) {
             throw "Failed to create the Python 3.10 build environment"
         }

@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import importlib.util
+import math
+from pathlib import Path
 import queue
 import threading
+import time
 import unicodedata
 from typing import Callable, Protocol
 
@@ -50,12 +54,99 @@ class _RapidOcrEngine(Protocol):
     def __call__(self, image: np.ndarray, **kwargs: object) -> object: ...
 
 
+def _recognition_model_path() -> Path:
+    bundled = (
+        Path(__file__).resolve().parents[1]
+        / "resources"
+        / "ocr"
+        / "ch_PP-OCRv4_rec_infer.onnx"
+    )
+    if bundled.is_file():
+        return bundled
+
+    # Source/editable installs use rapidocr-onnxruntime only as the licensed
+    # supplier of the compact multilingual recognition model. The packaged
+    # application copies this one model into our resources and does not bundle
+    # RapidOCR's unused detector, orientation classifier, or visualization
+    # dependencies.
+    package = importlib.util.find_spec("rapidocr_onnxruntime")
+    locations = package.submodule_search_locations if package is not None else None
+    if locations:
+        model = (
+            Path(next(iter(locations)))
+            / "models"
+            / "ch_PP-OCRv4_rec_infer.onnx"
+        )
+        if model.is_file():
+            return model
+    raise RuntimeError("未找到选手 ID 识别模型 ch_PP-OCRv4_rec_infer.onnx")
+
+
+class _RecognitionOnlyOnnxEngine:
+    """Minimal PP-OCR recognizer without detection or image utilities."""
+
+    def __init__(self, model_path: Path | None = None) -> None:
+        import onnxruntime as ort
+
+        options = ort.SessionOptions()
+        options.log_severity_level = 4
+        options.enable_cpu_mem_arena = False
+        options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+        self.session = ort.InferenceSession(
+            str(model_path or _recognition_model_path()),
+            sess_options=options,
+            providers=["CPUExecutionProvider"],
+        )
+        self.input_name = self.session.get_inputs()[0].name
+        character = self.session.get_modelmeta().custom_metadata_map.get("character")
+        if not character:
+            raise RuntimeError("选手 ID 识别模型缺少字符表")
+        self.characters = ["blank", *character.splitlines(), " "]
+
+    def __call__(self, image: np.ndarray, **_kwargs: object) -> object:
+        started = time.perf_counter()
+        text, confidence = self._recognize(image)
+        return ([[text, confidence]], time.perf_counter() - started)
+
+    def _recognize(self, image: np.ndarray) -> tuple[str, float]:
+        if image.ndim == 2:
+            image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+        elif image.ndim == 3 and image.shape[2] == 4:
+            image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+
+        target_height = 48
+        target_width = 320
+        ratio = image.shape[1] / float(max(1, image.shape[0]))
+        canvas_width = max(target_width, int(target_height * ratio))
+        resized_width = min(canvas_width, int(math.ceil(target_height * ratio)))
+        resized = cv2.resize(image, (max(1, resized_width), target_height))
+        normalized = resized.astype(np.float32).transpose((2, 0, 1)) / 255.0
+        normalized = (normalized - 0.5) / 0.5
+        batch = np.zeros((1, 3, target_height, canvas_width), dtype=np.float32)
+        batch[0, :, :, : normalized.shape[2]] = normalized
+
+        prediction = self.session.run(None, {self.input_name: batch})[0][0]
+        indices = prediction.argmax(axis=1)
+        probabilities = prediction.max(axis=1)
+        selected = np.ones(indices.shape[0], dtype=bool)
+        selected[1:] = indices[1:] != indices[:-1]
+        selected &= indices != 0
+        if not np.any(selected):
+            return "", 0.0
+        text = "".join(
+            self.characters[int(index)]
+            for index in indices[selected]
+            if int(index) < len(self.characters)
+        )
+        return text, float(np.mean(probabilities[selected]))
+
+
 class RapidOcrPlayerNameRecognizer:
     """Offline Chinese/English recognition with two-pass agreement.
 
-    The compact PP-OCR Chinese model bundled by rapidocr-onnxruntime also
-    covers Latin player IDs. A result is accepted only when the original and
-    grayscale name strips agree after conservative normalization.
+    The compact PP-OCR Chinese recognition model also covers Latin player IDs.
+    A result is accepted only when the original and grayscale name strips
+    agree after conservative normalization.
     """
 
     def __init__(
@@ -71,9 +162,7 @@ class RapidOcrPlayerNameRecognizer:
 
     def _get_engine(self) -> _RapidOcrEngine:
         if self._engine is None:
-            from rapidocr_onnxruntime import RapidOCR
-
-            self._engine = RapidOCR()
+            self._engine = _RecognitionOnlyOnnxEngine()
         return self._engine
 
     @staticmethod
