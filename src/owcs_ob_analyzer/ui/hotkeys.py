@@ -44,7 +44,7 @@ class GlobalHotkeyPoller(QObject):
     """Register conflict-resistant Win32 chords with polling as a fallback."""
 
     visibility_pressed = Signal()
-    interaction_pressed = Signal()
+    foreground_pressed = Signal()
     status_changed = Signal(str)
 
     VK_CONTROL = 0x11
@@ -52,9 +52,9 @@ class GlobalHotkeyPoller(QObject):
     VK_I = 0x49
     VK_O = 0x4F
     ID_VISIBILITY_CHORD = 0xB803
-    ID_INTERACTION_CHORD = 0xB804
+    ID_FOREGROUND_CHORD = 0xB804
     visibility_key_label = "Ctrl+Alt+O"
-    interaction_key_label = "Ctrl+Alt+I"
+    foreground_key_label = "Ctrl+Alt+I"
 
     def __init__(
         self,
@@ -66,7 +66,7 @@ class GlobalHotkeyPoller(QObject):
         self.window = window
         self._explicit_key_reader = key_reader is not None
         self._key_reader = key_reader or self._create_key_reader()
-        self._action_down = {"visibility": False, "interaction": False}
+        self._action_down = {"visibility": False, "foreground": False}
         self._poll_enabled = self._explicit_key_reader
         self._registered_ids: set[int] = set()
         self._native_filter: _WindowsHotkeyEventFilter | None = None
@@ -110,10 +110,7 @@ class GlobalHotkeyPoller(QObject):
         # are commonly owned by games and GPU screenshot overlays, and polling
         # cannot consume their input. Registered letter chords remain global
         # while Overwatch is focused and avoid triggering those bindings.
-        for hotkey_id, modifiers, virtual_key in (
-            (self.ID_VISIBILITY_CHORD, MOD_CONTROL | MOD_ALT | MOD_NOREPEAT, self.VK_O),
-            (self.ID_INTERACTION_CHORD, MOD_CONTROL | MOD_ALT | MOD_NOREPEAT, self.VK_I),
-        ):
+        for hotkey_id, modifiers, virtual_key in self.bindings():
             if user32.RegisterHotKey(
                 wintypes.HWND(self._window_handle),
                 hotkey_id,
@@ -124,20 +121,28 @@ class GlobalHotkeyPoller(QObject):
 
         self._enable_polling_fallback()
         self.available = bool(self._registered_ids) or self._poll_enabled
-        required_ids = {self.ID_VISIBILITY_CHORD, self.ID_INTERACTION_CHORD}
+        required_ids = {self.ID_VISIBILITY_CHORD, self.ID_FOREGROUND_CHORD}
         if required_ids.issubset(self._registered_ids):
             self.registration_summary = (
                 f"{self.visibility_key_label} 显隐 · "
-                f"{self.interaction_key_label} 置顶并操作"
+                f"{self.foreground_key_label} 置顶工具"
             )
         elif self._poll_enabled:
             self.registration_summary = (
-                f"{self.visibility_key_label} / {self.interaction_key_label} 兼容监听"
+                f"{self.visibility_key_label} / {self.foreground_key_label} 兼容监听"
                 "（全局注册被占用，请退出旧实例后重启）"
             )
         else:
             self.registration_summary = "全局快捷键不可用"
         self.status_changed.emit(self.registration_summary)
+
+    @classmethod
+    def bindings(cls) -> tuple[tuple[int, int, int], ...]:
+        modifiers = MOD_CONTROL | MOD_ALT | MOD_NOREPEAT
+        return (
+            (cls.ID_VISIBILITY_CHORD, modifiers, cls.VK_O),
+            (cls.ID_FOREGROUND_CHORD, modifiers, cls.VK_I),
+        )
 
     def shutdown(self) -> None:
         if sys.platform == "win32" and self._window_handle is not None:
@@ -150,7 +155,7 @@ class GlobalHotkeyPoller(QObject):
             app.removeNativeEventFilter(self._native_filter)
         self._native_filter = None
         self._window_handle = None
-        self._action_down = {"visibility": False, "interaction": False}
+        self._action_down = {"visibility": False, "foreground": False}
         if not self._explicit_key_reader:
             self._poll_enabled = False
             self.timer.stop()
@@ -166,8 +171,8 @@ class GlobalHotkeyPoller(QObject):
         if hotkey_id == self.ID_VISIBILITY_CHORD:
             self._emit_action_edge("visibility", self.visibility_pressed)
             return True
-        if hotkey_id == self.ID_INTERACTION_CHORD:
-            self._emit_action_edge("interaction", self.interaction_pressed)
+        if hotkey_id == self.ID_FOREGROUND_CHORD:
+            self._emit_action_edge("foreground", self.foreground_pressed)
             return True
         return False
 
@@ -197,9 +202,9 @@ class GlobalHotkeyPoller(QObject):
                 self.visibility_pressed,
             ),
             (
-                "interaction",
+                "foreground",
                 ctrl_alt and self._key_reader(self.VK_I),
-                self.interaction_pressed,
+                self.foreground_pressed,
             ),
         )
         for action, pressed, signal in states:

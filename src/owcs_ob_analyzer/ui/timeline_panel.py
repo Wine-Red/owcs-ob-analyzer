@@ -46,12 +46,12 @@ def _timeline_copy(event: TimelineEvent) -> str:
 
 
 class OverallTimelinePanel(QWidget):
-    """High-transparency match timeline; mouse-through until interaction mode."""
+    """High-transparency match timeline that remains directly interactive."""
 
     def __init__(self) -> None:
         super().__init__()
         self.enabled = True
-        self.interactive = False
+        self.interactive = True
         self._snapshot: AnalysisSnapshot | None = None
         self._timeline_signature: tuple[TimelineEvent, ...] | None = None
         self.setWindowTitle("OWCS Overall Timeline")
@@ -59,12 +59,9 @@ class OverallTimelinePanel(QWidget):
             Qt.WindowType.FramelessWindowHint
             | Qt.WindowType.WindowStaysOnTopHint
             | Qt.WindowType.Tool
-            | Qt.WindowType.WindowTransparentForInput
-            | Qt.WindowType.WindowDoesNotAcceptFocus
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
-        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating)
+        self.setProperty("interactive", "true")
         self._build_ui()
         self._apply_style()
 
@@ -89,7 +86,7 @@ class OverallTimelinePanel(QWidget):
         header.addWidget(self.current_time)
         body.addLayout(header)
 
-        self.mode_hint = QLabel("点击控制条“操作事件栏”或按 Ctrl+Alt+I")
+        self.mode_hint = QLabel("可直接点击筛选 · Ctrl+Alt+I 重新置顶")
         self.mode_hint.setObjectName("modeHint")
         body.addWidget(self.mode_hint)
 
@@ -147,7 +144,7 @@ class OverallTimelinePanel(QWidget):
                 font-weight: 700;
             }
             QLabel#modeHint { color: #AABBC3; font-size: 10px; }
-            QWidget[interactive="true"] QLabel#modeHint { color: #A6F0DE; font-weight: 700; }
+            QLabel#modeHint { color: #A6F0DE; font-weight: 700; }
             QComboBox {
                 min-height: 28px;
                 padding: 0 7px;
@@ -216,47 +213,9 @@ class OverallTimelinePanel(QWidget):
     def set_enabled(self, enabled: bool) -> None:
         self.enabled = enabled
         if not enabled:
-            self.set_interactive(False)
             self.hide()
         elif self._snapshot is not None:
             self.show()
-
-    def set_interactive(self, interactive: bool) -> None:
-        if self.interactive == interactive:
-            if interactive:
-                self.raise_()
-                self.activateWindow()
-            return
-        should_show = self.enabled and (self.isVisible() or self._snapshot is not None)
-        self.interactive = interactive
-        # Clear the widget attributes first.  Some Qt platform plugins mirror
-        # these attributes back into the native window flags while recreating
-        # the window, which otherwise leaves the panel click-through.
-        self.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents, not interactive)
-        self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, not interactive)
-        input_flags = (
-            Qt.WindowType.WindowTransparentForInput
-            | Qt.WindowType.WindowDoesNotAcceptFocus
-        )
-        flags = self.windowFlags()
-        if interactive:
-            flags &= ~input_flags
-        else:
-            flags |= input_flags
-        self.setWindowFlags(flags)
-        self.setProperty("interactive", "true" if interactive else "false")
-        self.mode_hint.setText(
-            "可操作 · 点击控制条按钮或按 Ctrl+Alt+I 退出"
-            if interactive
-            else "点击控制条“操作事件栏”或按 Ctrl+Alt+I"
-        )
-        self.style().unpolish(self)
-        self.style().polish(self)
-        if should_show:
-            self.show()
-            self.raise_()
-            if interactive:
-                self.activateWindow()
 
     def _sync_geometry(self, snapshot: AnalysisSnapshot) -> None:
         primary = QApplication.primaryScreen()

@@ -32,7 +32,7 @@ def _snapshot() -> AnalysisSnapshot:
     )
 
 
-def test_overall_timeline_filters_and_interaction_mode() -> None:
+def test_overall_timeline_filters_and_remains_clickable() -> None:
     app = QApplication.instance() or QApplication([])
     panel = OverallTimelinePanel()
     panel.update_snapshot(_snapshot())
@@ -40,7 +40,10 @@ def test_overall_timeline_filters_and_interaction_mode() -> None:
         assert panel.current_time.text() == "01:12"
         assert panel.event_list.count() == 4
         assert panel.event_list.item(0).text().startswith("01:08  右3  复活")
-        assert panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
+        assert panel.interactive
+        assert not panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
+        assert not panel.windowFlags() & Qt.WindowType.WindowDoesNotAcceptFocus
+        assert not panel.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
 
         panel.player_filter.setCurrentIndex(1)
         assert panel.event_list.count() == 2
@@ -48,15 +51,11 @@ def test_overall_timeline_filters_and_interaction_mode() -> None:
         assert panel.event_list.count() == 1
         assert "切换至 Tracer" in panel.event_list.item(0).text()
 
-        panel.set_interactive(True)
+        panel.set_enabled(False)
         assert panel.interactive
         assert not panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
-        assert not panel.windowFlags() & Qt.WindowType.WindowDoesNotAcceptFocus
-        assert not panel.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
-        panel.set_interactive(False)
-        assert panel.windowFlags() & Qt.WindowType.WindowTransparentForInput
-        assert panel.windowFlags() & Qt.WindowType.WindowDoesNotAcceptFocus
-        assert panel.testAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
+        panel.set_enabled(True)
+        assert panel.interactive
     finally:
         panel.close()
         app.processEvents()
@@ -69,7 +68,7 @@ def test_global_hotkey_chords_emit_only_on_key_down_edges() -> None:
     poller.timer.stop()
     seen: list[str] = []
     poller.visibility_pressed.connect(lambda: seen.append("visibility"))
-    poller.interaction_pressed.connect(lambda: seen.append("interaction"))
+    poller.foreground_pressed.connect(lambda: seen.append("foreground"))
 
     state[poller.VK_CONTROL] = True
     state[poller.VK_ALT] = True
@@ -82,7 +81,7 @@ def test_global_hotkey_chords_emit_only_on_key_down_edges() -> None:
     state[poller.VK_I] = True
     poller._poll()
 
-    assert seen == ["visibility", "visibility", "interaction"]
+    assert seen == ["visibility", "visibility", "foreground"]
     app.processEvents()
 
 
@@ -93,7 +92,7 @@ def test_bare_function_keys_are_not_observed() -> None:
     poller.timer.stop()
     seen: list[str] = []
     poller.visibility_pressed.connect(lambda: seen.append("visibility"))
-    poller.interaction_pressed.connect(lambda: seen.append("interaction"))
+    poller.foreground_pressed.connect(lambda: seen.append("foreground"))
 
     poller._poll()
 
@@ -101,78 +100,23 @@ def test_bare_function_keys_are_not_observed() -> None:
     app.processEvents()
 
 
-def test_windows_registration_contains_only_the_two_letter_chords(monkeypatch) -> None:
-    class ApiCall:
-        def __init__(self, result=True) -> None:
-            self.result = result
-            self.calls = []
-
-        def __call__(self, *args):
-            self.calls.append(args)
-            return self.result
-
-    class User32:
-        RegisterHotKey = ApiCall()
-        UnregisterHotKey = ApiCall()
-
-    class Windll:
-        user32 = User32()
-
-    class NativeWindow:
-        @staticmethod
-        def winId() -> int:
-            return 1234
-
-    class NativeApp:
-        def installNativeEventFilter(self, _event_filter) -> None:
-            pass
-
-        def removeNativeEventFilter(self, _event_filter) -> None:
-            pass
-
-    native_app = NativeApp()
-
-    class ApplicationFacade:
-        @staticmethod
-        def instance():
-            return native_app
-
+def test_windows_registration_contains_only_the_two_letter_chords() -> None:
     app = QApplication.instance() or QApplication([])
-    monkeypatch.setattr(hotkey_module.sys, "platform", "win32")
-    monkeypatch.setattr(hotkey_module.ctypes, "windll", Windll())
-    monkeypatch.setattr(hotkey_module, "QApplication", ApplicationFacade)
-    monkeypatch.setattr(
-        GlobalHotkeyPoller,
-        "_create_key_reader",
-        staticmethod(lambda: lambda _key: False),
-    )
-    poller = GlobalHotkeyPoller(window=NativeWindow())
+    poller = GlobalHotkeyPoller(lambda _key: False)
     poller.timer.stop()
-    try:
-        poller.register()
-        registered = [
-            (int(hotkey_id), int(modifiers), int(virtual_key))
-            for _hwnd, hotkey_id, modifiers, virtual_key in Windll.user32.RegisterHotKey.calls
-        ]
-        assert registered == [
-            (
-                poller.ID_VISIBILITY_CHORD,
-                hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
-                poller.VK_O,
-            ),
-            (
-                poller.ID_INTERACTION_CHORD,
-                hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
-                poller.VK_I,
-            ),
-        ]
-        assert poller._registered_ids == {
+    assert poller.bindings() == (
+        (
             poller.ID_VISIBILITY_CHORD,
-            poller.ID_INTERACTION_CHORD,
-        }
-    finally:
-        poller.shutdown()
-        app.processEvents()
+            hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
+            poller.VK_O,
+        ),
+        (
+            poller.ID_FOREGROUND_CHORD,
+            hotkey_module.MOD_CONTROL | hotkey_module.MOD_ALT | hotkey_module.MOD_NOREPEAT,
+            poller.VK_I,
+        ),
+    )
+    app.processEvents()
 
 
 def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> None:
@@ -182,7 +126,7 @@ def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> Non
     poller.timer.stop()
     seen: list[str] = []
     poller.visibility_pressed.connect(lambda: seen.append("visibility"))
-    poller.interaction_pressed.connect(lambda: seen.append("interaction"))
+    poller.foreground_pressed.connect(lambda: seen.append("foreground"))
 
     state[poller.VK_CONTROL] = True
     state[poller.VK_ALT] = True
@@ -194,11 +138,11 @@ def test_global_hotkey_alternative_chords_and_native_poll_deduplication() -> Non
     state[poller.VK_I] = True
     poller._poll()
 
-    assert seen == ["visibility", "interaction"]
+    assert seen == ["visibility", "foreground"]
     app.processEvents()
 
 
-def test_overlay_connects_global_hotkeys_to_visibility_and_interaction(monkeypatch) -> None:
+def test_overlay_foreground_action_never_disables_timeline_clicks(monkeypatch) -> None:
     app = QApplication.instance() or QApplication([])
     window = OverlayWindow()
     window.hotkeys.timer.stop()
@@ -213,21 +157,19 @@ def test_overlay_connects_global_hotkeys_to_visibility_and_interaction(monkeypat
         assert not window.player_overlay.enabled
         assert not window.timeline_panel.enabled
 
-        window.hotkeys.interaction_pressed.emit()
+        window.hotkeys.foreground_pressed.emit()
         assert window.overlays_enabled
         assert window.timeline_panel.interactive
         assert brought_to_front == [window]
-        window.hotkeys.interaction_pressed.emit()
-        assert not window.timeline_panel.interactive
-
-        window.interaction_button.click()
-        assert window.overlays_enabled
+        window.hotkeys.foreground_pressed.emit()
         assert window.timeline_panel.interactive
         assert brought_to_front == [window, window]
-        assert window.interaction_button.text() == "退出事件操作"
-        window.interaction_button.click()
-        assert not window.timeline_panel.interactive
-        assert window.interaction_button.text() == "操作事件栏"
+
+        window.foreground_button.click()
+        assert window.overlays_enabled
+        assert window.timeline_panel.interactive
+        assert brought_to_front == [window, window, window]
+        assert window.foreground_button.text() == "置顶工具"
     finally:
         window.close()
         app.processEvents()

@@ -137,7 +137,7 @@ class OverlayWindow(QWidget):
         self._apply_style()
         self.hotkeys = GlobalHotkeyPoller(parent=self, window=self)
         self.hotkeys.visibility_pressed.connect(self.toggle_analysis_overlays)
-        self.hotkeys.interaction_pressed.connect(self.toggle_overlay_interaction)
+        self.hotkeys.foreground_pressed.connect(self.bring_overlays_to_front)
         self.hotkeys.status_changed.connect(self._update_hotkey_status)
         self._hotkeys_registered = False
         self.rails.hide()
@@ -183,11 +183,11 @@ class OverlayWindow(QWidget):
         self.timeline_button.setAccessibleName("显示或隐藏全部分析浮层")
         self.timeline_button.clicked.connect(self.toggle_analysis_overlays)
         header.addWidget(self.timeline_button)
-        self.interaction_button = QPushButton("操作事件栏")
-        self.interaction_button.setAccessibleName("切换左侧事件栏鼠标交互模式")
-        self.interaction_button.setToolTip("置顶工具并解除事件栏鼠标穿透；也可按 Ctrl+Alt+I")
-        self.interaction_button.clicked.connect(self.toggle_overlay_interaction)
-        header.addWidget(self.interaction_button)
+        self.foreground_button = QPushButton("置顶工具")
+        self.foreground_button.setAccessibleName("重新置顶并激活分析工具")
+        self.foreground_button.setToolTip("重新置顶工具和事件栏；也可按 Ctrl+Alt+I")
+        self.foreground_button.clicked.connect(self.bring_overlays_to_front)
+        header.addWidget(self.foreground_button)
         self.collapse_button = QPushButton("⌃")
         self.collapse_button.setObjectName("iconButton")
         self.collapse_button.setToolTip("收起选手状态")
@@ -337,7 +337,6 @@ class OverlayWindow(QWidget):
             self.status_dot.setStyleSheet("color: #78909C")
             self.status_text.setText("已停止")
         self.player_overlay.hide()
-        self.timeline_panel.set_interactive(False)
         self.timeline_panel.hide()
 
     def update_snapshot(self, snapshot: AnalysisSnapshot) -> None:
@@ -359,7 +358,6 @@ class OverlayWindow(QWidget):
         self.metrics.setText(message)
         self.metrics.setToolTip(message)
         self.player_overlay.hide()
-        self.timeline_panel.set_interactive(False)
         self.timeline_panel.hide()
 
     def toggle_collapsed(self) -> None:
@@ -375,35 +373,23 @@ class OverlayWindow(QWidget):
         self.player_overlay.set_enabled(enabled)
         self.timeline_panel.set_enabled(enabled)
         self.timeline_button.setText("隐藏浮层" if enabled else "显示浮层")
-        self._sync_interaction_button()
 
-    def toggle_overlay_interaction(self) -> None:
+    def bring_overlays_to_front(self) -> None:
         if not self.overlays_enabled:
             self.overlays_enabled = True
             self.player_overlay.set_enabled(True)
             self.timeline_panel.set_enabled(True)
             self.timeline_button.setText("隐藏浮层")
-        interactive = not self.timeline_panel.interactive
-        self.timeline_panel.set_interactive(interactive)
-        self._sync_interaction_button()
-        if interactive:
-            self.raise_()
-            self.player_overlay.raise_()
-            self.timeline_panel.raise_()
-            bring_to_front(self)
+        self.raise_()
+        self.player_overlay.raise_()
+        self.timeline_panel.raise_()
+        bring_to_front(self)
 
     def _update_hotkey_status(self, status: str) -> None:
         self.hotkey_hint.setText(f"{status} · 拖动移动")
-        self.interaction_button.setToolTip(
-            f"置顶工具并解除或恢复事件栏鼠标穿透；{self.hotkeys.interaction_key_label}"
+        self.foreground_button.setToolTip(
+            f"重新置顶工具和事件栏；{self.hotkeys.foreground_key_label}"
         )
-
-    def _sync_interaction_button(self) -> None:
-        interactive = self.timeline_panel.interactive
-        self.interaction_button.setText("退出事件操作" if interactive else "操作事件栏")
-        self.interaction_button.setProperty("active", "true" if interactive else "false")
-        self.interaction_button.style().unpolish(self.interaction_button)
-        self.interaction_button.style().polish(self.interaction_button)
 
     def mousePressEvent(self, event) -> None:
         if event.button() == Qt.MouseButton.LeftButton:
