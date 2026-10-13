@@ -13,3 +13,8 @@ release/
 .tmp-*/
 .agents/
 .codex/
+.deps/
+.build/
+.native-tools/
+
+.ruff_cache/

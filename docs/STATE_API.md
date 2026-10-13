@@ -1,64 +1,60 @@
-# 实时选手状态接口 v1
+# 精简数据 API v3
 
-OWCS OB Analyzer 默认在 `0.0.0.0:8765` 启动局域网状态服务。包装端应把
-WebSocket 作为主接口；HTTP 接口用于首次检查、断线恢复和人工调试。
+插件 0.4.0 起，HTTP、WebSocket、复制 JSON 和导出 JSON 只提供此格式；不提供详细模式。端口默认 8765，仅监听本机。接口路径仍为 `/v1`，响应 `schema_version` 升为 `3.0`，这是对旧结构的破坏性变更。
 
-## 接口
+| 请求 | 说明 |
+|---|---|
+| GET /health | 服务状态及插件版本 |
+| GET /v1/streams | 来源列表：stream_id、name、selected |
+| GET /v1/state?stream=ID | 精简快照；省略 ID 使用停靠窗口所选来源 |
+| WS /v1/state-stream?stream=ID | 连接时及随后约每 200ms 发送完整精简快照 |
 
-- `GET /health`：服务和采集源健康状态。
-- `GET /v1/state`：最近一次完整状态；尚未收到识别快照时返回 HTTP 503。
-- `GET /v1/state-stream`：WebSocket 状态流。
+没有来源、初始化中或核心不可用时，HTTP 返回 503；WebSocket 保持连接并等待恢复。未知来源不会退回其他来源。未知路径返回 404。接口只读，连接上限 32；允许局域网需在插件界面启用，无账号认证。
 
-包装端连接 WebSocket 后会立即收到 `state.snapshot` 或
-`state.unavailable`。之后在已确认的英雄、存活状态或选手名称发生变化时收到
-新的完整 `state.snapshot`，无变化时每秒收到 `heartbeat`。
+## 顶层
+
+- `schema_version`: `3.0`。
+- `stream_id`、`session_id`：来源及识别会话标识，有对应状态时提供。
+- `sequence`：识别结果序号；WebSocket 重发同一结果时可不变，但过期列表会重新计算。
+- `observed_at`：本次识别结果生成时间，不代表所有保留字段都重新识别过。
+- `status`：online / delayed / stale / stopped / waiting / error。online 仅说明来源和处理在线，字段有效性仍看下方列表。delayed 表示结果所用帧超过 1500ms；stale 表示超过 2500ms 未收到输入。
+- `panel_visible`：当前处理在线且面板已经连续确认；等待、延迟、暂停或断流时为 false。
+- `players`：按计分板顺序排列的十行；尚无识别结果时为空数组。
+- `error`：仅错误状态出现，提供故障原因。
+
+## 每名选手
+
+`slot_id`、`side`、`slot`、`identity_generation`、`display_name`、`hero`、`hero_selection`、`life_state`、`ultimate_charge`、`ultimate_ready`、`respawn_seconds`、`stats`、`perks`、`stale_fields`、`unknown_fields`。
+
+- `side`: left / right，分别表示计分板上队 / 下队，沿用旧命名。`slot` 为该队 1–5 行，不是顶栏位置。
+- 使用 `stream_id + session_id + slot_id + identity_generation` 区分行身份；不是跨地图的永久选手 ID。
+- `hero_selection`: selected / unselected / unknown。确认问号头像时为 unselected，并清空旧英雄、大招、威能、生存状态。
+- `life_state`: alive / dead / unknown。累计阵亡不是当前生存状态。
+- `ultimate_charge`: 0–100 或 null；`ultimate_ready`: true / false / null；`respawn_seconds`: 非负整数或 null。
+- `stats`: eliminations / assists / deaths / damage / healing / mitigated，均为非负整数或 null。
+- `perks.minor`、`perks.major`: `{id, selection}`，selection 为 selected / unselected / not_shown / unknown。id 为模板英文名称或 null。
+
+## 字段有效性
+
+`stale_fields` 列出保留了历史观测、但当前不可视为实时的字段；`unknown_fields` 列出尚未确认或暂时未知的字段。列表使用相对于选手对象的路径，例如 `hero`、`life_state`、`stats.damage`、`perks.minor`。
+
+在本版本定义的 15 个观测字段中，未出现在两个列表里的字段是有效观测。两个列表互斥。`null` 不转成 0；“未选择 / 未显示的威能”可以是已确认的有效状态，即 id 为 null 但不在 unknown_fields 中。
+
+数值和图标新鲜期为 1000ms，名字为 15000ms；面板不可用、来源停止、断流或结果延迟时，已知字段全部标为 stale。局部漏读只影响对应字段，不使整行失效。英雄替换待确认时，英雄相关字段为 unknown，不沿用旧英雄拼接新大招。
+
+消费示例：
 
 ```javascript
-const socket = new WebSocket("ws://192.168.1.20:8765/v1/state-stream");
-
-socket.onmessage = ({ data }) => {
-  const message = JSON.parse(data);
-  if (message.type !== "state.snapshot") return;
-
-  for (const player of message.players) {
-    // 使用 slot_id 作为稳定主键，不要使用队伍颜色。
-    console.log(
-      player.slot_id,
-      player.display_name,
-      player.hero,
-      player.life_state,
-    );
-  }
-};
+const field = 'stats.damage';
+const usable = !player.stale_fields.includes(field)
+            && !player.unknown_fields.includes(field);
+const damage = usable ? player.stats.damage : null;
 ```
 
-## 正式状态约束
+## 从旧格式迁移
 
-- `slot_id` 固定为 `left-1` 至 `left-5`、`right-1` 至 `right-5`。
-- `slot` 对外从 1 开始。
-- `display_name` 支持英文和中文，只包含三次一致后确认的选手 ID；确认前为
-  `null`，短暂漏读不会清空已经确认的 ID。
-- `display_name_status` 表示 ID 是否已经确认；
-  `display_name_confidence` 是双预处理一致结果的保守置信度。
-- `hero` 只包含稳定器已经确认的英雄 ID；无法确认时为 `null`。
-- `life_state` 只可能是 `alive`、`dead` 或 `unknown`。
-- 内部候选英雄 `pending_hero` 不会输出给包装端。
-- `sequence` 在当前 `session_id` 内单调递增；客户端应忽略更小的序号。
-- `source_status=stale` 表示识别源已经超过 2.5 秒没有新画面。
-- `hud.status=locked` 才表示顶栏已经通过结构和英雄模板双重定位；
-  `searching` 时包装端不得把状态当作新确认结果。
-- `hud.offset_y_px` 是相对标准16:9顶栏坐标的物理像素纵向偏移。
-- 时间使用 UTC ISO 8601，`source_age_ms` 表示最新画面距离当前的时间。
-
-完整快照的 JSON Schema 位于
-`schema/player-state-v1.schema.json`。
-
-## 启动参数
-
-```powershell
-owcs-ob-analyzer --api-host 0.0.0.0 --api-port 8765
-```
-
-也可设置 `OWCS_OB_API_HOST` 和 `OWCS_OB_API_PORT` 环境变量。使用
-`--no-api` 可以关闭状态服务。第一版没有身份验证，应只在可信的比赛局域网中
-使用，并通过 Windows 防火墙限制可访问的网络。
+- `players[].scoreboard.stats/perks/ultimate_charge/ultimate_ready/respawn_seconds/identity_generation` 移到选手对象直属层。
+- 原 `scoreboard.fields.*` 替换为 `stale_fields` / `unknown_fields`。
+- 去除重复置信度、confirmed 状态、逐字段时间、每行 updated_at、面板坐标、HUD 定位、Tab 持键、耗时、资源版本等诊断信息。
+- 顶层 source_status / analysis_status 合并为 status；面板状态统一为 panel_visible；不再提供 type 字段。
+- JSON Schema：`schema/player-state-v3.schema.json`。内部诊断快照不构成公开接口。

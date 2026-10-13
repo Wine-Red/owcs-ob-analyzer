@@ -1,0 +1,1417 @@
+{
+  "version": 1,
+  "asset_format": 2,
+  "resource_version": "2026.10.13.1",
+  "portrait_names": [
+    "ana",
+    "ana",
+    "ana",
+    "anran",
+    "anran",
+    "anran",
+    "ashe",
+    "ashe",
+    "ashe",
+    "baptiste",
+    "baptiste",
+    "baptiste",
+    "bastion",
+    "bastion",
+    "bastion",
+    "brigitte",
+    "brigitte",
+    "brigitte",
+    "cassidy",
+    "cassidy",
+    "cassidy",
+    "domina",
+    "domina",
+    "domina",
+    "doomfist",
+    "doomfist",
+    "doomfist",
+    "dva",
+    "dva",
+    "dva",
+    "echo",
+    "echo",
+    "echo",
+    "emre",
+    "emre",
+    "emre",
+    "freja",
+    "freja",
+    "freja",
+    "genji",
+    "genji",
+    "genji",
+    "hanzo",
+    "hanzo",
+    "hanzo",
+    "hazard",
+    "hazard",
+    "hazard",
+    "illari",
+    "illari",
+    "illari",
+    "jetpack-cat",
+    "jetpack-cat",
+    "jetpack-cat",
+    "junker-queen",
+    "junker-queen",
+    "junker-queen",
+    "junkrat",
+    "junkrat",
+    "junkrat",
+    "juno",
+    "juno",
+    "juno",
+    "kiriko",
+    "kiriko",
+    "kiriko",
+    "lifeweaver",
+    "lifeweaver",
+    "lifeweaver",
+    "lucio",
+    "lucio",
+    "lucio",
+    "mauga",
+    "mauga",
+    "mauga",
+    "mei",
+    "mei",
+    "mei",
+    "mercy",
+    "mercy",
+    "mercy",
+    "mizuki",
+    "mizuki",
+    "mizuki",
+    "moira",
+    "moira",
+    "moira",
+    "orisa",
+    "orisa",
+    "orisa",
+    "pharah",
+    "pharah",
+    "pharah",
+    "ramattra",
+    "ramattra",
+    "ramattra",
+    "reaper",
+    "reaper",
+    "reaper",
+    "reinhardt",
+    "reinhardt",
+    "reinhardt",
+    "roadhog",
+    "roadhog",
+    "roadhog",
+    "shion",
+    "shion",
+    "shion",
+    "sierra",
+    "sierra",
+    "sierra",
+    "sigma",
+    "sigma",
+    "sigma",
+    "sojourn",
+    "sojourn",
+    "sojourn",
+    "soldier-76",
+    "soldier-76",
+    "soldier-76",
+    "sombra",
+    "sombra",
+    "sombra",
+    "symmetra",
+    "symmetra",
+    "symmetra",
+    "torbjorn",
+    "torbjorn",
+    "torbjorn",
+    "tracer",
+    "tracer",
+    "tracer",
+    "vendetta",
+    "vendetta",
+    "vendetta",
+    "venture",
+    "venture",
+    "venture",
+    "widowmaker",
+    "widowmaker",
+    "widowmaker",
+    "winston",
+    "winston",
+    "winston",
+    "wrecking-ball",
+    "wrecking-ball",
+    "wrecking-ball",
+    "wuyang",
+    "wuyang",
+    "wuyang",
+    "zarya",
+    "zarya",
+    "zarya",
+    "zenyatta",
+    "zenyatta",
+    "zenyatta",
+    "doctrine",
+    "doctrine",
+    "dmon",
+    "dmon"
+  ],
+  "hud_names": [
+    "ana",
+    "anran",
+    "ashe",
+    "baptiste",
+    "bastion",
+    "brigitte",
+    "cassidy",
+    "domina",
+    "doomfist",
+    "dva",
+    "echo",
+    "emre",
+    "freja",
+    "genji",
+    "hanzo",
+    "hazard",
+    "illari",
+    "jetpack-cat",
+    "junker-queen",
+    "junkrat",
+    "juno",
+    "kiriko",
+    "lifeweaver",
+    "lucio",
+    "mauga",
+    "mei",
+    "mercy",
+    "mizuki",
+    "moira",
+    "orisa",
+    "pharah",
+    "ramattra",
+    "reaper",
+    "reinhardt",
+    "roadhog",
+    "shion",
+    "sierra",
+    "sigma",
+    "sojourn",
+    "soldier-76",
+    "sombra",
+    "symmetra",
+    "torbjorn",
+    "tracer",
+    "vendetta",
+    "venture",
+    "widowmaker",
+    "winston",
+    "wrecking-ball",
+    "wuyang",
+    "zarya",
+    "zenyatta"
+  ],
+  "perks": [
+    {
+      "hero": "ana",
+      "tier": "minor",
+      "id": "Local Anesthetic"
+    },
+    {
+      "hero": "ana",
+      "tier": "minor",
+      "id": "Speed Serum"
+    },
+    {
+      "hero": "anran",
+      "tier": "minor",
+      "id": "Heat Shield"
+    },
+    {
+      "hero": "anran",
+      "tier": "minor",
+      "id": "Smoulder"
+    },
+    {
+      "hero": "ashe",
+      "tier": "minor",
+      "id": "Double-Barreled"
+    },
+    {
+      "hero": "ashe",
+      "tier": "minor",
+      "id": "Remote Detonator"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "minor",
+      "id": "Assault Burst"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "minor",
+      "id": "Expanded Field"
+    },
+    {
+      "hero": "bastion",
+      "tier": "minor",
+      "id": "Configuration Reload"
+    },
+    {
+      "hero": "bastion",
+      "tier": "minor",
+      "id": "Smart Bomb"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "minor",
+      "id": "Combat Medic"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "minor",
+      "id": "Morale Boost"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "minor",
+      "id": "Bang Bang"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "minor",
+      "id": "Giddy Up"
+    },
+    {
+      "hero": "dmon",
+      "tier": "minor",
+      "id": "Beast Within"
+    },
+    {
+      "hero": "dmon",
+      "tier": "minor",
+      "id": "Meka Mobility"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "minor",
+      "id": "Sanguine Siphon"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "minor",
+      "id": "Saving Grace"
+    },
+    {
+      "hero": "domina",
+      "tier": "minor",
+      "id": "Efficient Design"
+    },
+    {
+      "hero": "domina",
+      "tier": "minor",
+      "id": "Extended Power"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "minor",
+      "id": "One-Two"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "minor",
+      "id": "Survival of the Fittest"
+    },
+    {
+      "hero": "dva",
+      "tier": "minor",
+      "id": "Bunny Power"
+    },
+    {
+      "hero": "dva",
+      "tier": "minor",
+      "id": "Extended Boosters"
+    },
+    {
+      "hero": "echo",
+      "tier": "minor",
+      "id": "Aerial Munitions"
+    },
+    {
+      "hero": "echo",
+      "tier": "minor",
+      "id": "Partial Scan"
+    },
+    {
+      "hero": "emre",
+      "tier": "minor",
+      "id": "Enhanced Agility"
+    },
+    {
+      "hero": "emre",
+      "tier": "minor",
+      "id": "Suppressive Security"
+    },
+    {
+      "hero": "freja",
+      "tier": "minor",
+      "id": "Momentum Boost"
+    },
+    {
+      "hero": "freja",
+      "tier": "minor",
+      "id": "Relentless Barrage"
+    },
+    {
+      "hero": "genji",
+      "tier": "minor",
+      "id": "Dragon's Thirst"
+    },
+    {
+      "hero": "genji",
+      "tier": "minor",
+      "id": "Swift Cuts"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "minor",
+      "id": "Dragon Fury"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "minor",
+      "id": "Sonic Disruption"
+    },
+    {
+      "hero": "hazard",
+      "tier": "minor",
+      "id": "Anarchic Zeal"
+    },
+    {
+      "hero": "hazard",
+      "tier": "minor",
+      "id": "Reconstitution"
+    },
+    {
+      "hero": "illari",
+      "tier": "minor",
+      "id": "Rapid Construction"
+    },
+    {
+      "hero": "illari",
+      "tier": "minor",
+      "id": "Summer Solstice"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "minor",
+      "id": "Battle Shout"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "minor",
+      "id": "Rampant Charge"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "minor",
+      "id": "Bomb Voyage"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "minor",
+      "id": "Nitro Boost"
+    },
+    {
+      "hero": "juno",
+      "tier": "minor",
+      "id": "Familiar Vitals"
+    },
+    {
+      "hero": "juno",
+      "tier": "minor",
+      "id": "Locked On"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "minor",
+      "id": "Fortune Teller"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "minor",
+      "id": "Urgent Care"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "minor",
+      "id": "Dashing Escape"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "minor",
+      "id": "Petal Protection"
+    },
+    {
+      "hero": "lucio",
+      "tier": "minor",
+      "id": "Beat Drop"
+    },
+    {
+      "hero": "lucio",
+      "tier": "minor",
+      "id": "Soundwave Rider"
+    },
+    {
+      "hero": "mauga",
+      "tier": "minor",
+      "id": "Kinetic Bandolier"
+    },
+    {
+      "hero": "mauga",
+      "tier": "minor",
+      "id": "Pyromaniac"
+    },
+    {
+      "hero": "mei",
+      "tier": "minor",
+      "id": "Glacial Propulsion"
+    },
+    {
+      "hero": "mei",
+      "tier": "minor",
+      "id": "Skating Rink"
+    },
+    {
+      "hero": "mercy",
+      "tier": "minor",
+      "id": "Angelic Resurrection"
+    },
+    {
+      "hero": "mercy",
+      "tier": "minor",
+      "id": "Divine Momentum"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "minor",
+      "id": "Exposed Soul"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "minor",
+      "id": "Wellspring"
+    },
+    {
+      "hero": "moira",
+      "tier": "minor",
+      "id": "Destruction's Divide"
+    },
+    {
+      "hero": "moira",
+      "tier": "minor",
+      "id": "Ethical Nourishment"
+    },
+    {
+      "hero": "orisa",
+      "tier": "minor",
+      "id": "Defense Protocol"
+    },
+    {
+      "hero": "orisa",
+      "tier": "minor",
+      "id": "Mobile Fortification"
+    },
+    {
+      "hero": "pharah",
+      "tier": "minor",
+      "id": "Concussive Force"
+    },
+    {
+      "hero": "pharah",
+      "tier": "minor",
+      "id": "Helix Shields"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "minor",
+      "id": "Prolonged Barrier"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "minor",
+      "id": "Relentless Form"
+    },
+    {
+      "hero": "reaper",
+      "tier": "minor",
+      "id": "Lingering Wraith"
+    },
+    {
+      "hero": "reaper",
+      "tier": "minor",
+      "id": "Soul Reaving"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "minor",
+      "id": "Crusader's Fire"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "minor",
+      "id": "Crusader's Resolve"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "minor",
+      "id": "Here, Piggy Piggy"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "minor",
+      "id": "Scrap Hook"
+    },
+    {
+      "hero": "shion",
+      "tier": "minor",
+      "id": "Survival Instinct"
+    },
+    {
+      "hero": "shion",
+      "tier": "minor",
+      "id": "X Machina"
+    },
+    {
+      "hero": "sierra",
+      "tier": "minor",
+      "id": "Full Flight"
+    },
+    {
+      "hero": "sierra",
+      "tier": "minor",
+      "id": "Tight Grip"
+    },
+    {
+      "hero": "sigma",
+      "tier": "minor",
+      "id": "Hyper Regeneration"
+    },
+    {
+      "hero": "sigma",
+      "tier": "minor",
+      "id": "Kinetic Cycle"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "minor",
+      "id": "Deceleration Field"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "minor",
+      "id": "Overcharged"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "minor",
+      "id": "Helix Propulsion"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "minor",
+      "id": "Tactical Salvo"
+    },
+    {
+      "hero": "sombra",
+      "tier": "minor",
+      "id": "CTRL ALT ESC"
+    },
+    {
+      "hero": "sombra",
+      "tier": "minor",
+      "id": "Life Hack"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "minor",
+      "id": "Perfect Alignment"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "minor",
+      "id": "Sentry Capacity"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "minor",
+      "id": "Hammer Time"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "minor",
+      "id": "Pre-Heated"
+    },
+    {
+      "hero": "tracer",
+      "tier": "minor",
+      "id": "Kinetic Reload"
+    },
+    {
+      "hero": "tracer",
+      "tier": "minor",
+      "id": "Temporal Regen"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "minor",
+      "id": "Extra Edge"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "minor",
+      "id": "Raging Storm"
+    },
+    {
+      "hero": "venture",
+      "tier": "minor",
+      "id": "Deep Burrow"
+    },
+    {
+      "hero": "venture",
+      "tier": "minor",
+      "id": "Excavation Exhilaration"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "minor",
+      "id": "Scoped Efficiency"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "minor",
+      "id": "Sniper's Instinct"
+    },
+    {
+      "hero": "winston",
+      "tier": "minor",
+      "id": "Electric Charge"
+    },
+    {
+      "hero": "winston",
+      "tier": "minor",
+      "id": "Heavy Landing"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "minor",
+      "id": "Multi-Ball"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "minor",
+      "id": "Steamroller"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "minor",
+      "id": "Balance"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "minor",
+      "id": "Overflow"
+    },
+    {
+      "hero": "zarya",
+      "tier": "minor",
+      "id": "Jump-Ups"
+    },
+    {
+      "hero": "zarya",
+      "tier": "minor",
+      "id": "Spotter"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "minor",
+      "id": "Ascendance"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "minor",
+      "id": "Discordant Repair"
+    },
+    {
+      "hero": "ana",
+      "tier": "major",
+      "id": "Biotic Bounce"
+    },
+    {
+      "hero": "ana",
+      "tier": "major",
+      "id": "Headhunter"
+    },
+    {
+      "hero": "anran",
+      "tier": "major",
+      "id": "Hungering Blaze"
+    },
+    {
+      "hero": "anran",
+      "tier": "major",
+      "id": "Short Fuse"
+    },
+    {
+      "hero": "ashe",
+      "tier": "major",
+      "id": "Airburst"
+    },
+    {
+      "hero": "ashe",
+      "tier": "major",
+      "id": "Viper's Sting"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "major",
+      "id": "Automated Healing"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "major",
+      "id": "Rocket Boots"
+    },
+    {
+      "hero": "bastion",
+      "tier": "major",
+      "id": "Lindholm Explosives"
+    },
+    {
+      "hero": "bastion",
+      "tier": "major",
+      "id": "Self-Repair"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "major",
+      "id": "Inspiring Strike"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "major",
+      "id": "Whiplash"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "major",
+      "id": "Rollin' Round-Up"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "major",
+      "id": "Silver Bullet"
+    },
+    {
+      "hero": "dmon",
+      "tier": "major",
+      "id": "Focused Fusion"
+    },
+    {
+      "hero": "dmon",
+      "tier": "major",
+      "id": "Overstrike"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "major",
+      "id": "Cost of Life"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "major",
+      "id": "Transfusion"
+    },
+    {
+      "hero": "domina",
+      "tier": "major",
+      "id": "Corporate Retreat"
+    },
+    {
+      "hero": "domina",
+      "tier": "major",
+      "id": "Disruptive Detonation"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "major",
+      "id": "Aftershock"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "major",
+      "id": "Power Matrix"
+    },
+    {
+      "hero": "dva",
+      "tier": "major",
+      "id": "Precision Fusion"
+    },
+    {
+      "hero": "dva",
+      "tier": "major",
+      "id": "Shield System"
+    },
+    {
+      "hero": "echo",
+      "tier": "major",
+      "id": "Focused Rush"
+    },
+    {
+      "hero": "echo",
+      "tier": "major",
+      "id": "Full Salvo"
+    },
+    {
+      "hero": "emre",
+      "tier": "major",
+      "id": "Cyber Adhesion"
+    },
+    {
+      "hero": "emre",
+      "tier": "major",
+      "id": "Heat Sink"
+    },
+    {
+      "hero": "freja",
+      "tier": "major",
+      "id": "Aerial Recovery"
+    },
+    {
+      "hero": "freja",
+      "tier": "major",
+      "id": "Rising Winds"
+    },
+    {
+      "hero": "genji",
+      "tier": "major",
+      "id": "Blade Twisting"
+    },
+    {
+      "hero": "genji",
+      "tier": "major",
+      "id": "Meditation"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "major",
+      "id": "Frost Arrow"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "major",
+      "id": "Scatter Arrows"
+    },
+    {
+      "hero": "hazard",
+      "tier": "major",
+      "id": "Deep Leap"
+    },
+    {
+      "hero": "hazard",
+      "tier": "major",
+      "id": "Explosive Impalements"
+    },
+    {
+      "hero": "illari",
+      "tier": "major",
+      "id": "Solar Flare"
+    },
+    {
+      "hero": "illari",
+      "tier": "major",
+      "id": "Sunburn"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "major",
+      "id": "Savage Satiation"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "major",
+      "id": "Willy-Willy"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "major",
+      "id": "Frag Cannon"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "major",
+      "id": "Mine Recycling"
+    },
+    {
+      "hero": "juno",
+      "tier": "major",
+      "id": "Faster Blaster"
+    },
+    {
+      "hero": "juno",
+      "tier": "major",
+      "id": "Lift Off"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "major",
+      "id": "Foxtrot"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "major",
+      "id": "Ready Step"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "major",
+      "id": "Sew the Seed"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "major",
+      "id": "Superbloom"
+    },
+    {
+      "hero": "lucio",
+      "tier": "major",
+      "id": "Accelerando"
+    },
+    {
+      "hero": "lucio",
+      "tier": "major",
+      "id": "Noise Violation"
+    },
+    {
+      "hero": "mauga",
+      "tier": "major",
+      "id": "Combat Fuel"
+    },
+    {
+      "hero": "mauga",
+      "tier": "major",
+      "id": "Firewalker"
+    },
+    {
+      "hero": "mei",
+      "tier": "major",
+      "id": "Cryo-Storm"
+    },
+    {
+      "hero": "mei",
+      "tier": "major",
+      "id": "Deep Freeze"
+    },
+    {
+      "hero": "mercy",
+      "tier": "major",
+      "id": "Chain Boost"
+    },
+    {
+      "hero": "mercy",
+      "tier": "major",
+      "id": "Double Dose"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "major",
+      "id": "Quickstep"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "major",
+      "id": "Resonant Return"
+    },
+    {
+      "hero": "moira",
+      "tier": "major",
+      "id": "Phantom Step"
+    },
+    {
+      "hero": "moira",
+      "tier": "major",
+      "id": "Reversal"
+    },
+    {
+      "hero": "orisa",
+      "tier": "major",
+      "id": "Heavy Javelin"
+    },
+    {
+      "hero": "orisa",
+      "tier": "major",
+      "id": "Protective Barrier"
+    },
+    {
+      "hero": "pharah",
+      "tier": "major",
+      "id": "Fuel Stores"
+    },
+    {
+      "hero": "pharah",
+      "tier": "major",
+      "id": "Rocket Salvo"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "major",
+      "id": "Nanite Repair"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "major",
+      "id": "Void Surge"
+    },
+    {
+      "hero": "reaper",
+      "tier": "major",
+      "id": "Shadow Blink"
+    },
+    {
+      "hero": "reaper",
+      "tier": "major",
+      "id": "Trigger Finger"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "major",
+      "id": "Ignited Fury"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "major",
+      "id": "Shield Slam"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "major",
+      "id": "Hydrogen Exposure"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "major",
+      "id": "Toxic Exhaust"
+    },
+    {
+      "hero": "shion",
+      "tier": "major",
+      "id": "Faces of Death"
+    },
+    {
+      "hero": "shion",
+      "tier": "major",
+      "id": "Refuel"
+    },
+    {
+      "hero": "sierra",
+      "tier": "major",
+      "id": "Locked In"
+    },
+    {
+      "hero": "sierra",
+      "tier": "major",
+      "id": "Medi-Drone"
+    },
+    {
+      "hero": "sigma",
+      "tier": "major",
+      "id": "Hyper Strike"
+    },
+    {
+      "hero": "sigma",
+      "tier": "major",
+      "id": "Levitation"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "major",
+      "id": "Dual Thrusters"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "major",
+      "id": "Friction Generators"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "major",
+      "id": "Full Stride"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "major",
+      "id": "Stim Pack"
+    },
+    {
+      "hero": "sombra",
+      "tier": "major",
+      "id": "Cybersecurity"
+    },
+    {
+      "hero": "sombra",
+      "tier": "major",
+      "id": "Data Packet"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "major",
+      "id": "Hovering Barrier"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "major",
+      "id": "Shield Battery"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "major",
+      "id": "Anchor Bolts"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "major",
+      "id": "Overloaded Turret"
+    },
+    {
+      "hero": "tracer",
+      "tier": "major",
+      "id": "Blink Packs"
+    },
+    {
+      "hero": "tracer",
+      "tier": "major",
+      "id": "Quantum Entanglement"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "major",
+      "id": "Relentless"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "major",
+      "id": "Siphoning Strike"
+    },
+    {
+      "hero": "venture",
+      "tier": "major",
+      "id": "Covered in Dirt"
+    },
+    {
+      "hero": "venture",
+      "tier": "major",
+      "id": "Smart Extender"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "major",
+      "id": "Seeker Mine"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "major",
+      "id": "Widow's Bite"
+    },
+    {
+      "hero": "winston",
+      "tier": "major",
+      "id": "Chain Lightning"
+    },
+    {
+      "hero": "winston",
+      "tier": "major",
+      "id": "Revitalizing Barrier"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "major",
+      "id": "Adaptive Barrier"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "major",
+      "id": "Hang Time"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "major",
+      "id": "Ebb and Flow"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "major",
+      "id": "Falling Rain"
+    },
+    {
+      "hero": "zarya",
+      "tier": "major",
+      "id": "Energy Lance"
+    },
+    {
+      "hero": "zarya",
+      "tier": "major",
+      "id": "Extra Oomph"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "major",
+      "id": "Dual Harmony"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "major",
+      "id": "Focused Destruction"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Provided scoreboard screenshots",
+      "use": "digit and ultimate-ready templates"
+    },
+    {
+      "name": "Overwatch official hero illustrations",
+      "use": "HUD portrait features",
+      "copyright": "Blizzard Entertainment"
+    },
+    {
+      "name": "DanLane09/Overwatch-Stats-Elo",
+      "revision": "95d1084f8eae9261735947fd0b02125c3407dd7c",
+      "url": "https://github.com/DanLane09/Overwatch-Stats-Elo",
+      "use": "scoreboard portrait and perk reference features"
+    },
+    {
+      "name": "RapidOCR / PaddleOCR PP-OCRv4",
+      "url": "https://github.com/RapidAI/RapidOCR",
+      "use": "Chinese and Latin name recognition model",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "Official perk glyphs",
+      "url": "https://overwatch.blizzard.com/en-us/heroes/jetpack-cat/",
+      "retrieved": "2026-10-13",
+      "copyright": "Blizzard Entertainment"
+    },
+    {
+      "name": "Provided preselection screenshots",
+      "use": "unselected HUD and scoreboard placeholder references",
+      "copyright": "Blizzard Entertainment game artwork"
+    }
+  ]
+}

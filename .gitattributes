@@ -7,5 +7,6 @@
 *.png binary
 *.jpg binary
 *.jpeg binary
-*.npz binary
 *.ico binary
+*.onnx binary
+*.qz binary

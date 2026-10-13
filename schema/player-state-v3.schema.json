@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OWCS compact state v3",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "3.0"
+    },
+    "status": {
+      "enum": [
+        "online",
+        "delayed",
+        "stale",
+        "stopped",
+        "waiting",
+        "error"
+      ]
+    },
+    "panel_visible": {
+      "type": "boolean"
+    },
+    "stream_id": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slot_id": {
+            "type": "string"
+          },
+          "side": {
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "slot": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "identity_generation": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "display_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hero": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "hero_selection": {
+            "enum": [
+              "selected",
+              "unselected",
+              "unknown"
+            ]
+          },
+          "life_state": {
+            "enum": [
+              "alive",
+              "dead",
+              "unknown"
+            ]
+          },
+          "ultimate_charge": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 100
+          },
+          "ultimate_ready": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "respawn_seconds": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "stats": {
+            "type": "object",
+            "properties": {
+              "eliminations": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "assists": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "deaths": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "damage": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "healing": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "mitigated": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              }
+            },
+            "required": [
+              "eliminations",
+              "assists",
+              "deaths",
+              "damage",
+              "healing",
+              "mitigated"
+            ],
+            "additionalProperties": false
+          },
+          "perks": {
+            "type": "object",
+            "properties": {
+              "minor": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "selection": {
+                    "enum": [
+                      "selected",
+                      "unselected",
+                      "not_shown",
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "selection"
+                ],
+                "additionalProperties": false
+              },
+              "major": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "selection": {
+                    "enum": [
+                      "selected",
+                      "unselected",
+                      "not_shown",
+                      "unknown"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "selection"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "minor",
+              "major"
+            ],
+            "additionalProperties": false
+          },
+          "stale_fields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "display_name",
+                "hero",
+                "hero_selection",
+                "life_state",
+                "respawn_seconds",
+                "ultimate_charge",
+                "ultimate_ready",
+                "perks.minor",
+                "perks.major",
+                "stats.eliminations",
+                "stats.assists",
+                "stats.deaths",
+                "stats.damage",
+                "stats.healing",
+                "stats.mitigated"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "unknown_fields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "display_name",
+                "hero",
+                "hero_selection",
+                "life_state",
+                "respawn_seconds",
+                "ultimate_charge",
+                "ultimate_ready",
+                "perks.minor",
+                "perks.major",
+                "stats.eliminations",
+                "stats.assists",
+                "stats.deaths",
+                "stats.damage",
+                "stats.healing",
+                "stats.mitigated"
+              ]
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "slot_id",
+          "side",
+          "slot",
+          "identity_generation",
+          "display_name",
+          "hero",
+          "hero_selection",
+          "life_state",
+          "ultimate_charge",
+          "ultimate_ready",
+          "respawn_seconds",
+          "stats",
+          "perks",
+          "stale_fields",
+          "unknown_fields"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10
+    },
+    "error": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "panel_visible",
+    "players"
+  ],
+  "additionalProperties": false
+}

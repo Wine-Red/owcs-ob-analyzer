@@ -1,0 +1,2027 @@
+{
+  "source_format": 1,
+  "resource_version": "2026.10.13.1",
+  "heroes": [
+    {
+      "id": "ana",
+      "hud": "heroes/ana/hud.png",
+      "portraits": [
+        "heroes/ana/ana_blue.png",
+        "heroes/ana/ana_red.png"
+      ]
+    },
+    {
+      "id": "anran",
+      "hud": "heroes/anran/hud.png",
+      "portraits": [
+        "heroes/anran/anran_blue.png",
+        "heroes/anran/anran_red.png"
+      ]
+    },
+    {
+      "id": "ashe",
+      "hud": "heroes/ashe/hud.png",
+      "portraits": [
+        "heroes/ashe/ashe_blue.png",
+        "heroes/ashe/ashe_red.png"
+      ]
+    },
+    {
+      "id": "baptiste",
+      "hud": "heroes/baptiste/hud.png",
+      "portraits": [
+        "heroes/baptiste/baptiste_blue.png",
+        "heroes/baptiste/baptiste_red.png"
+      ]
+    },
+    {
+      "id": "bastion",
+      "hud": "heroes/bastion/hud.png",
+      "portraits": [
+        "heroes/bastion/bastion_blue.png",
+        "heroes/bastion/bastion_red.png"
+      ]
+    },
+    {
+      "id": "brigitte",
+      "hud": "heroes/brigitte/hud.png",
+      "portraits": [
+        "heroes/brigitte/brigitte_blue.png",
+        "heroes/brigitte/brigitte_red.png"
+      ]
+    },
+    {
+      "id": "cassidy",
+      "hud": "heroes/cassidy/hud.png",
+      "portraits": [
+        "heroes/cassidy/cassidy_blue.png",
+        "heroes/cassidy/cassidy_red.png"
+      ]
+    },
+    {
+      "id": "domina",
+      "hud": "heroes/domina/hud.png",
+      "portraits": [
+        "heroes/domina/domina_blue.png",
+        "heroes/domina/domina_red.png"
+      ]
+    },
+    {
+      "id": "doomfist",
+      "hud": "heroes/doomfist/hud.png",
+      "portraits": [
+        "heroes/doomfist/doomfist_blue.png",
+        "heroes/doomfist/doomfist_red.png"
+      ]
+    },
+    {
+      "id": "dva",
+      "hud": "heroes/dva/hud.png",
+      "portraits": [
+        "heroes/dva/dva_blue.png",
+        "heroes/dva/dva_red.png"
+      ]
+    },
+    {
+      "id": "echo",
+      "hud": "heroes/echo/hud.png",
+      "portraits": [
+        "heroes/echo/echo_blue.png",
+        "heroes/echo/echo_red.png"
+      ]
+    },
+    {
+      "id": "emre",
+      "hud": "heroes/emre/hud.png",
+      "portraits": [
+        "heroes/emre/emre_blue.png",
+        "heroes/emre/emre_red.png"
+      ]
+    },
+    {
+      "id": "freja",
+      "hud": "heroes/freja/hud.png",
+      "portraits": [
+        "heroes/freja/freja_blue.png",
+        "heroes/freja/freja_red.png"
+      ]
+    },
+    {
+      "id": "genji",
+      "hud": "heroes/genji/hud.png",
+      "portraits": [
+        "heroes/genji/genji_blue.png",
+        "heroes/genji/genji_red.png"
+      ]
+    },
+    {
+      "id": "hanzo",
+      "hud": "heroes/hanzo/hud.png",
+      "portraits": [
+        "heroes/hanzo/hanzo_blue.png",
+        "heroes/hanzo/hanzo_red.png"
+      ]
+    },
+    {
+      "id": "hazard",
+      "hud": "heroes/hazard/hud.png",
+      "portraits": [
+        "heroes/hazard/hazard_blue.png",
+        "heroes/hazard/hazard_red.png"
+      ]
+    },
+    {
+      "id": "illari",
+      "hud": "heroes/illari/hud.png",
+      "portraits": [
+        "heroes/illari/illari_blue.png",
+        "heroes/illari/illari_red.png"
+      ]
+    },
+    {
+      "id": "jetpack-cat",
+      "hud": "heroes/jetpack-cat/hud.png",
+      "portraits": [
+        "heroes/jetpack-cat/jetpack_cat_blue.png",
+        "heroes/jetpack-cat/jetpack_cat_red.png"
+      ]
+    },
+    {
+      "id": "junker-queen",
+      "hud": "heroes/junker-queen/hud.png",
+      "portraits": [
+        "heroes/junker-queen/junker_queen_blue.png",
+        "heroes/junker-queen/junker_queen_red.png"
+      ]
+    },
+    {
+      "id": "junkrat",
+      "hud": "heroes/junkrat/hud.png",
+      "portraits": [
+        "heroes/junkrat/junkrat_blue.png",
+        "heroes/junkrat/junkrat_red.png"
+      ]
+    },
+    {
+      "id": "juno",
+      "hud": "heroes/juno/hud.png",
+      "portraits": [
+        "heroes/juno/juno_blue.png",
+        "heroes/juno/juno_red.png"
+      ]
+    },
+    {
+      "id": "kiriko",
+      "hud": "heroes/kiriko/hud.png",
+      "portraits": [
+        "heroes/kiriko/kiriko_blue.png",
+        "heroes/kiriko/kiriko_red.png"
+      ]
+    },
+    {
+      "id": "lifeweaver",
+      "hud": "heroes/lifeweaver/hud.png",
+      "portraits": [
+        "heroes/lifeweaver/lifeweaver_blue.png",
+        "heroes/lifeweaver/lifeweaver_red.png"
+      ]
+    },
+    {
+      "id": "lucio",
+      "hud": "heroes/lucio/hud.png",
+      "portraits": [
+        "heroes/lucio/lucio_blue.png",
+        "heroes/lucio/lucio_red.png"
+      ]
+    },
+    {
+      "id": "mauga",
+      "hud": "heroes/mauga/hud.png",
+      "portraits": [
+        "heroes/mauga/mauga_blue.png",
+        "heroes/mauga/mauga_red.png"
+      ]
+    },
+    {
+      "id": "mei",
+      "hud": "heroes/mei/hud.png",
+      "portraits": [
+        "heroes/mei/mei_blue.png",
+        "heroes/mei/mei_red.png"
+      ]
+    },
+    {
+      "id": "mercy",
+      "hud": "heroes/mercy/hud.png",
+      "portraits": [
+        "heroes/mercy/mercy_blue.png",
+        "heroes/mercy/mercy_red.png"
+      ]
+    },
+    {
+      "id": "mizuki",
+      "hud": "heroes/mizuki/hud.png",
+      "portraits": [
+        "heroes/mizuki/mizuki_blue.png",
+        "heroes/mizuki/mizuki_red.png"
+      ]
+    },
+    {
+      "id": "moira",
+      "hud": "heroes/moira/hud.png",
+      "portraits": [
+        "heroes/moira/moira_blue.png",
+        "heroes/moira/moira_red.png"
+      ]
+    },
+    {
+      "id": "orisa",
+      "hud": "heroes/orisa/hud.png",
+      "portraits": [
+        "heroes/orisa/orisa_blue.png",
+        "heroes/orisa/orisa_red.png"
+      ]
+    },
+    {
+      "id": "pharah",
+      "hud": "heroes/pharah/hud.png",
+      "portraits": [
+        "heroes/pharah/pharah_blue.png",
+        "heroes/pharah/pharah_red.png"
+      ]
+    },
+    {
+      "id": "ramattra",
+      "hud": "heroes/ramattra/hud.png",
+      "portraits": [
+        "heroes/ramattra/ramattra_blue.png",
+        "heroes/ramattra/ramattra_red.png"
+      ]
+    },
+    {
+      "id": "reaper",
+      "hud": "heroes/reaper/hud.png",
+      "portraits": [
+        "heroes/reaper/reaper_blue.png",
+        "heroes/reaper/reaper_red.png"
+      ]
+    },
+    {
+      "id": "reinhardt",
+      "hud": "heroes/reinhardt/hud.png",
+      "portraits": [
+        "heroes/reinhardt/reinhardt_blue.png",
+        "heroes/reinhardt/reinhardt_red.png"
+      ]
+    },
+    {
+      "id": "roadhog",
+      "hud": "heroes/roadhog/hud.png",
+      "portraits": [
+        "heroes/roadhog/roadhog_blue.png",
+        "heroes/roadhog/roadhog_red.png"
+      ]
+    },
+    {
+      "id": "shion",
+      "hud": "heroes/shion/hud.png",
+      "portraits": [
+        "heroes/shion/shion_blue.png",
+        "heroes/shion/shion_red.png"
+      ]
+    },
+    {
+      "id": "sierra",
+      "hud": "heroes/sierra/hud.png",
+      "portraits": [
+        "heroes/sierra/sierra_blue.png",
+        "heroes/sierra/sierra_red.png"
+      ]
+    },
+    {
+      "id": "sigma",
+      "hud": "heroes/sigma/hud.png",
+      "portraits": [
+        "heroes/sigma/sigma_blue.png",
+        "heroes/sigma/sigma_red.png"
+      ]
+    },
+    {
+      "id": "sojourn",
+      "hud": "heroes/sojourn/hud.png",
+      "portraits": [
+        "heroes/sojourn/sojourn_blue.png",
+        "heroes/sojourn/sojourn_red.png"
+      ]
+    },
+    {
+      "id": "soldier-76",
+      "hud": "heroes/soldier-76/hud.png",
+      "portraits": [
+        "heroes/soldier-76/soldier_76_blue.png",
+        "heroes/soldier-76/soldier_76_red.png"
+      ]
+    },
+    {
+      "id": "sombra",
+      "hud": "heroes/sombra/hud.png",
+      "portraits": [
+        "heroes/sombra/sombra_blue.png",
+        "heroes/sombra/sombra_red.png"
+      ]
+    },
+    {
+      "id": "symmetra",
+      "hud": "heroes/symmetra/hud.png",
+      "portraits": [
+        "heroes/symmetra/symmetra_blue.png",
+        "heroes/symmetra/symmetra_red.png"
+      ]
+    },
+    {
+      "id": "torbjorn",
+      "hud": "heroes/torbjorn/hud.png",
+      "portraits": [
+        "heroes/torbjorn/torbjorn_blue.png",
+        "heroes/torbjorn/torbjorn_red.png"
+      ]
+    },
+    {
+      "id": "tracer",
+      "hud": "heroes/tracer/hud.png",
+      "portraits": [
+        "heroes/tracer/tracer_blue.png",
+        "heroes/tracer/tracer_red.png"
+      ]
+    },
+    {
+      "id": "vendetta",
+      "hud": "heroes/vendetta/hud.png",
+      "portraits": [
+        "heroes/vendetta/vendetta_blue.png",
+        "heroes/vendetta/vendetta_red.png"
+      ]
+    },
+    {
+      "id": "venture",
+      "hud": "heroes/venture/hud.png",
+      "portraits": [
+        "heroes/venture/venture_blue.png",
+        "heroes/venture/venture_red.png"
+      ]
+    },
+    {
+      "id": "widowmaker",
+      "hud": "heroes/widowmaker/hud.png",
+      "portraits": [
+        "heroes/widowmaker/widowmaker_blue.png",
+        "heroes/widowmaker/widowmaker_red.png"
+      ]
+    },
+    {
+      "id": "winston",
+      "hud": "heroes/winston/hud.png",
+      "portraits": [
+        "heroes/winston/winston_blue.png",
+        "heroes/winston/winston_red.png"
+      ]
+    },
+    {
+      "id": "wrecking-ball",
+      "hud": "heroes/wrecking-ball/hud.png",
+      "portraits": [
+        "heroes/wrecking-ball/wrecking_ball_blue.png",
+        "heroes/wrecking-ball/wrecking_ball_red.png"
+      ]
+    },
+    {
+      "id": "wuyang",
+      "hud": "heroes/wuyang/hud.png",
+      "portraits": [
+        "heroes/wuyang/wuyang_blue.png",
+        "heroes/wuyang/wuyang_red.png"
+      ]
+    },
+    {
+      "id": "zarya",
+      "hud": "heroes/zarya/hud.png",
+      "portraits": [
+        "heroes/zarya/zarya_blue.png",
+        "heroes/zarya/zarya_red.png"
+      ]
+    },
+    {
+      "id": "zenyatta",
+      "hud": "heroes/zenyatta/hud.png",
+      "portraits": [
+        "heroes/zenyatta/zenyatta_blue.png",
+        "heroes/zenyatta/zenyatta_red.png"
+      ]
+    },
+    {
+      "id": "doctrine",
+      "hud": null,
+      "portraits": [
+        "heroes/doctrine/doctrine_blue.png",
+        "heroes/doctrine/doctrine_red.png"
+      ]
+    },
+    {
+      "id": "dmon",
+      "hud": null,
+      "portraits": [
+        "heroes/dmon/dmon_blue.png",
+        "heroes/dmon/dmon_red.png"
+      ]
+    }
+  ],
+  "perks": [
+    {
+      "hero": "ana",
+      "tier": "minor",
+      "id": "Local Anesthetic",
+      "kind": "scoreboard",
+      "file": "perks/ana/minor/Local Anesthetic.png"
+    },
+    {
+      "hero": "ana",
+      "tier": "minor",
+      "id": "Speed Serum",
+      "kind": "scoreboard",
+      "file": "perks/ana/minor/Speed Serum.png"
+    },
+    {
+      "hero": "anran",
+      "tier": "minor",
+      "id": "Heat Shield",
+      "kind": "scoreboard",
+      "file": "perks/anran/minor/Heat Shield.png"
+    },
+    {
+      "hero": "anran",
+      "tier": "minor",
+      "id": "Smoulder",
+      "kind": "scoreboard",
+      "file": "perks/anran/minor/Smoulder.png"
+    },
+    {
+      "hero": "ashe",
+      "tier": "minor",
+      "id": "Double-Barreled",
+      "kind": "scoreboard",
+      "file": "perks/ashe/minor/Double-Barreled.png"
+    },
+    {
+      "hero": "ashe",
+      "tier": "minor",
+      "id": "Remote Detonator",
+      "kind": "scoreboard",
+      "file": "perks/ashe/minor/Remote Detonator.png"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "minor",
+      "id": "Assault Burst",
+      "kind": "scoreboard",
+      "file": "perks/baptiste/minor/Assault Burst.png"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "minor",
+      "id": "Expanded Field",
+      "kind": "scoreboard",
+      "file": "perks/baptiste/minor/Expanded Field.png"
+    },
+    {
+      "hero": "bastion",
+      "tier": "minor",
+      "id": "Configuration Reload",
+      "kind": "scoreboard",
+      "file": "perks/bastion/minor/Configuration Reload.png"
+    },
+    {
+      "hero": "bastion",
+      "tier": "minor",
+      "id": "Smart Bomb",
+      "kind": "scoreboard",
+      "file": "perks/bastion/minor/Smart Bomb.png"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "minor",
+      "id": "Combat Medic",
+      "kind": "scoreboard",
+      "file": "perks/brigitte/minor/Combat Medic.png"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "minor",
+      "id": "Morale Boost",
+      "kind": "scoreboard",
+      "file": "perks/brigitte/minor/Morale Boost.png"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "minor",
+      "id": "Bang Bang",
+      "kind": "scoreboard",
+      "file": "perks/cassidy/minor/Bang Bang.png"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "minor",
+      "id": "Giddy Up",
+      "kind": "scoreboard",
+      "file": "perks/cassidy/minor/Giddy Up.png"
+    },
+    {
+      "hero": "dmon",
+      "tier": "minor",
+      "id": "Beast Within",
+      "kind": "scoreboard",
+      "file": "perks/dmon/minor/Beast Within.png"
+    },
+    {
+      "hero": "dmon",
+      "tier": "minor",
+      "id": "Meka Mobility",
+      "kind": "scoreboard",
+      "file": "perks/dmon/minor/Meka Mobility.png"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "minor",
+      "id": "Sanguine Siphon",
+      "kind": "scoreboard",
+      "file": "perks/doctrine/minor/Sanguine Siphon.png"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "minor",
+      "id": "Saving Grace",
+      "kind": "scoreboard",
+      "file": "perks/doctrine/minor/Saving Grace.png"
+    },
+    {
+      "hero": "domina",
+      "tier": "minor",
+      "id": "Efficient Design",
+      "kind": "scoreboard",
+      "file": "perks/domina/minor/Efficient Design.png"
+    },
+    {
+      "hero": "domina",
+      "tier": "minor",
+      "id": "Extended Power",
+      "kind": "scoreboard",
+      "file": "perks/domina/minor/Extended Power.png"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "minor",
+      "id": "One-Two",
+      "kind": "scoreboard",
+      "file": "perks/doomfist/minor/One-Two.png"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "minor",
+      "id": "Survival of the Fittest",
+      "kind": "scoreboard",
+      "file": "perks/doomfist/minor/Survival of the Fittest.png"
+    },
+    {
+      "hero": "dva",
+      "tier": "minor",
+      "id": "Bunny Power",
+      "kind": "scoreboard",
+      "file": "perks/dva/minor/Bunny Power.png"
+    },
+    {
+      "hero": "dva",
+      "tier": "minor",
+      "id": "Extended Boosters",
+      "kind": "scoreboard",
+      "file": "perks/dva/minor/Extended Boosters.png"
+    },
+    {
+      "hero": "echo",
+      "tier": "minor",
+      "id": "Aerial Munitions",
+      "kind": "scoreboard",
+      "file": "perks/echo/minor/Aerial Munitions.png"
+    },
+    {
+      "hero": "echo",
+      "tier": "minor",
+      "id": "Partial Scan",
+      "kind": "scoreboard",
+      "file": "perks/echo/minor/Partial Scan.png"
+    },
+    {
+      "hero": "emre",
+      "tier": "minor",
+      "id": "Enhanced Agility",
+      "kind": "scoreboard",
+      "file": "perks/emre/minor/Enhanced Agility.png"
+    },
+    {
+      "hero": "emre",
+      "tier": "minor",
+      "id": "Suppressive Security",
+      "kind": "scoreboard",
+      "file": "perks/emre/minor/Suppressive Security.png"
+    },
+    {
+      "hero": "freja",
+      "tier": "minor",
+      "id": "Momentum Boost",
+      "kind": "scoreboard",
+      "file": "perks/freja/minor/Momentum Boost.png"
+    },
+    {
+      "hero": "freja",
+      "tier": "minor",
+      "id": "Relentless Barrage",
+      "kind": "scoreboard",
+      "file": "perks/freja/minor/Relentless Barrage.png"
+    },
+    {
+      "hero": "genji",
+      "tier": "minor",
+      "id": "Dragon's Thirst",
+      "kind": "scoreboard",
+      "file": "perks/genji/minor/Dragon's Thirst.png"
+    },
+    {
+      "hero": "genji",
+      "tier": "minor",
+      "id": "Swift Cuts",
+      "kind": "scoreboard",
+      "file": "perks/genji/minor/Swift Cuts.png"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "minor",
+      "id": "Dragon Fury",
+      "kind": "scoreboard",
+      "file": "perks/hanzo/minor/Dragon Fury.png"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "minor",
+      "id": "Sonic Disruption",
+      "kind": "scoreboard",
+      "file": "perks/hanzo/minor/Sonic Disruption.png"
+    },
+    {
+      "hero": "hazard",
+      "tier": "minor",
+      "id": "Anarchic Zeal",
+      "kind": "scoreboard",
+      "file": "perks/hazard/minor/Anarchic Zeal.png"
+    },
+    {
+      "hero": "hazard",
+      "tier": "minor",
+      "id": "Reconstitution",
+      "kind": "scoreboard",
+      "file": "perks/hazard/minor/Reconstitution.png"
+    },
+    {
+      "hero": "illari",
+      "tier": "minor",
+      "id": "Rapid Construction",
+      "kind": "scoreboard",
+      "file": "perks/illari/minor/Rapid Construction.png"
+    },
+    {
+      "hero": "illari",
+      "tier": "minor",
+      "id": "Summer Solstice",
+      "kind": "scoreboard",
+      "file": "perks/illari/minor/Summer Solstice.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding",
+      "kind": "scoreboard",
+      "file": "perks/jetpack-cat/minor/Transport Shielding.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive",
+      "kind": "scoreboard",
+      "file": "perks/jetpack-cat/minor/Ulterior Motive.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "minor",
+      "id": "Battle Shout",
+      "kind": "scoreboard",
+      "file": "perks/junker-queen/minor/Battle Shout.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "minor",
+      "id": "Rampant Charge",
+      "kind": "scoreboard",
+      "file": "perks/junker-queen/minor/Rampant Charge.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "minor",
+      "id": "Bomb Voyage",
+      "kind": "scoreboard",
+      "file": "perks/junkrat/minor/Bomb Voyage.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "minor",
+      "id": "Nitro Boost",
+      "kind": "scoreboard",
+      "file": "perks/junkrat/minor/Nitro Boost.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "minor",
+      "id": "Familiar Vitals",
+      "kind": "scoreboard",
+      "file": "perks/juno/minor/Familiar Vitals.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "minor",
+      "id": "Locked On",
+      "kind": "scoreboard",
+      "file": "perks/juno/minor/Locked On.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "minor",
+      "id": "Fortune Teller",
+      "kind": "scoreboard",
+      "file": "perks/kiriko/minor/Fortune Teller.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "minor",
+      "id": "Urgent Care",
+      "kind": "scoreboard",
+      "file": "perks/kiriko/minor/Urgent Care.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "minor",
+      "id": "Dashing Escape",
+      "kind": "scoreboard",
+      "file": "perks/lifeweaver/minor/Dashing Escape.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "minor",
+      "id": "Petal Protection",
+      "kind": "scoreboard",
+      "file": "perks/lifeweaver/minor/Petal Protection.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "minor",
+      "id": "Beat Drop",
+      "kind": "scoreboard",
+      "file": "perks/lucio/minor/Beat Drop.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "minor",
+      "id": "Soundwave Rider",
+      "kind": "scoreboard",
+      "file": "perks/lucio/minor/Soundwave Rider.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "minor",
+      "id": "Kinetic Bandolier",
+      "kind": "scoreboard",
+      "file": "perks/mauga/minor/Kinetic Bandolier.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "minor",
+      "id": "Pyromaniac",
+      "kind": "scoreboard",
+      "file": "perks/mauga/minor/Pyromaniac.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "minor",
+      "id": "Glacial Propulsion",
+      "kind": "scoreboard",
+      "file": "perks/mei/minor/Glacial Propulsion.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "minor",
+      "id": "Skating Rink",
+      "kind": "scoreboard",
+      "file": "perks/mei/minor/Skating Rink.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "minor",
+      "id": "Angelic Resurrection",
+      "kind": "scoreboard",
+      "file": "perks/mercy/minor/Angelic Resurrection.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "minor",
+      "id": "Divine Momentum",
+      "kind": "scoreboard",
+      "file": "perks/mercy/minor/Divine Momentum.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "minor",
+      "id": "Exposed Soul",
+      "kind": "scoreboard",
+      "file": "perks/mizuki/minor/Exposed Soul.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "minor",
+      "id": "Wellspring",
+      "kind": "scoreboard",
+      "file": "perks/mizuki/minor/Wellspring.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "minor",
+      "id": "Destruction's Divide",
+      "kind": "scoreboard",
+      "file": "perks/moira/minor/Destruction's Divide.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "minor",
+      "id": "Ethical Nourishment",
+      "kind": "scoreboard",
+      "file": "perks/moira/minor/Ethical Nourishment.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "minor",
+      "id": "Defense Protocol",
+      "kind": "scoreboard",
+      "file": "perks/orisa/minor/Defense Protocol.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "minor",
+      "id": "Mobile Fortification",
+      "kind": "scoreboard",
+      "file": "perks/orisa/minor/Mobile Fortification.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "minor",
+      "id": "Concussive Force",
+      "kind": "scoreboard",
+      "file": "perks/pharah/minor/Concussive Force.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "minor",
+      "id": "Helix Shields",
+      "kind": "scoreboard",
+      "file": "perks/pharah/minor/Helix Shields.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "minor",
+      "id": "Prolonged Barrier",
+      "kind": "scoreboard",
+      "file": "perks/ramattra/minor/Prolonged Barrier.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "minor",
+      "id": "Relentless Form",
+      "kind": "scoreboard",
+      "file": "perks/ramattra/minor/Relentless Form.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "minor",
+      "id": "Lingering Wraith",
+      "kind": "scoreboard",
+      "file": "perks/reaper/minor/Lingering Wraith.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "minor",
+      "id": "Soul Reaving",
+      "kind": "scoreboard",
+      "file": "perks/reaper/minor/Soul Reaving.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "minor",
+      "id": "Crusader's Fire",
+      "kind": "scoreboard",
+      "file": "perks/reinhardt/minor/Crusader's Fire.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "minor",
+      "id": "Crusader's Resolve",
+      "kind": "scoreboard",
+      "file": "perks/reinhardt/minor/Crusader's Resolve.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "minor",
+      "id": "Here, Piggy Piggy",
+      "kind": "scoreboard",
+      "file": "perks/roadhog/minor/Here, Piggy Piggy.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "minor",
+      "id": "Scrap Hook",
+      "kind": "scoreboard",
+      "file": "perks/roadhog/minor/Scrap Hook.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "minor",
+      "id": "Survival Instinct",
+      "kind": "scoreboard",
+      "file": "perks/shion/minor/Survival Instinct.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "minor",
+      "id": "X Machina",
+      "kind": "scoreboard",
+      "file": "perks/shion/minor/X Machina.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "minor",
+      "id": "Full Flight",
+      "kind": "scoreboard",
+      "file": "perks/sierra/minor/Full Flight.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "minor",
+      "id": "Tight Grip",
+      "kind": "scoreboard",
+      "file": "perks/sierra/minor/Tight Grip.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "minor",
+      "id": "Hyper Regeneration",
+      "kind": "scoreboard",
+      "file": "perks/sigma/minor/Hyper Regeneration.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "minor",
+      "id": "Kinetic Cycle",
+      "kind": "scoreboard",
+      "file": "perks/sigma/minor/Kinetic Cycle.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "minor",
+      "id": "Deceleration Field",
+      "kind": "scoreboard",
+      "file": "perks/sojourn/minor/Deceleration Field.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "minor",
+      "id": "Overcharged",
+      "kind": "scoreboard",
+      "file": "perks/sojourn/minor/Overcharged.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "minor",
+      "id": "Helix Propulsion",
+      "kind": "scoreboard",
+      "file": "perks/soldier-76/minor/Helix Propulsion.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "minor",
+      "id": "Tactical Salvo",
+      "kind": "scoreboard",
+      "file": "perks/soldier-76/minor/Tactical Salvo.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "minor",
+      "id": "CTRL ALT ESC",
+      "kind": "scoreboard",
+      "file": "perks/sombra/minor/CTRL ALT ESC.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "minor",
+      "id": "Life Hack",
+      "kind": "scoreboard",
+      "file": "perks/sombra/minor/Life Hack.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "minor",
+      "id": "Perfect Alignment",
+      "kind": "scoreboard",
+      "file": "perks/symmetra/minor/Perfect Alignment.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "minor",
+      "id": "Sentry Capacity",
+      "kind": "scoreboard",
+      "file": "perks/symmetra/minor/Sentry Capacity.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "minor",
+      "id": "Hammer Time",
+      "kind": "scoreboard",
+      "file": "perks/torbjorn/minor/Hammer Time.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "minor",
+      "id": "Pre-Heated",
+      "kind": "scoreboard",
+      "file": "perks/torbjorn/minor/Pre-Heated.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "minor",
+      "id": "Kinetic Reload",
+      "kind": "scoreboard",
+      "file": "perks/tracer/minor/Kinetic Reload.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "minor",
+      "id": "Temporal Regen",
+      "kind": "scoreboard",
+      "file": "perks/tracer/minor/Temporal Regen.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "minor",
+      "id": "Extra Edge",
+      "kind": "scoreboard",
+      "file": "perks/vendetta/minor/Extra Edge.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "minor",
+      "id": "Raging Storm",
+      "kind": "scoreboard",
+      "file": "perks/vendetta/minor/Raging Storm.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "minor",
+      "id": "Deep Burrow",
+      "kind": "scoreboard",
+      "file": "perks/venture/minor/Deep Burrow.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "minor",
+      "id": "Excavation Exhilaration",
+      "kind": "scoreboard",
+      "file": "perks/venture/minor/Excavation Exhilaration.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "minor",
+      "id": "Scoped Efficiency",
+      "kind": "scoreboard",
+      "file": "perks/widowmaker/minor/Scoped Efficiency.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "minor",
+      "id": "Sniper's Instinct",
+      "kind": "scoreboard",
+      "file": "perks/widowmaker/minor/Sniper's Instinct.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "minor",
+      "id": "Electric Charge",
+      "kind": "scoreboard",
+      "file": "perks/winston/minor/Electric Charge.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "minor",
+      "id": "Heavy Landing",
+      "kind": "scoreboard",
+      "file": "perks/winston/minor/Heavy Landing.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "minor",
+      "id": "Multi-Ball",
+      "kind": "scoreboard",
+      "file": "perks/wrecking-ball/minor/Multi-Ball.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "minor",
+      "id": "Steamroller",
+      "kind": "scoreboard",
+      "file": "perks/wrecking-ball/minor/Steamroller.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "minor",
+      "id": "Balance",
+      "kind": "scoreboard",
+      "file": "perks/wuyang/minor/Balance.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "minor",
+      "id": "Overflow",
+      "kind": "scoreboard",
+      "file": "perks/wuyang/minor/Overflow.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "minor",
+      "id": "Jump-Ups",
+      "kind": "scoreboard",
+      "file": "perks/zarya/minor/Jump-Ups.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "minor",
+      "id": "Spotter",
+      "kind": "scoreboard",
+      "file": "perks/zarya/minor/Spotter.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "minor",
+      "id": "Ascendance",
+      "kind": "scoreboard",
+      "file": "perks/zenyatta/minor/Ascendance.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "minor",
+      "id": "Discordant Repair",
+      "kind": "scoreboard",
+      "file": "perks/zenyatta/minor/Discordant Repair.png"
+    },
+    {
+      "hero": "ana",
+      "tier": "major",
+      "id": "Biotic Bounce",
+      "kind": "scoreboard",
+      "file": "perks/ana/major/Biotic Bounce.png"
+    },
+    {
+      "hero": "ana",
+      "tier": "major",
+      "id": "Headhunter",
+      "kind": "scoreboard",
+      "file": "perks/ana/major/Headhunter.png"
+    },
+    {
+      "hero": "anran",
+      "tier": "major",
+      "id": "Hungering Blaze",
+      "kind": "scoreboard",
+      "file": "perks/anran/major/Hungering Blaze.png"
+    },
+    {
+      "hero": "anran",
+      "tier": "major",
+      "id": "Short Fuse",
+      "kind": "scoreboard",
+      "file": "perks/anran/major/Short Fuse.png"
+    },
+    {
+      "hero": "ashe",
+      "tier": "major",
+      "id": "Airburst",
+      "kind": "scoreboard",
+      "file": "perks/ashe/major/Airburst.png"
+    },
+    {
+      "hero": "ashe",
+      "tier": "major",
+      "id": "Viper's Sting",
+      "kind": "scoreboard",
+      "file": "perks/ashe/major/Viper's Sting.png"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "major",
+      "id": "Automated Healing",
+      "kind": "scoreboard",
+      "file": "perks/baptiste/major/Automated Healing.png"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "major",
+      "id": "Rocket Boots",
+      "kind": "scoreboard",
+      "file": "perks/baptiste/major/Rocket Boots.png"
+    },
+    {
+      "hero": "bastion",
+      "tier": "major",
+      "id": "Lindholm Explosives",
+      "kind": "scoreboard",
+      "file": "perks/bastion/major/Lindholm Explosives.png"
+    },
+    {
+      "hero": "bastion",
+      "tier": "major",
+      "id": "Self-Repair",
+      "kind": "scoreboard",
+      "file": "perks/bastion/major/Self-Repair.png"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "major",
+      "id": "Inspiring Strike",
+      "kind": "scoreboard",
+      "file": "perks/brigitte/major/Inspiring Strike.png"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "major",
+      "id": "Whiplash",
+      "kind": "scoreboard",
+      "file": "perks/brigitte/major/Whiplash.png"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "major",
+      "id": "Rollin' Round-Up",
+      "kind": "scoreboard",
+      "file": "perks/cassidy/major/Rollin' Round-Up.png"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "major",
+      "id": "Silver Bullet",
+      "kind": "scoreboard",
+      "file": "perks/cassidy/major/Silver Bullet.png"
+    },
+    {
+      "hero": "dmon",
+      "tier": "major",
+      "id": "Focused Fusion",
+      "kind": "scoreboard",
+      "file": "perks/dmon/major/Focused Fusion.png"
+    },
+    {
+      "hero": "dmon",
+      "tier": "major",
+      "id": "Overstrike",
+      "kind": "scoreboard",
+      "file": "perks/dmon/major/Overstrike.png"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "major",
+      "id": "Cost of Life",
+      "kind": "scoreboard",
+      "file": "perks/doctrine/major/Cost of Life.png"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "major",
+      "id": "Transfusion",
+      "kind": "scoreboard",
+      "file": "perks/doctrine/major/Transfusion.png"
+    },
+    {
+      "hero": "domina",
+      "tier": "major",
+      "id": "Corporate Retreat",
+      "kind": "scoreboard",
+      "file": "perks/domina/major/Corporate Retreat.png"
+    },
+    {
+      "hero": "domina",
+      "tier": "major",
+      "id": "Disruptive Detonation",
+      "kind": "scoreboard",
+      "file": "perks/domina/major/Disruptive Detonation.png"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "major",
+      "id": "Aftershock",
+      "kind": "scoreboard",
+      "file": "perks/doomfist/major/Aftershock.png"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "major",
+      "id": "Power Matrix",
+      "kind": "scoreboard",
+      "file": "perks/doomfist/major/Power Matrix.png"
+    },
+    {
+      "hero": "dva",
+      "tier": "major",
+      "id": "Precision Fusion",
+      "kind": "scoreboard",
+      "file": "perks/dva/major/Precision Fusion.png"
+    },
+    {
+      "hero": "dva",
+      "tier": "major",
+      "id": "Shield System",
+      "kind": "scoreboard",
+      "file": "perks/dva/major/Shield System.png"
+    },
+    {
+      "hero": "echo",
+      "tier": "major",
+      "id": "Focused Rush",
+      "kind": "scoreboard",
+      "file": "perks/echo/major/Focused Rush.png"
+    },
+    {
+      "hero": "echo",
+      "tier": "major",
+      "id": "Full Salvo",
+      "kind": "scoreboard",
+      "file": "perks/echo/major/Full Salvo.png"
+    },
+    {
+      "hero": "emre",
+      "tier": "major",
+      "id": "Cyber Adhesion",
+      "kind": "scoreboard",
+      "file": "perks/emre/major/Cyber Adhesion.png"
+    },
+    {
+      "hero": "emre",
+      "tier": "major",
+      "id": "Heat Sink",
+      "kind": "scoreboard",
+      "file": "perks/emre/major/Heat Sink.png"
+    },
+    {
+      "hero": "freja",
+      "tier": "major",
+      "id": "Aerial Recovery",
+      "kind": "scoreboard",
+      "file": "perks/freja/major/Aerial Recovery.png"
+    },
+    {
+      "hero": "freja",
+      "tier": "major",
+      "id": "Rising Winds",
+      "kind": "scoreboard",
+      "file": "perks/freja/major/Rising Winds.png"
+    },
+    {
+      "hero": "genji",
+      "tier": "major",
+      "id": "Blade Twisting",
+      "kind": "scoreboard",
+      "file": "perks/genji/major/Blade Twisting.png"
+    },
+    {
+      "hero": "genji",
+      "tier": "major",
+      "id": "Meditation",
+      "kind": "scoreboard",
+      "file": "perks/genji/major/Meditation.png"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "major",
+      "id": "Frost Arrow",
+      "kind": "scoreboard",
+      "file": "perks/hanzo/major/Frost Arrow.png"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "major",
+      "id": "Scatter Arrows",
+      "kind": "scoreboard",
+      "file": "perks/hanzo/major/Scatter Arrows.png"
+    },
+    {
+      "hero": "hazard",
+      "tier": "major",
+      "id": "Deep Leap",
+      "kind": "scoreboard",
+      "file": "perks/hazard/major/Deep Leap.png"
+    },
+    {
+      "hero": "hazard",
+      "tier": "major",
+      "id": "Explosive Impalements",
+      "kind": "scoreboard",
+      "file": "perks/hazard/major/Explosive Impalements.png"
+    },
+    {
+      "hero": "illari",
+      "tier": "major",
+      "id": "Solar Flare",
+      "kind": "scoreboard",
+      "file": "perks/illari/major/Solar Flare.png"
+    },
+    {
+      "hero": "illari",
+      "tier": "major",
+      "id": "Sunburn",
+      "kind": "scoreboard",
+      "file": "perks/illari/major/Sunburn.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out",
+      "kind": "scoreboard",
+      "file": "perks/jetpack-cat/major/Claws Out.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form",
+      "kind": "scoreboard",
+      "file": "perks/jetpack-cat/major/Purrfect Form.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "major",
+      "id": "Savage Satiation",
+      "kind": "scoreboard",
+      "file": "perks/junker-queen/major/Savage Satiation.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "major",
+      "id": "Willy-Willy",
+      "kind": "scoreboard",
+      "file": "perks/junker-queen/major/Willy-Willy.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "major",
+      "id": "Frag Cannon",
+      "kind": "scoreboard",
+      "file": "perks/junkrat/major/Frag Cannon.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "major",
+      "id": "Mine Recycling",
+      "kind": "scoreboard",
+      "file": "perks/junkrat/major/Mine Recycling.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "major",
+      "id": "Faster Blaster",
+      "kind": "scoreboard",
+      "file": "perks/juno/major/Faster Blaster.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "major",
+      "id": "Lift Off",
+      "kind": "scoreboard",
+      "file": "perks/juno/major/Lift Off.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "major",
+      "id": "Foxtrot",
+      "kind": "scoreboard",
+      "file": "perks/kiriko/major/Foxtrot.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "major",
+      "id": "Ready Step",
+      "kind": "scoreboard",
+      "file": "perks/kiriko/major/Ready Step.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "major",
+      "id": "Sew the Seed",
+      "kind": "scoreboard",
+      "file": "perks/lifeweaver/major/Sew the Seed.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "major",
+      "id": "Superbloom",
+      "kind": "scoreboard",
+      "file": "perks/lifeweaver/major/Superbloom.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "major",
+      "id": "Accelerando",
+      "kind": "scoreboard",
+      "file": "perks/lucio/major/Accelerando.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "major",
+      "id": "Noise Violation",
+      "kind": "scoreboard",
+      "file": "perks/lucio/major/Noise Violation.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "major",
+      "id": "Combat Fuel",
+      "kind": "scoreboard",
+      "file": "perks/mauga/major/Combat Fuel.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "major",
+      "id": "Firewalker",
+      "kind": "scoreboard",
+      "file": "perks/mauga/major/Firewalker.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "major",
+      "id": "Cryo-Storm",
+      "kind": "scoreboard",
+      "file": "perks/mei/major/Cryo-Storm.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "major",
+      "id": "Deep Freeze",
+      "kind": "scoreboard",
+      "file": "perks/mei/major/Deep Freeze.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "major",
+      "id": "Chain Boost",
+      "kind": "scoreboard",
+      "file": "perks/mercy/major/Chain Boost.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "major",
+      "id": "Double Dose",
+      "kind": "scoreboard",
+      "file": "perks/mercy/major/Double Dose.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "major",
+      "id": "Quickstep",
+      "kind": "scoreboard",
+      "file": "perks/mizuki/major/Quickstep.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "major",
+      "id": "Resonant Return",
+      "kind": "scoreboard",
+      "file": "perks/mizuki/major/Resonant Return.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "major",
+      "id": "Phantom Step",
+      "kind": "scoreboard",
+      "file": "perks/moira/major/Phantom Step.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "major",
+      "id": "Reversal",
+      "kind": "scoreboard",
+      "file": "perks/moira/major/Reversal.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "major",
+      "id": "Heavy Javelin",
+      "kind": "scoreboard",
+      "file": "perks/orisa/major/Heavy Javelin.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "major",
+      "id": "Protective Barrier",
+      "kind": "scoreboard",
+      "file": "perks/orisa/major/Protective Barrier.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "major",
+      "id": "Fuel Stores",
+      "kind": "scoreboard",
+      "file": "perks/pharah/major/Fuel Stores.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "major",
+      "id": "Rocket Salvo",
+      "kind": "scoreboard",
+      "file": "perks/pharah/major/Rocket Salvo.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "major",
+      "id": "Nanite Repair",
+      "kind": "scoreboard",
+      "file": "perks/ramattra/major/Nanite Repair.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "major",
+      "id": "Void Surge",
+      "kind": "scoreboard",
+      "file": "perks/ramattra/major/Void Surge.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "major",
+      "id": "Shadow Blink",
+      "kind": "scoreboard",
+      "file": "perks/reaper/major/Shadow Blink.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "major",
+      "id": "Trigger Finger",
+      "kind": "scoreboard",
+      "file": "perks/reaper/major/Trigger Finger.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "major",
+      "id": "Ignited Fury",
+      "kind": "scoreboard",
+      "file": "perks/reinhardt/major/Ignited Fury.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "major",
+      "id": "Shield Slam",
+      "kind": "scoreboard",
+      "file": "perks/reinhardt/major/Shield Slam.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "major",
+      "id": "Hydrogen Exposure",
+      "kind": "scoreboard",
+      "file": "perks/roadhog/major/Hydrogen Exposure.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "major",
+      "id": "Toxic Exhaust",
+      "kind": "scoreboard",
+      "file": "perks/roadhog/major/Toxic Exhaust.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "major",
+      "id": "Faces of Death",
+      "kind": "scoreboard",
+      "file": "perks/shion/major/Faces of Death.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "major",
+      "id": "Refuel",
+      "kind": "scoreboard",
+      "file": "perks/shion/major/Refuel.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "major",
+      "id": "Locked In",
+      "kind": "scoreboard",
+      "file": "perks/sierra/major/Locked In.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "major",
+      "id": "Medi-Drone",
+      "kind": "scoreboard",
+      "file": "perks/sierra/major/Medi-Drone.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "major",
+      "id": "Hyper Strike",
+      "kind": "scoreboard",
+      "file": "perks/sigma/major/Hyper Strike.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "major",
+      "id": "Levitation",
+      "kind": "scoreboard",
+      "file": "perks/sigma/major/Levitation.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "major",
+      "id": "Dual Thrusters",
+      "kind": "scoreboard",
+      "file": "perks/sojourn/major/Dual Thrusters.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "major",
+      "id": "Friction Generators",
+      "kind": "scoreboard",
+      "file": "perks/sojourn/major/Friction Generators.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "major",
+      "id": "Full Stride",
+      "kind": "scoreboard",
+      "file": "perks/soldier-76/major/Full Stride.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "major",
+      "id": "Stim Pack",
+      "kind": "scoreboard",
+      "file": "perks/soldier-76/major/Stim Pack.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "major",
+      "id": "Cybersecurity",
+      "kind": "scoreboard",
+      "file": "perks/sombra/major/Cybersecurity.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "major",
+      "id": "Data Packet",
+      "kind": "scoreboard",
+      "file": "perks/sombra/major/Data Packet.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "major",
+      "id": "Hovering Barrier",
+      "kind": "scoreboard",
+      "file": "perks/symmetra/major/Hovering Barrier.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "major",
+      "id": "Shield Battery",
+      "kind": "scoreboard",
+      "file": "perks/symmetra/major/Shield Battery.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "major",
+      "id": "Anchor Bolts",
+      "kind": "scoreboard",
+      "file": "perks/torbjorn/major/Anchor Bolts.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "major",
+      "id": "Overloaded Turret",
+      "kind": "scoreboard",
+      "file": "perks/torbjorn/major/Overloaded Turret.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "major",
+      "id": "Blink Packs",
+      "kind": "scoreboard",
+      "file": "perks/tracer/major/Blink Packs.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "major",
+      "id": "Quantum Entanglement",
+      "kind": "scoreboard",
+      "file": "perks/tracer/major/Quantum Entanglement.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "major",
+      "id": "Relentless",
+      "kind": "scoreboard",
+      "file": "perks/vendetta/major/Relentless.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "major",
+      "id": "Siphoning Strike",
+      "kind": "scoreboard",
+      "file": "perks/vendetta/major/Siphoning Strike.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "major",
+      "id": "Covered in Dirt",
+      "kind": "scoreboard",
+      "file": "perks/venture/major/Covered in Dirt.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "major",
+      "id": "Smart Extender",
+      "kind": "scoreboard",
+      "file": "perks/venture/major/Smart Extender.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "major",
+      "id": "Seeker Mine",
+      "kind": "scoreboard",
+      "file": "perks/widowmaker/major/Seeker Mine.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "major",
+      "id": "Widow's Bite",
+      "kind": "scoreboard",
+      "file": "perks/widowmaker/major/Widow's Bite.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "major",
+      "id": "Chain Lightning",
+      "kind": "scoreboard",
+      "file": "perks/winston/major/Chain Lightning.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "major",
+      "id": "Revitalizing Barrier",
+      "kind": "scoreboard",
+      "file": "perks/winston/major/Revitalizing Barrier.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "major",
+      "id": "Adaptive Barrier",
+      "kind": "scoreboard",
+      "file": "perks/wrecking-ball/major/Adaptive Barrier.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "major",
+      "id": "Hang Time",
+      "kind": "scoreboard",
+      "file": "perks/wrecking-ball/major/Hang Time.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "major",
+      "id": "Ebb and Flow",
+      "kind": "scoreboard",
+      "file": "perks/wuyang/major/Ebb and Flow.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "major",
+      "id": "Falling Rain",
+      "kind": "scoreboard",
+      "file": "perks/wuyang/major/Falling Rain.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "major",
+      "id": "Energy Lance",
+      "kind": "scoreboard",
+      "file": "perks/zarya/major/Energy Lance.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "major",
+      "id": "Extra Oomph",
+      "kind": "scoreboard",
+      "file": "perks/zarya/major/Extra Oomph.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "major",
+      "id": "Dual Harmony",
+      "kind": "scoreboard",
+      "file": "perks/zenyatta/major/Dual Harmony.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "major",
+      "id": "Focused Destruction",
+      "kind": "scoreboard",
+      "file": "perks/zenyatta/major/Focused Destruction.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Ulterior Motive",
+      "kind": "official-glyph",
+      "file": "perks/jetpack-cat/official/jetpack-cat-Ulterior-Motive.png",
+      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1d18749d884a8c09dfa5789c5f31eb99f6c78e4b93b3268960f60730abcaf924.png",
+      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1d18749d884a8c09dfa5789c5f31eb99f6c78e4b93b3268960f60730abcaf924.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "minor",
+      "id": "Transport Shielding",
+      "kind": "official-glyph",
+      "file": "perks/jetpack-cat/official/jetpack-cat-Transport-Shielding.png",
+      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/acd4b58fc4607cf4471de067547d9dd1fd1760fbf55d67217f0574567aa0e98b.png",
+      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/acd4b58fc4607cf4471de067547d9dd1fd1760fbf55d67217f0574567aa0e98b.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Purrfect Form",
+      "kind": "official-glyph",
+      "file": "perks/jetpack-cat/official/jetpack-cat-Purrfect-Form.png",
+      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7b90c625a71b1ab6709796db494907b934637e3f793895d4729f0387fadbc35f.png",
+      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7b90c625a71b1ab6709796db494907b934637e3f793895d4729f0387fadbc35f.png"
+    },
+    {
+      "hero": "jetpack-cat",
+      "tier": "major",
+      "id": "Claws Out",
+      "kind": "official-glyph",
+      "file": "perks/jetpack-cat/official/jetpack-cat-Claws-Out.png",
+      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/989caae5faf782438c32b4ed7451ac93ebff03d884c065c768c1cee265b8aae9.png",
+      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/989caae5faf782438c32b4ed7451ac93ebff03d884c065c768c1cee265b8aae9.png"
+    }
+  ],
+  "ui": {
+    "ready.png": "ui/ready.png",
+    "unselected-hud.png": "ui/unselected-hud.png",
+    "unselected-panel.png": "ui/unselected-panel.png"
+  },
+  "sources": [
+    {
+      "name": "Provided scoreboard screenshots",
+      "use": "digit and ultimate-ready templates"
+    },
+    {
+      "name": "Overwatch official hero illustrations",
+      "use": "HUD portrait features",
+      "copyright": "Blizzard Entertainment"
+    },
+    {
+      "name": "DanLane09/Overwatch-Stats-Elo",
+      "revision": "95d1084f8eae9261735947fd0b02125c3407dd7c",
+      "url": "https://github.com/DanLane09/Overwatch-Stats-Elo",
+      "use": "scoreboard portrait and perk reference features"
+    },
+    {
+      "name": "RapidOCR / PaddleOCR PP-OCRv4",
+      "url": "https://github.com/RapidAI/RapidOCR",
+      "use": "Chinese and Latin name recognition model",
+      "license": "Apache-2.0"
+    },
+    {
+      "name": "Official perk glyphs",
+      "url": "https://overwatch.blizzard.com/en-us/heroes/jetpack-cat/",
+      "retrieved": "2026-10-13",
+      "copyright": "Blizzard Entertainment"
+    },
+    {
+      "name": "Provided preselection screenshots",
+      "use": "unselected HUD and scoreboard placeholder references",
+      "copyright": "Blizzard Entertainment game artwork"
+    }
+  ]
+}
