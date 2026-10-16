@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(owcs-ob-analyzer VERSION 0.5.2 LANGUAGES CXX)
+project(owcs-ob-analyzer VERSION 0.5.5 LANGUAGES CXX)
 if(NOT WIN32 OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
   message(FATAL_ERROR "This release targets Windows x64")
 endif()

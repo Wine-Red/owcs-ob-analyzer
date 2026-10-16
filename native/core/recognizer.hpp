@@ -23,6 +23,7 @@ struct FaceReading {
   bool unselected = false;
   bool portraitOccluded = false;
   double selectionConfidence = 0, lifeConfidence = 0, ring = 0, cross = 0;
+  double normalConfidence = 0;
 };
 struct Panel {
   int left = 0;
@@ -56,19 +57,22 @@ public:
   static cv::Mat textMask(const cv::Mat &);
   static cv::Mat signature(const cv::Mat &);
   QString resourceVersion() const { return resourceVersion_; }
+  const QJsonObject &localizedNames() const { return localizedNames_; }
 
 private:
   Number numberMask(const cv::Mat &, int maximum) const;
   std::optional<Panel> locate(const cv::Mat &) const;
   Match portrait(const cv::Mat &) const;
+  double normalPortrait(const cv::Mat &) const;
   double hudQuality(const cv::Mat &, int offset, bool coarse) const;
   int locateHud(const cv::Mat &);
   cv::Mat digits_, digitLabels_, portraits_, hud_, hudCoarse_, hudIndices_, perks_, ready_;
-  ForegroundBank fullBank_, hudBank_, hudCoarseBank_;
+  ForegroundBank fullBank_, centerBank_, hudBank_, hudCoarseBank_;
   cv::Mat unselectedHud_, unselectedPanel_;
   QStringList portraitNames_, hudNames_;
   QString resourceVersion_;
   QJsonArray perkNames_;
+  QJsonObject localizedNames_;
   int hudCandidate_ = -10000, hudCount_ = 0;
   std::vector<int> searchOffsets_;
   size_t searchIndex_ = 0;

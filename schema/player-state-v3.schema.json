@@ -178,6 +178,12 @@
                       "not_shown",
                       "unknown"
                     ]
+                  },
+                  "name_zhCN": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
@@ -201,6 +207,12 @@
                       "unselected",
                       "not_shown",
                       "unknown"
+                    ]
+                  },
+                  "name_zhCN": {
+                    "type": [
+                      "string",
+                      "null"
                     ]
                   }
                 },
@@ -262,6 +274,13 @@
               ]
             },
             "uniqueItems": true
+          },
+          "hero_name_zhCN": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Chinese display name; follows hero validity, null if unavailable."
           }
         },
         "required": [

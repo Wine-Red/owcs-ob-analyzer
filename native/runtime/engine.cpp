@@ -1,4 +1,5 @@
 #include "engine.hpp"
+#include "../core/public_state.hpp"
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
@@ -107,6 +108,7 @@ void Engine::run() {
       cv::cvtColor(frame, bgr, cv::COLOR_BGRA2BGR);
       auto observed = reader.detect(bgr);
       auto snapshot = state.update(observed, source, start, monotonicMs() - start);
+      snapshot = localizedState(snapshot, reader.localizedNames());
       snapshot["recognition"] =
           QJsonObject{{"asset_format", 3}, {"resource_version", reader.resourceVersion()}};
       if (observed.visible && config.names) {

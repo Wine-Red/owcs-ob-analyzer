@@ -1,7 +1,7 @@
 {
   "version": 1,
   "asset_format": 3,
-  "resource_version": "2026.10.16.1",
+  "resource_version": "2026.10.16.2",
   "portrait_names": [
     "ana",
     "ana",
@@ -5961,5 +5961,605 @@
       "upstream": "https://github.com/overtools/OWLib",
       "scope": "54 project heroes; 216 current client perks"
     }
-  ]
+  ],
+  "names_zhCN": {
+    "heroes": {
+      "ana": "安娜",
+      "anran": "安燃",
+      "ashe": "艾什",
+      "baptiste": "巴蒂斯特",
+      "bastion": "堡垒",
+      "brigitte": "布丽吉塔",
+      "cassidy": "卡西迪",
+      "domina": "金驭",
+      "doomfist": "末日铁拳",
+      "dva": "D.Va",
+      "echo": "回声",
+      "emre": "埃姆雷",
+      "freja": "弗蕾娅",
+      "genji": "源氏",
+      "hanzo": "半藏",
+      "hazard": "骇灾",
+      "illari": "伊拉锐",
+      "jetpack-cat": "飞天猫",
+      "junker-queen": "渣客女王",
+      "junkrat": "狂鼠",
+      "juno": "朱诺",
+      "kiriko": "雾子",
+      "lifeweaver": "生命之梭",
+      "lucio": "卢西奥",
+      "mauga": "毛加",
+      "mei": "美",
+      "mercy": "天使",
+      "mizuki": "瑞稀",
+      "moira": "莫伊拉",
+      "orisa": "奥丽莎",
+      "pharah": "法老之鹰",
+      "ramattra": "拉玛刹",
+      "reaper": "死神",
+      "reinhardt": "莱因哈特",
+      "roadhog": "路霸",
+      "shion": "死怨",
+      "sierra": "西拉",
+      "sigma": "西格玛",
+      "sojourn": "索杰恩",
+      "soldier-76": "士兵：76",
+      "sombra": "黑影",
+      "symmetra": "秩序之光",
+      "torbjorn": "托比昂",
+      "tracer": "猎空",
+      "vendetta": "斩仇",
+      "venture": "探奇",
+      "widowmaker": "黑百合",
+      "winston": "温斯顿",
+      "wrecking-ball": "破坏球",
+      "wuyang": "无漾",
+      "zarya": "查莉娅",
+      "zenyatta": "禅雅塔",
+      "doctrine": "血律",
+      "dmon": "D.Mon"
+    },
+    "perks": {
+      "ana": {
+        "major": {
+          "Biotic Bounce": "弹跳手雷",
+          "Headhunter": "猎头精英"
+        },
+        "minor": {
+          "Local Anesthetic": "局部麻醉",
+          "Speed Serum": "加速血清"
+        }
+      },
+      "anran": {
+        "major": {
+          "Hungering Blaze": "噬心狂炎",
+          "Short Fuse": "易燃易爆"
+        },
+        "minor": {
+          "Heat Shield": "烈火护体",
+          "Smoulder": "长燃之焰"
+        }
+      },
+      "ashe": {
+        "major": {
+          "Airburst": "空爆雷管",
+          "Viper's Sting": "毒蛇之刺"
+        },
+        "minor": {
+          "Double-Barreled": "双筒猎枪",
+          "Remote Detonator": "远程引爆器"
+        }
+      },
+      "baptiste": {
+        "major": {
+          "Automated Healing": "自动治疗",
+          "Rocket Boots": "火箭战靴"
+        },
+        "minor": {
+          "Assault Burst": "强攻冲击",
+          "Expanded Field": "广域力场"
+        }
+      },
+      "bastion": {
+        "major": {
+          "Lindholm Explosives": "林德霍姆炸药",
+          "Self-Repair": "自我修复"
+        },
+        "minor": {
+          "Configuration Reload": "装弹模式",
+          "Smart Bomb": "智能炸弹"
+        }
+      },
+      "brigitte": {
+        "major": {
+          "Inspiring Strike": "鼓舞盾击",
+          "Whiplash": "流星重鞭"
+        },
+        "minor": {
+          "Combat Medic": "战地医疗兵",
+          "Morale Boost": "士气高昂"
+        }
+      },
+      "cassidy": {
+        "major": {
+          "Rollin' Round-Up": "翻身愈合",
+          "Silver Bullet": "银质子弹"
+        },
+        "minor": {
+          "Bang Bang": "双发连闪",
+          "Giddy Up": "得儿驾"
+        }
+      },
+      "dmon": {
+        "major": {
+          "Focused Fusion": "聚焦聚变",
+          "Overstrike": "强突刺击"
+        },
+        "minor": {
+          "Beast Within": "野兽之心",
+          "MEKA Mobility": "MEKA机动"
+        }
+      },
+      "doctrine": {
+        "major": {
+          "Cost of Life": "生命代价",
+          "Transfusion": "活力传输"
+        },
+        "minor": {
+          "Sanguine Siphon": "猩红汲取",
+          "Saving Grace": "救赎恩赐"
+        }
+      },
+      "domina": {
+        "major": {
+          "Corporate Retreat": "战略转移",
+          "Disruptive Detonation": "扰动爆破"
+        },
+        "minor": {
+          "Efficient Design": "高效设计",
+          "Extended Power": "权力扩张"
+        }
+      },
+      "doomfist": {
+        "major": {
+          "Aftershock": "地震余波",
+          "Power Matrix": "悍猛矩阵"
+        },
+        "minor": {
+          "One-Two": "左右开攻",
+          "Survival of the Fittest": "优胜劣汰"
+        }
+      },
+      "dva": {
+        "major": {
+          "Precision Fusion": "精准聚变",
+          "Shield System": "护盾系统"
+        },
+        "minor": {
+          "Bunny Power": "小兔之力",
+          "Extended Boosters": "延时推进器"
+        }
+      },
+      "echo": {
+        "major": {
+          "Focused Rush": "聚焦机动",
+          "Full Salvo": "炸弹齐射"
+        },
+        "minor": {
+          "Aerial Munitions": "空战火力",
+          "Partial Scan": "局部扫描"
+        }
+      },
+      "emre": {
+        "major": {
+          "Cyber Adhesion": "赛博黏附",
+          "Heat Sink": "散热装置"
+        },
+        "minor": {
+          "Enhanced Agility": "敏捷强化",
+          "Suppressive Security": "压制安防"
+        }
+      },
+      "freja": {
+        "major": {
+          "Aerial Recovery": "飞空愈疗",
+          "Rising Winds": "劲风再起"
+        },
+        "minor": {
+          "Momentum Boost": "疾奔之势",
+          "Relentless Barrage": "无情弹幕"
+        }
+      },
+      "genji": {
+        "major": {
+          "Blade Twisting": "扭转刃影",
+          "Meditation": "冥思一闪"
+        },
+        "minor": {
+          "Dragon's Thirst": "神竜之渴",
+          "Swift Cuts": "刃至影随"
+        }
+      },
+      "hanzo": {
+        "major": {
+          "Frost Arrow": "霜冻之箭",
+          "Scatter Arrows": "狂岚尽散"
+        },
+        "minor": {
+          "Dragon Fury": "神竜之怒",
+          "Sonic Disruption": "干扰之音"
+        }
+      },
+      "hazard": {
+        "major": {
+          "Deep Leap": "强劲狂跃",
+          "Explosive Impalements": "爆炸穿刺"
+        },
+        "minor": {
+          "Anarchic Zeal": "激进狂热",
+          "Reconstitution": "尖刺重构"
+        }
+      },
+      "illari": {
+        "major": {
+          "Solar Flare": "太阳耀斑",
+          "Sunburn": "烈日燎灼"
+        },
+        "minor": {
+          "Rapid Construction": "快速建造",
+          "Summer Solstice": "夏至骄阳"
+        }
+      },
+      "jetpack-cat": {
+        "major": {
+          "Claws Out": "嗷呜一爪",
+          "Purrfect Form": "呼噜连天"
+        },
+        "minor": {
+          "Transport Shielding": "带盾运输",
+          "Ulterior Motive": "别有用心"
+        }
+      },
+      "junker-queen": {
+        "major": {
+          "Savage Satiation": "凶残狂噬",
+          "Willy-Willy": "飞沙利刃"
+        },
+        "minor": {
+          "Battle Shout": "战斗怒吼",
+          "Rampant Charge": "轰翻爆冲"
+        }
+      },
+      "junkrat": {
+        "major": {
+          "Frag Cannon": "榴弹火炮",
+          "Mine Recycling": "地雷回收"
+        },
+        "minor": {
+          "Bomb Voyage": "一炸冲天",
+          "Nitro Boost": "氮气推进"
+        }
+      },
+      "juno": {
+        "major": {
+          "Faster Blaster": "高速冲击枪",
+          "Lift Off": "飞上新高"
+        },
+        "minor": {
+          "Familiar Vitals": "急救优先",
+          "Locked On": "锁定打击"
+        }
+      },
+      "kiriko": {
+        "major": {
+          "Foxtrot": "狐步漫舞",
+          "Ready Step": "备战瞬步"
+        },
+        "minor": {
+          "Fortune Teller": "灵利卜师",
+          "Urgent Care": "救死急符"
+        }
+      },
+      "lifeweaver": {
+        "major": {
+          "Sow the Seed": "愈疗播种",
+          "Superbloom": "超然盛放"
+        },
+        "minor": {
+          "Dashing Escape": "疾行脱身",
+          "Petal Protection": "守护花瓣"
+        }
+      },
+      "lucio": {
+        "major": {
+          "Accelerando": "急速乐章",
+          "Noise Violation": "违规噪音"
+        },
+        "minor": {
+          "Beat Drop": "来点节拍",
+          "Soundwave Rider": "音波滑手"
+        }
+      },
+      "mauga": {
+        "major": {
+          "Combat Fuel": "战斗燃料",
+          "Firewalker": "烈火奔踏"
+        },
+        "minor": {
+          "Kinetic Bandolier": "动力弹带",
+          "Pyromaniac": "纵情燃烧"
+        }
+      },
+      "mei": {
+        "major": {
+          "Cryo-Storm": "急冻风暴",
+          "Deep Freeze": "深度冰冻"
+        },
+        "minor": {
+          "Glacial Propulsion": "寒冰疾涌",
+          "Skating Rink": "冰上畅滑"
+        }
+      },
+      "mercy": {
+        "major": {
+          "Chain Boost": "连锁强化",
+          "Double Dose": "双倍剂量"
+        },
+        "minor": {
+          "Angelic Resurrection": "天使重生",
+          "Winged Reach": "展翅飞翔"
+        }
+      },
+      "mizuki": {
+        "major": {
+          "Quickstep": "飞魂迅步",
+          "Resonant Return": "共鸣飞返"
+        },
+        "minor": {
+          "Exposed Soul": "魂中破绽",
+          "Wellspring": "灵气奔涌"
+        }
+      },
+      "moira": {
+        "major": {
+          "Phantom Step": "幽影幻步",
+          "Reversal": "魔球逆动"
+        },
+        "minor": {
+          "Destruction's Divide": "毁灭分界",
+          "Ethical Nourishment": "合德滋养"
+        }
+      },
+      "orisa": {
+        "major": {
+          "Heavy Javelin": "重型标枪",
+          "Protective Barrier": "防护屏障"
+        },
+        "minor": {
+          "Defense Protocol": "防御协议",
+          "Mobile Fortification": "机动强固"
+        }
+      },
+      "pharah": {
+        "major": {
+          "Fuel Stores": "燃油储备",
+          "Rocket Salvo": "火箭齐射"
+        },
+        "minor": {
+          "Concussive Force": "震荡爆冲",
+          "Helix Shields": "海力士护盾"
+        }
+      },
+      "ramattra": {
+        "major": {
+          "Nanite Repair": "纳米修复",
+          "Void Surge": "虚空涌动"
+        },
+        "minor": {
+          "Prolonged Barrier": "持久屏障",
+          "Relentless Form": "铁血形态"
+        }
+      },
+      "reaper": {
+        "major": {
+          "Shadow Blink": "暗影闪现",
+          "Trigger Finger": "开火冲动"
+        },
+        "minor": {
+          "Lingering Wraith": "萦绕幽灵",
+          "Soul Reaving": "灵魂收割"
+        }
+      },
+      "reinhardt": {
+        "major": {
+          "Ignited Fury": "盛燃怒火",
+          "Shield Slam": "盾牌猛击"
+        },
+        "minor": {
+          "Crusader's Fire": "十字军的烈焰",
+          "Crusader's Resolve": "十字军的决心"
+        }
+      },
+      "roadhog": {
+        "major": {
+          "Hogdrogen Exposure": "氢气暴露",
+          "Toxic Exhaust": "剧毒废气"
+        },
+        "minor": {
+          "Here, Piggy Piggy": "小猪快来",
+          "Scrap Hook": "废料链钩"
+        }
+      },
+      "shion": {
+        "major": {
+          "Faces of Death": "死神万相",
+          "Refuel": "燃料补充"
+        },
+        "minor": {
+          "Survival Instinct": "生存本能",
+          "X Machina": "斩杀机器"
+        }
+      },
+      "sierra": {
+        "major": {
+          "Locked In": "锁定猛攻",
+          "Medi-Drone": "医疗无人机"
+        },
+        "minor": {
+          "Full Flight": "全速飞行",
+          "Tight Grip": "紧盯不放"
+        }
+      },
+      "sigma": {
+        "major": {
+          "Hyper Strike": "超能打击",
+          "Levitation": "空间漂浮"
+        },
+        "minor": {
+          "Hyper Regeneration": "超能恢复",
+          "Kinetic Cycle": "动能循环"
+        }
+      },
+      "sojourn": {
+        "major": {
+          "Dual Thrusters": "双重推进器",
+          "Friction Generators": "摩擦供能"
+        },
+        "minor": {
+          "Deceleration Field": "减速力场",
+          "Overcharged": "机体过载"
+        }
+      },
+      "soldier-76": {
+        "major": {
+          "Full Stride": "全速疾奔",
+          "Stim Pack": "强化药剂"
+        },
+        "minor": {
+          "Helix Propulsion": "螺旋推进",
+          "Tactical Salvo": "战术齐射"
+        }
+      },
+      "sombra": {
+        "major": {
+          "Cybersecurity": "赛博安保",
+          "Data Packet": "数据包"
+        },
+        "minor": {
+          "CTRL ALT ESC": "CTRL+ALT+ESC",
+          "Life Hack": "黑你血条"
+        }
+      },
+      "symmetra": {
+        "major": {
+          "Hovering Barrier": "悬浮屏障",
+          "Shield Battery": "护盾充能"
+        },
+        "minor": {
+          "Perfect Alignment": "完美协同",
+          "Sentry Capacity": "哨戒容限"
+        }
+      },
+      "torbjorn": {
+        "major": {
+          "Anchor Bolts": "锚固螺栓",
+          "Overloaded Turret": "过载炮台"
+        },
+        "minor": {
+          "Hammer Time": "铁锤快抡",
+          "Pre-Heated": "核心预热"
+        }
+      },
+      "tracer": {
+        "major": {
+          "Blink Packs": "闪现急救包",
+          "Quantum Entanglement": "量子纠缠"
+        },
+        "minor": {
+          "Kinetic Reload": "动能装填",
+          "Temporal Regen": "时空恢复"
+        }
+      },
+      "vendetta": {
+        "major": {
+          "Relentless": "无情君威",
+          "Siphoning Strike": "虹吸斩击"
+        },
+        "minor": {
+          "Extra Edge": "充盈剑气",
+          "Raging Storm": "狂怒风暴"
+        }
+      },
+      "venture": {
+        "major": {
+          "Covered In Dirt": "尘土满身",
+          "SMART Extender": "智能延展器"
+        },
+        "minor": {
+          "Deep Burrow": "深岩掘地",
+          "Excavation Exhilaration": "轰轰钻机汹汹来袭"
+        }
+      },
+      "widowmaker": {
+        "major": {
+          "Seeker Mine": "寻敌诡雷",
+          "Widow's Bite": "黑百合之噬"
+        },
+        "minor": {
+          "Scoped Efficiency": "高效开镜",
+          "Sniper's Instinct": "狙击手的直觉"
+        }
+      },
+      "winston": {
+        "major": {
+          "Chain Lightning": "连锁闪电",
+          "Revitalizing Barrier": "复苏屏障"
+        },
+        "minor": {
+          "Electric Charge": "电能快充",
+          "Heavy Landing": "天降巨猩"
+        }
+      },
+      "wrecking-ball": {
+        "major": {
+          "Adaptive Barrier": "感应屏障",
+          "Hang Time": "滞空时间"
+        },
+        "minor": {
+          "Multi-Ball": "多重地雷",
+          "Steamroller": "重装压路机"
+        }
+      },
+      "wuyang": {
+        "major": {
+          "Ebb and Flow": "潮涨潮落",
+          "Falling Rain": "暴雨倾盆"
+        },
+        "minor": {
+          "Balance": "阴阳平衡",
+          "Overflow": "水满则溢"
+        }
+      },
+      "zarya": {
+        "major": {
+          "Energy Lance": "能量长枪",
+          "Extra Oomph": "能量加码"
+        },
+        "minor": {
+          "Jump-Ups": "弹跳训练",
+          "Spotter": "前线哨兵"
+        }
+      },
+      "zenyatta": {
+        "major": {
+          "Dual Harmony": "双音谐奏",
+          "Focused Destruction": "凝神寂灭"
+        },
+        "minor": {
+          "Ascendance": "悬空参禅",
+          "Discordant Repair": "乱中求存"
+        }
+      }
+    }
+  }
 }

@@ -185,14 +185,15 @@ public:
       QString perkText;
       for (auto tier : {"minor", "major"}) {
         auto v = perks[tier].toObject();
-        if (!v["id"].isNull())
-          perkText += v["id"].toString() + " ";
+        if (v["id"].isString())
+          perkText += owcs::localizedDisplay(v["id"], v["name_zhCN"]) + " ";
       }
       QStringList values{
           QString(i < 5 ? "A%1" : "B%1").arg(i % 5 + 1),
           fresh("display_name", p["display_name"]),
-          p["hero_selection"] == "unselected" ? fresh("hero_selection", QStringLiteral("未选英雄"))
-                                              : fresh("hero", p["hero"]),
+          p["hero_selection"] == "unselected"
+              ? fresh("hero_selection", QStringLiteral("未选英雄"))
+              : fresh("hero", owcs::localizedDisplay(p["hero"], p["hero_name_zhCN"])),
           fresh("life", p["life_state"]),
           fresh("ultimate_charge", board["ultimate_charge"]),
           perkText,

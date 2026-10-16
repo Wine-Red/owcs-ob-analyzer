@@ -4,6 +4,16 @@
 #include <opencv2/imgproc.hpp>
 
 namespace owcs {
+LifeDecision classifyLife(const LifeEvidence &overlay, double normal) {
+  // A circle/X explained by the unchanged portrait is not an overlay.
+  // The same acceptance floor as foreground portrait matching applies to
+  // every independently checked region, without a hero-specific exception.
+  if (normal >= .72)
+    return {LifeKind::Alive, normal};
+  if (overlay.ring >= .80 || overlay.cross >= .76)
+    return {LifeKind::Dead, std::max(overlay.ring, overlay.cross)};
+  return {};
+}
 namespace {
 cv::Vec3f sample(const cv::Mat &im, float x, float y) {
   int ix = int(x), iy = int(y);
@@ -55,18 +65,30 @@ LifeEvidence lifeEvidence(const cv::Mat &portrait) {
       dark.at<uchar>(y, x) = arm ? 255 : 0;
     }
   cv::Mat light = 255 - dark;
-  for (int size = 12; size <= 42; size += 2)
-    for (auto offset :
-         {cv::Point(0, 0), cv::Point(-1, 0), cv::Point(1, 0), cv::Point(0, -1), cv::Point(0, 1)}) {
-      int a = 27 - size / 2;
-      cv::Mat patch, score;
-      cv::resize(gray(cv::Rect(a + offset.x, a + offset.y, size, size)), patch, {32, 32});
-      patch.convertTo(patch, CV_32F);
-      if (cv::mean(patch, light)[0] - cv::mean(patch, dark)[0] <= 40)
-        continue;
-      cv::matchTemplate(patch, pattern, score, cv::TM_CCOEFF_NORMED);
-      out.cross = std::max(out.cross, double(score.at<float>(0)));
-    }
+  for (int size = 12; size <= 42; size += 2) {
+    // Render the glyph through the same sampling footprint as the observed
+    // patch. Comparing a tiny, interpolated X to a sharp 32px binary X loses
+    // correlation even when the geometry is identical.
+    const int sampledSize =
+        std::max(2, int(std::nearbyint(size * std::min(1., portrait.cols / 54.))));
+    cv::Mat sampled, reference;
+    cv::resize(pattern, sampled, {sampledSize, sampledSize}, 0, 0, cv::INTER_AREA);
+    cv::resize(sampled, reference, {size, size});
+    cv::resize(reference, reference, {32, 32});
+    // Search a complete bounded 2D neighborhood. Cardinal-only offsets miss
+    // diagonal rounding shifts after an OBS preview has been resampled.
+    for (int dy = -2; dy <= 2; ++dy)
+      for (int dx = -2; dx <= 2; ++dx) {
+        int a = 27 - size / 2;
+        cv::Mat patch, score;
+        cv::resize(gray(cv::Rect(a + dx, a + dy, size, size)), patch, {32, 32});
+        patch.convertTo(patch, CV_32F);
+        if (cv::mean(patch, light)[0] - cv::mean(patch, dark)[0] <= 40)
+          continue;
+        cv::matchTemplate(patch, reference, score, cv::TM_CCOEFF_NORMED);
+        out.cross = std::max(out.cross, double(score.at<float>(0)));
+      }
+  }
   return out;
 }
 } // namespace owcs

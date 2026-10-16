@@ -104,6 +104,7 @@ int main(int argc, char **argv) {
                     {"life", face.life},
                     {"ring", face.ring},
                     {"cross", face.cross},
+                    {"normal_confidence", face.normalConfidence},
                     {"respawn", owcs::nullable(face.respawn.value)}};
         } else if (c["kind"] == "perk")
           result = r.perk(patch, c["hero"].toString(), c["tier"].toString());
@@ -161,6 +162,9 @@ int main(int argc, char **argv) {
         }
         snapshot = state.update(obs, path, 1000, 0);
       }
+      snapshot = owcs::localizedState(snapshot, r.localizedNames());
+      if (args.contains("--public"))
+        snapshot = owcs::publicState(snapshot);
       std::cout << QJsonDocument(snapshot).toJson().toStdString();
       return 0;
     }
@@ -670,6 +674,86 @@ int main(int argc, char **argv) {
           "replacement hero and its charge confirm after intermittent miss");
     // Public projection must preserve business values without leaking diagnostics.
     auto compact = owcs::publicState(snapshot);
+    {
+      const auto names = r.localizedNames();
+      check(names["heroes"].toObject().size() == 54, "all hero Chinese names shipped");
+      check(names["heroes"].toObject()["tracer"] == QStringLiteral("猎空"),
+            "client hero translation");
+      auto translated = owcs::publicState(owcs::localizedState(snapshot, names));
+      auto translatedRows = translated["players"].toArray();
+      for (int i = 0; i < translatedRows.size(); ++i) {
+        auto row = translatedRows[i].toObject();
+        row.remove("hero_name_zhCN");
+        auto perks = row["perks"].toObject();
+        for (auto tier : {"minor", "major"}) {
+          auto perk = perks[tier].toObject();
+          perk.remove("name_zhCN");
+          perks[tier] = perk;
+        }
+        row["perks"] = perks;
+        auto legacy = compact["players"].toArray()[i].toObject();
+        legacy.remove("hero_name_zhCN");
+        check(row == legacy, "localization preserves every legacy field");
+      }
+      check(owcs::localizedDisplay("tracer", QStringLiteral("猎空")) == QStringLiteral("猎空") &&
+                owcs::localizedDisplay("custom-hero", QJsonValue::Null) == "custom-hero" &&
+                owcs::localizedDisplay(QJsonValue::Null, QStringLiteral("旧名称")) ==
+                    QStringLiteral("—"),
+            "dock Chinese display, English fallback and null identity");
+      auto labelRow = [&](const QJsonValue &hero, const QString &tier, const QJsonValue &id,
+                          const QString &selection, const QJsonObject &catalog) {
+        QJsonObject row{
+            {"hero", hero},
+            {"scoreboard",
+             QJsonObject{{"perks", QJsonObject{{tier, QJsonObject{{"id", id},
+                                                                  {"selection", selection}}}}}}}};
+        return owcs::publicState(
+                   owcs::localizedState({{"players", QJsonArray{row}}}, catalog))["players"]
+            .toArray()[0]
+            .toObject();
+      };
+      auto perkCatalog = names["perks"].toObject();
+      int translatedPerks = 0;
+      for (auto hero = perkCatalog.begin(); hero != perkCatalog.end(); ++hero) {
+        for (auto tier : {"minor", "major"}) {
+          auto labels = hero.value().toObject()[tier].toObject();
+          for (auto perk = labels.begin(); perk != labels.end(); ++perk) {
+            auto row = labelRow(hero.key(), tier, perk.key(), "selected", names);
+            auto value = row["perks"].toObject()[tier].toObject();
+            check(value["id"] == perk.key() && value["name_zhCN"] == perk.value() &&
+                      row["hero_name_zhCN"].isString(),
+                  "hero/tier scoped perk Chinese name");
+            ++translatedPerks;
+          }
+        }
+      }
+      check(translatedPerks == 216, "all active perk labels shipped");
+      auto noLabels = labelRow("tracer", "major", "Blink Packs", "selected", {});
+      check(noLabels["hero"] == "tracer" && noLabels["hero_name_zhCN"].isNull() &&
+                noLabels["perks"].toObject()["major"].toObject()["name_zhCN"].isNull(),
+            "older resource packs retain IDs without fabricated names");
+      for (auto selection : {"unselected", "not_shown", "unknown"})
+        check(labelRow("tracer", "major", "Blink Packs", selection, names)["perks"]
+                  .toObject()["major"]
+                  .toObject()["name_zhCN"]
+                  .isNull(),
+              "nonselected perk has no Chinese label");
+      check(labelRow(QJsonValue::Null, "major", "Blink Packs", "selected", names)["hero_name_zhCN"]
+                .isNull(),
+            "pending hero has no Chinese label");
+      check(labelRow("ana", "major", "Blink Packs", "selected", names)["perks"]
+                .toObject()["major"]
+                .toObject()["name_zhCN"]
+                .isNull(),
+            "hero swap cannot reuse another hero's translation");
+      auto oldLabels =
+          owcs::publicState(owcs::State::age(owcs::localizedState(snapshot, names), 3000));
+      check(oldLabels["players"].toArray()[0].toObject()["hero_name_zhCN"] ==
+                    translatedRows[0].toObject()["hero_name_zhCN"] &&
+                oldLabels["players"].toArray()[0].toObject()["stale_fields"].toArray().contains(
+                    "hero"),
+            "retained Chinese name shares hero staleness");
+    }
     auto compactRow = compact["players"].toArray()[0].toObject();
     check(compact["schema_version"] == "3.0" && compact["panel_visible"].toBool(),
           "compact confirmed panel");

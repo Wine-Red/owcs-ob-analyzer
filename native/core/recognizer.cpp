@@ -128,6 +128,7 @@ Recognizer::Recognizer(const QString &dir) {
   for (auto n : m["hud_names"].toArray())
     hudNames_ << n.toString();
   perkNames_ = m["perks"].toArray();
+  localizedNames_ = m["names_zhCN"].toObject();
   QFile templates(dir + "/templates.qz");
   if (!templates.open(QIODevice::ReadOnly) || templates.size() > 64000000)
     throw std::runtime_error("Missing or oversized template bundle");
@@ -206,6 +207,14 @@ Recognizer::Recognizer(const QString &dir) {
   if (maskAt != maskBytes.size())
     throw std::runtime_error("Trailing foreground mask data");
   fullBank_ = foregroundBank(portraits_, portraitMask);
+  cv::Mat centers, centerMasks;
+  for (int i = 0; i < portraits_.rows; ++i) {
+    centers.push_back(
+        portraits_.row(i).reshape(1, 42)(cv::Rect(9, 9, 24, 24)).clone().reshape(1, 1));
+    centerMasks.push_back(
+        portraitMask.row(i).reshape(1, 42)(cv::Rect(9, 9, 24, 24)).clone().reshape(1, 1));
+  }
+  centerBank_ = foregroundBank(centers, centerMasks);
   hudBank_ = foregroundBank(hud_, hudMask);
   if (digits_.empty() || hud_.empty() || portraits_.rows != portraitNames_.size() ||
       perks_.rows != perkNames_.size())
@@ -664,6 +673,27 @@ Match Recognizer::portrait(const cv::Mat &im) const {
   match = choose(scores, portraitNames_, .72, .12);
   return match;
 }
+double Recognizer::normalPortrait(const cv::Mat &source) const {
+  const auto canonical = gray(resize(source, 48, 48));
+  cv::Mat full, centers;
+  for (int dy : {-1, 0, 1})
+    for (int dx : {-1, 0, 1}) {
+      cv::Mat patch, center;
+      canonical(cv::Rect(3 + dx, 3 + dy, 42, 42)).convertTo(patch, CV_32F);
+      canonical(cv::Rect(12 + dx, 12 + dy, 24, 24)).convertTo(center, CV_32F);
+      full.push_back(patch.reshape(1, 1));
+      centers.push_back(center.reshape(1, 1));
+    }
+  const auto context = foregroundScores(fullBank_, full);
+  const auto badge = foregroundScores(centerBank_, centers);
+  double best = 0;
+  // Require agreement at the same template AND translation. Independent maxima
+  // could explain the face with one hero and the overlay area with another.
+  for (int i = 0; i < context.rows; ++i)
+    for (int j = 0; j < context.cols; ++j)
+      best = std::max(best, double(std::min(context.at<float>(i, j), badge.at<float>(i, j))));
+  return best;
+}
 FaceReading Recognizer::face(const cv::Mat &source) const {
   FaceReading out;
   if (source.empty())
@@ -677,13 +707,21 @@ FaceReading Recognizer::face(const cv::Mat &source) const {
   // Evaluate identity and overlay independently. The same complete-portrait
   // matcher is used for every state; no death-specific partial-face fallback.
   out.candidate = portrait(source);
+  out.normalConfidence = normalPortrait(source);
+  const auto normal = classifyLife({}, out.normalConfidence);
+  if (normal.kind == LifeKind::Alive) {
+    out.life = "alive";
+    out.lifeConfidence = normal.confidence;
+    return out;
+  }
   auto evidence = lifeEvidence(source);
   out.ring = evidence.ring;
   out.cross = evidence.cross;
-  if (evidence.deathOverlay()) {
+  const auto decision = classifyLife(evidence, out.normalConfidence);
+  out.lifeConfidence = decision.confidence;
+  if (decision.kind == LifeKind::Dead) {
     out.portraitOccluded = true;
     out.life = "dead";
-    out.lifeConfidence = std::max(out.ring, out.cross);
     // The initial cross is not a countdown digit. OCR only a settled ring;
     // reading the timer is optional and never a prerequisite for death.
     if (out.cross < .76 && out.ring >= .80) {
@@ -692,16 +730,6 @@ FaceReading Recognizer::face(const cv::Mat &source) const {
       out.respawn = number(source(cv::Rect(x1, y1, x2 - x1, y2 - y1)), 30);
       if (!out.respawn.value && source.cols != 54)
         out.respawn = number(canonical(cv::Rect(19, 18, 17, 19)), 30);
-    }
-  } else {
-    // A very close full-portrait match resolves weak circular costume edges.
-    // A visible portrait must still match portrait structure: mere absence of
-    // a ring also occurs in partial animation occlusion. Life does not require
-    // the distinct-hero margin used to resolve the hero ID.
-    if ((out.candidate.confidence >= .72 && evidence.unobscured()) ||
-        out.candidate.confidence >= .90) {
-      out.life = "alive";
-      out.lifeConfidence = std::max(out.candidate.confidence, 1. - std::max(out.ring, out.cross));
     }
   }
   return out;

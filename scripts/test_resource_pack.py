@@ -5,7 +5,7 @@ import json
 import unittest
 import zipfile
 import numpy as np
-from build_resource_pack import ROOT, MODEL_FILES, validate_source, foreground_masks
+from build_resource_pack import ROOT, MODEL_FILES, validate_source, foreground_masks, localized_names
 
 
 class ResourcePackTests(unittest.TestCase):
@@ -15,6 +15,25 @@ class ResourcePackTests(unittest.TestCase):
 
     def test_valid_mapping(self):
         self.assertEqual(validate_source(self.root)['resource_version'], self.source['resource_version'])
+
+    def test_localized_catalog_covers_current_resources(self):
+        labels = localized_names(self.source)
+        self.assertEqual(set(labels['heroes']), {h['id'] for h in self.source['heroes']})
+        for perk in self.source['perks']:
+            self.assertEqual(labels['perks'][perk['hero']][perk['tier']][perk['id']], perk['name_zhCN'])
+        model = json.loads((ROOT / 'data/models/manifest.json').read_text(encoding='utf8'))
+        self.assertEqual(model['names_zhCN'], labels)
+
+    def test_optional_localization_and_conflicts(self):
+        source = copy.deepcopy(self.source)
+        for item in source['heroes'] + source['perks']:
+            item.pop('name_zhCN', None)
+        self.assertEqual(localized_names(source), {'heroes': {}, 'perks': {}})
+        duplicate = copy.deepcopy(self.source['perks'][0])
+        duplicate['name_zhCN'] = '错误名称'
+        self.source['perks'].append(duplicate)
+        with self.assertRaisesRegex(ValueError, 'Conflicting Chinese'):
+            localized_names(self.source)
 
     def test_project_perk_files_are_current_and_referenced(self):
         declared = {p['file'] for p in self.source['perks']}

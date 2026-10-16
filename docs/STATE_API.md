@@ -28,11 +28,18 @@
 
 - `side`: left / right，分别表示计分板上队 / 下队，沿用旧命名。`slot` 为该队 1–5 行，不是顶栏位置。
 - 使用 `stream_id + session_id + slot_id + identity_generation` 区分行身份；不是跨地图的永久选手 ID。
+- `hero` 保留原英文标识；`hero_name_zhCN` 为对应的客户端简体中文名或 null。中文仅为展示元数据，不参与识别或身份确认。
 - `hero_selection`: selected / unselected / unknown。确认问号头像时为 unselected，并清空旧英雄、大招、威能、生存状态。
 - `life_state`: alive / dead / unknown。累计阵亡不是当前生存状态。
 - `ultimate_charge`: 0–100 或 null；`ultimate_ready`: true / false / null；`respawn_seconds`: 非负整数或 null。
 - `stats`: eliminations / assists / deaths / damage / healing / mitigated，均为非负整数或 null。
-- `perks.minor`、`perks.major`: `{id, selection}`，selection 为 selected / unselected / not_shown / unknown。id 为模板英文名称或 null。
+- `perks.minor`、`perks.major`: `{id, name_zhCN, selection}`，selection 为 selected / unselected / not_shown / unknown。id 保留原英文名称或 null；name_zhCN 为对应的客户端简体中文名，未选择、未知或资源未提供译名时为 null。
+
+0.5.3 新增中文字段，保留原英文值和 schema_version 3.0。调用方应忽略未使用的扩展字段；使用旧版 `additionalProperties: false` Schema 严格校验的调用方需要更新 Schema。中文字段沿用 `hero` 或 `perks.minor/major` 的有效性标记，不新增独立识别状态。旧资源包没有译名时，API 中文字段为 null，OBS 面板回退显示英文。
+
+```json
+{"hero":"tracer","hero_name_zhCN":"猎空","perks":{"major":{"id":"Blink Packs","name_zhCN":"闪现急救包","selection":"selected"}}}
+```
 
 ## 字段有效性
 

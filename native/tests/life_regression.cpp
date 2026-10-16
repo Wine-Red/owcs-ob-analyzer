@@ -48,6 +48,36 @@ std::pair<int, int> lifeRegression(owcs::Recognizer &r, const QString &directory
   auto player = [](const QJsonObject &snapshot, int row) {
     return snapshot["players"].toArray()[row].toObject();
   };
+  // User's OBS screenshot: Mauga's clean portrait has circular costume/face
+  // edges. Check raw classification separately from temporal publication.
+  auto mauga = r.detect(owcs::readImage(directory + "/mauga-obs.png"));
+  check(mauga.confirmed && mauga.players.size() == 10, "Mauga OBS panel located");
+  if (mauga.players.size() == 10) {
+    check(mauga.players[4].toObject()["hero"] == "mauga" &&
+              mauga.players[4].toObject()["life_state"] == "alive",
+          "Mauga clean portrait raw life is alive");
+    check(mauga.players[7].toObject()["life_state"] == "dead",
+          "real countdown beside Mauga remains dead");
+    check(mauga.players[5].toObject()["life_state"] == "dead" &&
+              mauga.players[5].toObject()["hero"].isNull(),
+          "diagonally shifted skull cross in OBS screenshot is dead without inventing hero");
+    owcs::State local("mauga-life");
+    local.update(mauga, "test", 0, 0);
+    auto alive = local.update(mauga, "test", 200, 0);
+    check(player(alive, 4)["life_state"] == "alive" && player(alive, 4)["hero"] == "mauga",
+          "Mauga raw alive is published within two observations");
+    auto overlay = mauga;
+    overlay.players[4] = mauga.players[7]; // Fault injection, not a captured Mauga death.
+    local.update(overlay, "test", 400, 0);
+    auto deadMauga = local.update(overlay, "test", 600, 0);
+    check(player(deadMauga, 4)["life_state"] == "dead" && player(deadMauga, 4)["hero"] == "mauga",
+          "Mauga history does not suppress a real countdown observation");
+    local.update(mauga, "test", 800, 0);
+    auto revived = local.update(mauga, "test", 1000, 0);
+    check(player(revived, 4)["life_state"] == "alive" &&
+              player(revived, 4)["scoreboard"].toObject()["respawn_seconds"].isNull(),
+          "Mauga clear portrait restores alive and clears timer");
+  }
   auto initial = update("before-swap", 3);
   check(player(initial, 9)["hero"] == "vendetta", "initial hero confirmed");
   auto pending = update("white-portrait", 1);

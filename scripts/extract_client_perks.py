@@ -168,6 +168,18 @@ def resolve_texture(raw, texture_guid):
     return files[0]
 
 
+def localize_heroes(heroes, localized, entries):
+    """Join display names by client hero GUID, preserving existing English IDs."""
+    by_id = {canonical_name(h['Name']): (key, h) for key, h in heroes.items() if h.get('IsHero')}
+    for entry in entries:
+        key, _ = by_id[canonical_name(entry['id'])]
+        name = localized.get(key, {}).get('Name')
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(f'Missing Chinese hero name: {entry["id"]}')
+        entry['hero_guid'] = guid(key)
+        entry['name_zhCN'] = name.strip()
+
+
 def stage(raw, source, output, resource_version):
     if output.exists() or source.resolve() in output.resolve().parents:
         raise ValueError('Output must be a new directory outside the original source')
@@ -183,6 +195,7 @@ def stage(raw, source, output, resource_version):
     if set(metadata['metadata_sha256']) != required:
         raise ValueError('Incomplete extraction provenance')
     original = validate_source(source)
+    localize_heroes(read_json(raw / 'heroes-enUS.json'), read_json(raw / 'heroes-zhCN.json'), original['heroes'])
     planned, ignored = plan_perks(read_json(raw / 'heroes-enUS.json'), read_json(raw / 'talents-zhCN.json'),
                                   [h['id'] for h in original['heroes']], read_json(raw / 'heroes-zhCN.json'),
                                   read_json(raw / 'current-perks.json'))

@@ -6,8 +6,14 @@ namespace owcs {
 struct LifeEvidence {
   double ring = 0;
   double cross = 0;
-  bool deathOverlay() const { return ring >= .80 || cross >= .76; }
-  bool unobscured() const { return ring < .68 && cross < .65; }
+};
+enum class LifeKind { Unknown, Alive, Dead };
+struct LifeDecision {
+  LifeKind kind = LifeKind::Unknown;
+  double confidence = 0;
 };
 LifeEvidence lifeEvidence(const cv::Mat &portrait);
+// Compare the normal-portrait explanation with explicit overlay evidence.
+// normal requires both the full face and badge area to fit ONE template/pose.
+LifeDecision classifyLife(const LifeEvidence &, double normal);
 } // namespace owcs

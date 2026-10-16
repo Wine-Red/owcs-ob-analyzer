@@ -26,3 +26,9 @@ tests separately require retaining the previously confirmed hero during death,
 confirming a new clear portrait within two observations, and returning to alive
 on respawn. Labels are not generated from recognizer predictions. These frames
 cover regressions from one replay, not a general accuracy benchmark.
+
+`mauga-obs.png` is the user's separate OBS screenshot from 2026-10-16. Row A5
+shows a clean, living Mauga portrait; B1 has a skull/cross and B3 a death countdown.
+The regression checks raw A5 life and two-observation publication. Its temporal
+death/respawn check injects the real B3 observation into A5 and is explicitly
+not a captured Mauga death sequence.

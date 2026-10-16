@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 
 from extract_client_perks import (build_info, plan_perks, resolve_texture, run_datatool,
-                                  sha256, stage, write_json)
+                                  sha256, stage, write_json, localize_heroes)
 from verify_client_perks import evaluate
 from build_resource_pack import client_glyph_vectors
 
@@ -28,6 +28,13 @@ class ClientPerkTests(unittest.TestCase):
 
     def plan(self):
         return plan_perks(self.heroes, self.talents, ['lucio'])
+
+    def test_hero_localization_uses_guid_not_display_text(self):
+        entries = [{'id': 'lucio'}]
+        localize_heroes(self.heroes, {self.hero_guid: {'Name': '卢西奥'}}, entries)
+        self.assertEqual(entries[0], {'id': 'lucio', 'hero_guid': self.hero_guid, 'name_zhCN': '卢西奥'})
+        with self.assertRaisesRegex(ValueError, 'Missing Chinese hero'):
+            localize_heroes(self.heroes, {}, entries)
 
     def test_guid_join_ignores_retired_talent_and_unreliable_owner(self):
         self.talents['000000000099.134'] = {'TalentType': 'Perk', 'Major': True, 'Level': 3,

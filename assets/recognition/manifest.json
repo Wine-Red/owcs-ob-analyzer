@@ -1,6 +1,6 @@
 {
   "source_format": 1,
-  "resource_version": "2026.10.16.1",
+  "resource_version": "2026.10.16.2",
   "heroes": [
     {
       "id": "ana",
@@ -8,7 +8,9 @@
       "portraits": [
         "heroes/ana/ana_blue.png",
         "heroes/ana/ana_red.png"
-      ]
+      ],
+      "hero_guid": "00000000013B.075",
+      "name_zhCN": "安娜"
     },
     {
       "id": "anran",
@@ -16,7 +18,9 @@
       "portraits": [
         "heroes/anran/anran_blue.png",
         "heroes/anran/anran_red.png"
-      ]
+      ],
+      "hero_guid": "0000000004DD.075",
+      "name_zhCN": "安燃"
     },
     {
       "id": "ashe",
@@ -24,7 +28,9 @@
       "portraits": [
         "heroes/ashe/ashe_blue.png",
         "heroes/ashe/ashe_red.png"
-      ]
+      ],
+      "hero_guid": "000000000200.075",
+      "name_zhCN": "艾什"
     },
     {
       "id": "baptiste",
@@ -32,7 +38,9 @@
       "portraits": [
         "heroes/baptiste/baptiste_blue.png",
         "heroes/baptiste/baptiste_red.png"
-      ]
+      ],
+      "hero_guid": "000000000221.075",
+      "name_zhCN": "巴蒂斯特"
     },
     {
       "id": "bastion",
@@ -40,7 +48,9 @@
       "portraits": [
         "heroes/bastion/bastion_blue.png",
         "heroes/bastion/bastion_red.png"
-      ]
+      ],
+      "hero_guid": "000000000015.075",
+      "name_zhCN": "堡垒"
     },
     {
       "id": "brigitte",
@@ -48,7 +58,9 @@
       "portraits": [
         "heroes/brigitte/brigitte_blue.png",
         "heroes/brigitte/brigitte_red.png"
-      ]
+      ],
+      "hero_guid": "000000000195.075",
+      "name_zhCN": "布丽吉塔"
     },
     {
       "id": "cassidy",
@@ -56,7 +68,9 @@
       "portraits": [
         "heroes/cassidy/cassidy_blue.png",
         "heroes/cassidy/cassidy_red.png"
-      ]
+      ],
+      "hero_guid": "000000000042.075",
+      "name_zhCN": "卡西迪"
     },
     {
       "id": "domina",
@@ -64,7 +78,9 @@
       "portraits": [
         "heroes/domina/domina_blue.png",
         "heroes/domina/domina_red.png"
-      ]
+      ],
+      "hero_guid": "0000000004C4.075",
+      "name_zhCN": "金驭"
     },
     {
       "id": "doomfist",
@@ -72,7 +88,9 @@
       "portraits": [
         "heroes/doomfist/doomfist_blue.png",
         "heroes/doomfist/doomfist_red.png"
-      ]
+      ],
+      "hero_guid": "00000000012F.075",
+      "name_zhCN": "末日铁拳"
     },
     {
       "id": "dva",
@@ -80,7 +98,9 @@
       "portraits": [
         "heroes/dva/dva_blue.png",
         "heroes/dva/dva_red.png"
-      ]
+      ],
+      "hero_guid": "00000000007A.075",
+      "name_zhCN": "D.Va"
     },
     {
       "id": "echo",
@@ -88,7 +108,9 @@
       "portraits": [
         "heroes/echo/echo_blue.png",
         "heroes/echo/echo_red.png"
-      ]
+      ],
+      "hero_guid": "000000000206.075",
+      "name_zhCN": "回声"
     },
     {
       "id": "emre",
@@ -96,7 +118,9 @@
       "portraits": [
         "heroes/emre/emre_blue.png",
         "heroes/emre/emre_red.png"
-      ]
+      ],
+      "hero_guid": "0000000004D8.075",
+      "name_zhCN": "埃姆雷"
     },
     {
       "id": "freja",
@@ -104,7 +128,9 @@
       "portraits": [
         "heroes/freja/freja_blue.png",
         "heroes/freja/freja_red.png"
-      ]
+      ],
+      "hero_guid": "00000000032A.075",
+      "name_zhCN": "弗蕾娅"
     },
     {
       "id": "genji",
@@ -112,7 +138,9 @@
       "portraits": [
         "heroes/genji/genji_blue.png",
         "heroes/genji/genji_red.png"
-      ]
+      ],
+      "hero_guid": "000000000029.075",
+      "name_zhCN": "源氏"
     },
     {
       "id": "hanzo",
@@ -120,7 +148,9 @@
       "portraits": [
         "heroes/hanzo/hanzo_blue.png",
         "heroes/hanzo/hanzo_red.png"
-      ]
+      ],
+      "hero_guid": "000000000005.075",
+      "name_zhCN": "半藏"
     },
     {
       "id": "hazard",
@@ -128,7 +158,9 @@
       "portraits": [
         "heroes/hazard/hazard_blue.png",
         "heroes/hazard/hazard_red.png"
-      ]
+      ],
+      "hero_guid": "000000000362.075",
+      "name_zhCN": "骇灾"
     },
     {
       "id": "illari",
@@ -136,7 +168,9 @@
       "portraits": [
         "heroes/illari/illari_blue.png",
         "heroes/illari/illari_red.png"
-      ]
+      ],
+      "hero_guid": "00000000031C.075",
+      "name_zhCN": "伊拉锐"
     },
     {
       "id": "jetpack-cat",
@@ -144,7 +178,9 @@
       "portraits": [
         "heroes/jetpack-cat/jetpack_cat_blue.png",
         "heroes/jetpack-cat/jetpack_cat_red.png"
-      ]
+      ],
+      "hero_guid": "000000000516.075",
+      "name_zhCN": "飞天猫"
     },
     {
       "id": "junker-queen",
@@ -152,7 +188,9 @@
       "portraits": [
         "heroes/junker-queen/junker_queen_blue.png",
         "heroes/junker-queen/junker_queen_red.png"
-      ]
+      ],
+      "hero_guid": "000000000236.075",
+      "name_zhCN": "渣客女王"
     },
     {
       "id": "junkrat",
@@ -160,7 +198,9 @@
       "portraits": [
         "heroes/junkrat/junkrat_blue.png",
         "heroes/junkrat/junkrat_red.png"
-      ]
+      ],
+      "hero_guid": "000000000065.075",
+      "name_zhCN": "狂鼠"
     },
     {
       "id": "juno",
@@ -168,7 +208,9 @@
       "portraits": [
         "heroes/juno/juno_blue.png",
         "heroes/juno/juno_red.png"
-      ]
+      ],
+      "hero_guid": "000000000365.075",
+      "name_zhCN": "朱诺"
     },
     {
       "id": "kiriko",
@@ -176,7 +218,9 @@
       "portraits": [
         "heroes/kiriko/kiriko_blue.png",
         "heroes/kiriko/kiriko_red.png"
-      ]
+      ],
+      "hero_guid": "000000000231.075",
+      "name_zhCN": "雾子"
     },
     {
       "id": "lifeweaver",
@@ -184,7 +228,9 @@
       "portraits": [
         "heroes/lifeweaver/lifeweaver_blue.png",
         "heroes/lifeweaver/lifeweaver_red.png"
-      ]
+      ],
+      "hero_guid": "000000000291.075",
+      "name_zhCN": "生命之梭"
     },
     {
       "id": "lucio",
@@ -192,7 +238,9 @@
       "portraits": [
         "heroes/lucio/lucio_blue.png",
         "heroes/lucio/lucio_red.png"
-      ]
+      ],
+      "hero_guid": "000000000079.075",
+      "name_zhCN": "卢西奥"
     },
     {
       "id": "mauga",
@@ -200,7 +248,9 @@
       "portraits": [
         "heroes/mauga/mauga_blue.png",
         "heroes/mauga/mauga_red.png"
-      ]
+      ],
+      "hero_guid": "00000000030A.075",
+      "name_zhCN": "毛加"
     },
     {
       "id": "mei",
@@ -208,7 +258,9 @@
       "portraits": [
         "heroes/mei/mei_blue.png",
         "heroes/mei/mei_red.png"
-      ]
+      ],
+      "hero_guid": "0000000000DD.075",
+      "name_zhCN": "美"
     },
     {
       "id": "mercy",
@@ -216,7 +268,9 @@
       "portraits": [
         "heroes/mercy/mercy_blue.png",
         "heroes/mercy/mercy_red.png"
-      ]
+      ],
+      "hero_guid": "000000000004.075",
+      "name_zhCN": "天使"
     },
     {
       "id": "mizuki",
@@ -224,7 +278,9 @@
       "portraits": [
         "heroes/mizuki/mizuki_blue.png",
         "heroes/mizuki/mizuki_red.png"
-      ]
+      ],
+      "hero_guid": "0000000004E3.075",
+      "name_zhCN": "瑞稀"
     },
     {
       "id": "moira",
@@ -232,7 +288,9 @@
       "portraits": [
         "heroes/moira/moira_blue.png",
         "heroes/moira/moira_red.png"
-      ]
+      ],
+      "hero_guid": "0000000001A2.075",
+      "name_zhCN": "莫伊拉"
     },
     {
       "id": "orisa",
@@ -240,7 +298,9 @@
       "portraits": [
         "heroes/orisa/orisa_blue.png",
         "heroes/orisa/orisa_red.png"
-      ]
+      ],
+      "hero_guid": "00000000013E.075",
+      "name_zhCN": "奥丽莎"
     },
     {
       "id": "pharah",
@@ -248,7 +308,9 @@
       "portraits": [
         "heroes/pharah/pharah_blue.png",
         "heroes/pharah/pharah_red.png"
-      ]
+      ],
+      "hero_guid": "000000000008.075",
+      "name_zhCN": "法老之鹰"
     },
     {
       "id": "ramattra",
@@ -256,7 +318,9 @@
       "portraits": [
         "heroes/ramattra/ramattra_blue.png",
         "heroes/ramattra/ramattra_red.png"
-      ]
+      ],
+      "hero_guid": "00000000028D.075",
+      "name_zhCN": "拉玛刹"
     },
     {
       "id": "reaper",
@@ -264,7 +328,9 @@
       "portraits": [
         "heroes/reaper/reaper_blue.png",
         "heroes/reaper/reaper_red.png"
-      ]
+      ],
+      "hero_guid": "000000000002.075",
+      "name_zhCN": "死神"
     },
     {
       "id": "reinhardt",
@@ -272,7 +338,9 @@
       "portraits": [
         "heroes/reinhardt/reinhardt_blue.png",
         "heroes/reinhardt/reinhardt_red.png"
-      ]
+      ],
+      "hero_guid": "000000000007.075",
+      "name_zhCN": "莱因哈特"
     },
     {
       "id": "roadhog",
@@ -280,7 +348,9 @@
       "portraits": [
         "heroes/roadhog/roadhog_blue.png",
         "heroes/roadhog/roadhog_red.png"
-      ]
+      ],
+      "hero_guid": "000000000040.075",
+      "name_zhCN": "路霸"
     },
     {
       "id": "shion",
@@ -288,7 +358,9 @@
       "portraits": [
         "heroes/shion/shion_blue.png",
         "heroes/shion/shion_red.png"
-      ]
+      ],
+      "hero_guid": "00000000052C.075",
+      "name_zhCN": "死怨"
     },
     {
       "id": "sierra",
@@ -296,7 +368,9 @@
       "portraits": [
         "heroes/sierra/sierra_blue.png",
         "heroes/sierra/sierra_red.png"
-      ]
+      ],
+      "hero_guid": "0000000004D2.075",
+      "name_zhCN": "西拉"
     },
     {
       "id": "sigma",
@@ -304,7 +378,9 @@
       "portraits": [
         "heroes/sigma/sigma_blue.png",
         "heroes/sigma/sigma_red.png"
-      ]
+      ],
+      "hero_guid": "00000000023B.075",
+      "name_zhCN": "西格玛"
     },
     {
       "id": "sojourn",
@@ -312,7 +388,9 @@
       "portraits": [
         "heroes/sojourn/sojourn_blue.png",
         "heroes/sojourn/sojourn_red.png"
-      ]
+      ],
+      "hero_guid": "0000000001EC.075",
+      "name_zhCN": "索杰恩"
     },
     {
       "id": "soldier-76",
@@ -320,7 +398,9 @@
       "portraits": [
         "heroes/soldier-76/soldier_76_blue.png",
         "heroes/soldier-76/soldier_76_red.png"
-      ]
+      ],
+      "hero_guid": "00000000006E.075",
+      "name_zhCN": "士兵：76"
     },
     {
       "id": "sombra",
@@ -328,7 +408,9 @@
       "portraits": [
         "heroes/sombra/sombra_blue.png",
         "heroes/sombra/sombra_red.png"
-      ]
+      ],
+      "hero_guid": "00000000012E.075",
+      "name_zhCN": "黑影"
     },
     {
       "id": "symmetra",
@@ -336,7 +418,9 @@
       "portraits": [
         "heroes/symmetra/symmetra_blue.png",
         "heroes/symmetra/symmetra_red.png"
-      ]
+      ],
+      "hero_guid": "000000000016.075",
+      "name_zhCN": "秩序之光"
     },
     {
       "id": "torbjorn",
@@ -344,7 +428,9 @@
       "portraits": [
         "heroes/torbjorn/torbjorn_blue.png",
         "heroes/torbjorn/torbjorn_red.png"
-      ]
+      ],
+      "hero_guid": "000000000006.075",
+      "name_zhCN": "托比昂"
     },
     {
       "id": "tracer",
@@ -352,7 +438,9 @@
       "portraits": [
         "heroes/tracer/tracer_blue.png",
         "heroes/tracer/tracer_red.png"
-      ]
+      ],
+      "hero_guid": "000000000003.075",
+      "name_zhCN": "猎空"
     },
     {
       "id": "vendetta",
@@ -360,7 +448,9 @@
       "portraits": [
         "heroes/vendetta/vendetta_blue.png",
         "heroes/vendetta/vendetta_red.png"
-      ]
+      ],
+      "hero_guid": "000000000472.075",
+      "name_zhCN": "斩仇"
     },
     {
       "id": "venture",
@@ -368,7 +458,9 @@
       "portraits": [
         "heroes/venture/venture_blue.png",
         "heroes/venture/venture_red.png"
-      ]
+      ],
+      "hero_guid": "00000000032B.075",
+      "name_zhCN": "探奇"
     },
     {
       "id": "widowmaker",
@@ -376,7 +468,9 @@
       "portraits": [
         "heroes/widowmaker/widowmaker_blue.png",
         "heroes/widowmaker/widowmaker_red.png"
-      ]
+      ],
+      "hero_guid": "00000000000A.075",
+      "name_zhCN": "黑百合"
     },
     {
       "id": "winston",
@@ -384,7 +478,9 @@
       "portraits": [
         "heroes/winston/winston_blue.png",
         "heroes/winston/winston_red.png"
-      ]
+      ],
+      "hero_guid": "000000000009.075",
+      "name_zhCN": "温斯顿"
     },
     {
       "id": "wrecking-ball",
@@ -392,7 +488,9 @@
       "portraits": [
         "heroes/wrecking-ball/wrecking_ball_blue.png",
         "heroes/wrecking-ball/wrecking_ball_red.png"
-      ]
+      ],
+      "hero_guid": "0000000001CA.075",
+      "name_zhCN": "破坏球"
     },
     {
       "id": "wuyang",
@@ -400,7 +498,9 @@
       "portraits": [
         "heroes/wuyang/wuyang_blue.png",
         "heroes/wuyang/wuyang_red.png"
-      ]
+      ],
+      "hero_guid": "0000000003C3.075",
+      "name_zhCN": "无漾"
     },
     {
       "id": "zarya",
@@ -408,7 +508,9 @@
       "portraits": [
         "heroes/zarya/zarya_blue.png",
         "heroes/zarya/zarya_red.png"
-      ]
+      ],
+      "hero_guid": "000000000068.075",
+      "name_zhCN": "查莉娅"
     },
     {
       "id": "zenyatta",
@@ -416,7 +518,9 @@
       "portraits": [
         "heroes/zenyatta/zenyatta_blue.png",
         "heroes/zenyatta/zenyatta_red.png"
-      ]
+      ],
+      "hero_guid": "000000000020.075",
+      "name_zhCN": "禅雅塔"
     },
     {
       "id": "doctrine",
@@ -424,7 +528,9 @@
       "portraits": [
         "heroes/doctrine/doctrine_blue.png",
         "heroes/doctrine/doctrine_red.png"
-      ]
+      ],
+      "hero_guid": "000000000570.075",
+      "name_zhCN": "血律"
     },
     {
       "id": "dmon",
@@ -432,7 +538,9 @@
       "portraits": [
         "heroes/dmon/dmon_blue.png",
         "heroes/dmon/dmon_red.png"
-      ]
+      ],
+      "hero_guid": "000000000542.075",
+      "name_zhCN": "D.Mon"
     }
   ],
   "perks": [

@@ -83,6 +83,23 @@ def validate_source(root, source=None):
     return source
 
 
+def localized_names(source):
+    """Optional display metadata; never alter matching IDs or template order."""
+    heroes, perks = {}, {}
+    for hero in source['heroes']:
+        name = hero.get('name_zhCN')
+        if isinstance(name, str) and name.strip():
+            heroes[hero['id']] = name.strip()
+    for perk in source['perks']:
+        name = perk.get('name_zhCN')
+        if isinstance(name, str) and name.strip():
+            tier = perks.setdefault(perk['hero'], {}).setdefault(perk['tier'], {})
+            if perk['id'] in tier and tier[perk['id']] != name.strip():
+                raise ValueError(f'Conflicting Chinese perk name: {perk["id"]}')
+            tier[perk['id']] = name.strip()
+    return {'heroes': heroes, 'perks': perks}
+
+
 def foreground_masks(images):
     """Keep opaque person pixels; aligned team variants expose background contamination.
 
@@ -260,7 +277,8 @@ def build(source_dir, base, output):
         mask_blob += struct.pack('<II', *bank.shape) + bank.tobytes()
     (output / 'foreground.qz').write_bytes(pack(mask_blob))
     metadata = {'version': 1, 'asset_format': 3, 'resource_version': source['resource_version'],
-                'portrait_names': names, 'hud_names': hud_names, 'perks': perk_names, 'sources': source['sources']}
+                'portrait_names': names, 'hud_names': hud_names, 'perks': perk_names, 'sources': source['sources'],
+                'names_zhCN': localized_names(source)}
     (output / 'manifest.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding='utf8')
     if (base / 'names.onnx').resolve() != (output / 'names.onnx').resolve():
         shutil.copy2(base / 'names.onnx', output / 'names.onnx')
