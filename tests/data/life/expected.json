@@ -1,0 +1,247 @@
+{
+  "before-swap": {
+    "source": ".diagnostics/live-validation-20261016/capture-admin/4944001f-28cf-40e9-bb91-0098190ca0e1/frame-024.png",
+    "source_sha256": "362d471d42428919409141b4aefa58c9adb5c53642b2fd670a8603560a1e93dd",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "symmetra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      "dmon",
+      "doctrine",
+      "sombra",
+      "symmetra",
+      "vendetta"
+    ],
+    "respawn": {}
+  },
+  "white-portrait": {
+    "source": ".diagnostics/live-validation-20261016/capture-admin/4944001f-28cf-40e9-bb91-0098190ca0e1/frame-025.png",
+    "source_sha256": "e559474ed87e40c3754e5f2c0668d4d025f24df6f91d121db7cfe1c658b81e44",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "symmetra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      "dmon",
+      "doctrine",
+      "sombra",
+      "symmetra",
+      "shion"
+    ],
+    "respawn": {}
+  },
+  "death-cross": {
+    "source": ".diagnostics/live-validation-20261016/capture-admin/4944001f-28cf-40e9-bb91-0098190ca0e1/frame-050.png",
+    "source_sha256": "44e56d9150f57439318dd33780737547b7bca6c2134c82385b6c8defb14fa6fb",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "dead",
+      "alive",
+      "alive",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "sierra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      null,
+      "doctrine",
+      "sombra",
+      "tracer",
+      "shion"
+    ],
+    "respawn": {
+      "5": null
+    }
+  },
+  "expanded-cross": {
+    "source": ".diagnostics/live-validation-20261016/capture-admin/4944001f-28cf-40e9-bb91-0098190ca0e1/frame-054.png",
+    "source_sha256": "7f205d91ad1fd03587715c734c6cfdde01c7344e566d4af4745999abc12bdce6",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "dead",
+      "unknown",
+      "dead",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "sierra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      null,
+      null,
+      null,
+      "tracer",
+      "shion"
+    ],
+    "respawn": {
+      "5": 8,
+      "7": null
+    }
+  },
+  "countdown": {
+    "source": ".diagnostics/live-validation-20261016/capture-admin/4944001f-28cf-40e9-bb91-0098190ca0e1/frame-058.png",
+    "source_sha256": "576bcd652b8bc0497eefd45c499353a50d52fbe1d461c0d5209beae5dd49b743",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "dead",
+      "alive",
+      "dead",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "sierra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      null,
+      "doctrine",
+      null,
+      "tracer",
+      "shion"
+    ],
+    "respawn": {
+      "5": 4,
+      "7": 4
+    }
+  },
+  "heldout-deaths": {
+    "source": ".diagnostics/live-validation-20261016/run1/0120.png",
+    "source_sha256": "6ffdd80db92da09325fb9a6a133232a51f7873c89b2afcec3bef6e0b5d12241f",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "dead",
+      "alive",
+      "dead",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "sierra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      null,
+      "doctrine",
+      null,
+      "tracer",
+      "shion"
+    ],
+    "respawn": {
+      "5": 5,
+      "7": 5
+    }
+  },
+  "cassidy-swap": {
+    "source": ".diagnostics/live-validation-20261016/run1/0160.png",
+    "source_sha256": "2cd91c705f7cc0a5444d2d41394a388edee6a2aec2565c7f596a2369021bee8d",
+    "life": [
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      "sierra",
+      "sombra",
+      "dmon",
+      "doctrine",
+      "dmon",
+      "doctrine",
+      "sombra",
+      "tracer",
+      "cassidy"
+    ],
+    "respawn": {}
+  },
+  "heldout-nine": {
+    "source": ".diagnostics/live-validation-20261016/run1/0230.png",
+    "source_sha256": "d522e89d2face958086546fc6a57d659a894ef9b0f876259a335143bab96d483",
+    "life": [
+      "alive",
+      "dead",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive",
+      "alive"
+    ],
+    "heroes": [
+      "tracer",
+      null,
+      "sombra",
+      "dmon",
+      "doctrine",
+      "dmon",
+      "doctrine",
+      "sombra",
+      "tracer",
+      "cassidy"
+    ],
+    "respawn": {
+      "1": 9
+    }
+  }
+}

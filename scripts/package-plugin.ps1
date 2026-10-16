@@ -15,7 +15,7 @@ Copy-Item -LiteralPath (Join-Path $root 'README_USER.md') -Destination (Join-Pat
 Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination $stage
 Copy-Item -LiteralPath (Join-Path $root 'packaging/Install.ps1'),(Join-Path $root 'packaging/Uninstall.ps1') -Destination $stage
 New-Item -ItemType Directory -Force (Join-Path $stage 'docs'),(Join-Path $stage 'schema') | Out-Null
-Copy-Item -LiteralPath (Join-Path $root 'docs/STATE_API.md'),(Join-Path $root 'docs/RESOURCE_PACKS.md') -Destination (Join-Path $stage 'docs')
+Copy-Item -LiteralPath (Join-Path $root 'docs/STATE_API.md'),(Join-Path $root 'docs/RESOURCE_PACKS.md'),(Join-Path $root 'docs/CLIENT_PERKS.md') -Destination (Join-Path $stage 'docs')
 Copy-Item -Path (Join-Path $root 'schema/*.json') -Destination (Join-Path $stage 'schema')
 $files=@(Get-ChildItem -LiteralPath (Join-Path $stage 'obs-plugins'),(Join-Path $stage 'data') -Recurse -File | Sort-Object FullName | ForEach-Object {@{path=$_.FullName.Substring($stage.Length+1).Replace('\','/');sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()}})
 @{version=$version;platform='windows-x64';obs_minimum='32.2.2';files=$files} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage 'manifest.json') -Encoding utf8

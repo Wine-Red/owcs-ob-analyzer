@@ -108,7 +108,7 @@ void Engine::run() {
       auto observed = reader.detect(bgr);
       auto snapshot = state.update(observed, source, start, monotonicMs() - start);
       snapshot["recognition"] =
-          QJsonObject{{"asset_format", 2}, {"resource_version", reader.resourceVersion()}};
+          QJsonObject{{"asset_format", 3}, {"resource_version", reader.resourceVersion()}};
       if (observed.visible && config.names) {
         int checked = 0, read = 0;
         while (checked++ < 10 && read < 2) {

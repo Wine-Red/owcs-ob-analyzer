@@ -4,6 +4,7 @@
 #include <chrono>
 
 namespace owcs {
+enum class Confirmation { Exact, Nondecreasing };
 qint64 monotonicMs();
 QString utcNow();
 struct Field {
@@ -12,16 +13,21 @@ struct Field {
   qint64 seen = -1;
   qint64 candidateSeen = -1;
   QString observed;
+  QString candidateObserved;
+  double candidateConfidence = 0;
+  QString decision = "unobserved";
   double confidence = 0;
-  bool observe(QJsonValue, double, qint64, int required = 2, int maxStep = -1,
+  bool observe(QJsonValue, double, qint64, int required = 2, Confirmation = Confirmation::Exact,
                qint64 candidateWindow = 1000);
   QJsonObject metadata(qint64 now, bool visible, int ttl = 1000) const;
 };
 struct Player {
   QMap<QString, Field> fields;
   cv::Mat signature;
-  cv::Mat pendingSignature;
-  int identityMisses = 0;
+  cv::Mat currentSignature;
+  Field pendingName;
+  QJsonValue chargeReadyCandidate = QJsonValue::Null;
+  bool nameUncertain = false;
   bool heroPending = false;
   int generation = 0;
 };

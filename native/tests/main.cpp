@@ -2,13 +2,17 @@
 #include "core/public_state.hpp"
 #include "core/recognizer.hpp"
 #include "core/state.hpp"
+#include "life_regression.hpp"
 #include "runtime/registry.hpp"
+#include "state_regression.hpp"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
 #include <chrono>
+#include <cmath>
 #include <iostream>
+#include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 int main(int argc, char **argv) {
   QCoreApplication app(argc, argv);
@@ -19,15 +23,119 @@ int main(int argc, char **argv) {
       return 2;
     owcs::Recognizer r(args[1]);
     auto path = args[2];
+    if (args.contains("--state-audit")) {
+      auto audit = stateRegression(r.detect(owcs::readImage(path + "/perks.png")));
+      std::cout << QJsonDocument(audit).toJson().toStdString();
+      return audit["failures"].toInt() ? 1 : 0;
+    }
+    if (args.contains("--inspect")) {
+      int index = args.indexOf("--inspect");
+      if (index + 1 >= args.size())
+        throw std::runtime_error("--inspect requires an output directory");
+      QString output = args[index + 1];
+      if (!QDir().mkpath(output))
+        throw std::runtime_error("Cannot create inspection directory");
+      auto source = owcs::readImage(path);
+      cv::Mat normalized;
+      cv::resize(source, normalized,
+                 {1600, int(std::nearbyint(source.rows * 1600. / source.cols))});
+      QJsonArray trace;
+      auto obs = r.detect(source, &trace);
+      auto overlay = source.clone();
+      auto save = [&](const QString &name, const cv::Mat &image) {
+        std::vector<uchar> bytes;
+        if (!cv::imencode(".png", image, bytes))
+          throw std::runtime_error("Cannot encode inspection image");
+        QFile f(output + "/" + name);
+        if (!f.open(QIODevice::WriteOnly) || f.write(reinterpret_cast<const char *>(bytes.data()),
+                                                     bytes.size()) != qint64(bytes.size()))
+          throw std::runtime_error("Cannot write inspection image");
+      };
+      for (int i = 0; i < trace.size(); ++i) {
+        auto entry = trace[i].toObject();
+        auto a = entry["rect"].toArray();
+        cv::Rect area(a[0].toInt(), a[1].toInt(), a[2].toInt(), a[3].toInt());
+        const auto &image = entry["sampling"] == "source" ? source : normalized;
+        if (area.empty() || (area & cv::Rect(0, 0, image.cols, image.rows)) != area)
+          throw std::runtime_error("Inspection crop outside input");
+        QString name = QString("%1-row%2-%3-%4.png")
+                           .arg(i, 3, 10, QChar('0'))
+                           .arg(entry["row"].toInt() + 1)
+                           .arg(entry["field"].toString())
+                           .arg(entry["sampling"].toString());
+        save(name, image(area));
+        entry["file"] = name;
+        trace[i] = entry;
+        // Overlay shows numeric input areas, not overlapping search windows.
+        auto field = entry["field"].toString();
+        if (field == "portrait" || field == "ultimate_charge" || field == "damage" ||
+            field == "healing" || field == "mitigated" || field == "eliminations" ||
+            field == "assists" || field == "deaths") {
+          double scale = source.cols / double(image.cols);
+          cv::Rect native(int(std::nearbyint(area.x * scale)), int(std::nearbyint(area.y * scale)),
+                          int(std::nearbyint(area.width * scale)),
+                          int(std::nearbyint(area.height * scale)));
+          cv::rectangle(overlay, native,
+                        field == "portrait" ? cv::Scalar(255, 180, 0) : cv::Scalar(0, 255, 255), 1);
+        }
+      }
+      save("overlay.png", overlay);
+      QJsonObject report{
+          {"input", path}, {"bounds", obs.bounds}, {"crops", trace}, {"raw", obs.players}};
+      QFile json(output + "/crops.json");
+      if (!json.open(QIODevice::WriteOnly))
+        throw std::runtime_error("Cannot write crop report");
+      json.write(QJsonDocument(report).toJson());
+      std::cout << "Exported " << trace.size() << " production crops\n";
+      return 0;
+    }
+    if (args.contains("--patches")) {
+      QFile input(path + "/patches.json");
+      if (!input.open(QIODevice::ReadOnly))
+        throw std::runtime_error("Missing patch annotations");
+      for (auto item : QJsonDocument::fromJson(input.readAll()).array()) {
+        auto c = item.toObject();
+        auto patch = owcs::readImage(path + "/" + c["file"].toString());
+        QJsonObject result;
+        if (c["kind"] == "face") {
+          auto face = r.face(patch);
+          result = {{"hero", owcs::nullable(face.candidate.id)},
+                    {"hero_confidence", face.candidate.confidence},
+                    {"life", face.life},
+                    {"ring", face.ring},
+                    {"cross", face.cross},
+                    {"respawn", owcs::nullable(face.respawn.value)}};
+        } else if (c["kind"] == "perk")
+          result = r.perk(patch, c["hero"].toString(), c["tier"].toString());
+        else {
+          auto number = r.number(patch, c["maximum"].toInt(999999));
+          result = {{"value", owcs::nullable(number.value)}, {"confidence", number.confidence}};
+        }
+        std::cout << QJsonDocument(QJsonObject{{"file", c["file"]}, {"result", result}})
+                         .toJson(QJsonDocument::Compact)
+                         .toStdString()
+                  << "\n";
+      }
+      return 0;
+    }
     if (args.contains("--sequence")) {
       owcs::State state("sequence");
       qint64 time = 0;
       for (const auto &file : QDir(path).entryList({"frame-*.png"}, QDir::Files, QDir::Name)) {
         auto observed = r.detect(owcs::readImage(path + "/" + file));
+        if (args.contains("--settled")) {
+          state.reset();
+          for (int i = 0; i < 3; ++i) {
+            state.update(observed, file, time, 0);
+            time += 200;
+          }
+        }
         auto snapshot = state.update(observed, file, time, 0);
-        std::cout << QJsonDocument(QJsonObject{{"file", file},
-                                               {"raw", observed.players},
-                                               {"state", snapshot}})
+        std::cout << QJsonDocument(
+                         QJsonObject{{"file", file},
+                                     {"settled_observations", args.contains("--settled") ? 4 : 0},
+                                     {"raw", observed.players},
+                                     {"state", snapshot}})
                          .toJson(QJsonDocument::Compact)
                          .toStdString()
                   << "\n";
@@ -67,6 +175,37 @@ int main(int argc, char **argv) {
         std::cerr << label << "\n";
       }
     };
+    // Known geometry, with a deliberately offset/quantized header. The row
+    // lattice, not the header thickness, defines the true crop coordinates.
+    {
+      cv::Mat grid(1000, 1600, CV_8UC3, cv::Scalar(8, 8, 8));
+      const double origin = 101.5, scale = 1.055;
+      cv::rectangle(grid, {400, 100, 800, 27}, cv::Scalar(210, 210, 210), -1);
+      for (int team = 0; team < 2; ++team)
+        for (int row = 0; row < 5; ++row) {
+          int a = int(std::nearbyint(origin + (27 + row * 55 + team * 339) * scale));
+          int b = int(std::nearbyint(origin + (82 + row * 55 + team * 339) * scale));
+          int c = row % 2 ? 95 : 40;
+          cv::rectangle(grid, {400, a, 800, b - a}, cv::Scalar(c, c, c), -1);
+        }
+      QJsonArray crops;
+      auto fitted = r.detect(grid, &crops);
+      check(fitted.visible, "offset header still locates known row lattice");
+      int portraits = 0;
+      for (auto item : crops) {
+        auto entry = item.toObject();
+        if (entry["field"] != "portrait")
+          continue;
+        auto area = entry["rect"].toArray();
+        int row = entry["row"].toInt();
+        double center = area[1].toDouble() + area[3].toDouble() / 2;
+        double wanted = origin + (54 + 55 * (row % 5) + (row >= 5 ? 339 : 0)) * scale;
+        check(std::abs(center - wanted) <= 1.,
+              "calibrated origin reaches actual portrait crop " + std::to_string(row));
+        ++portraits;
+      }
+      check(portraits == 10, "geometry audit covers every row");
+    }
     for (auto key : {"deaths", "ready", "perks", "stability-single-perk", "stability-obs-scaled",
                      "stability-connected-digits"}) {
       auto obs = r.detect(owcs::readImage(path + "/" + key + ".png"));
@@ -79,7 +218,8 @@ int main(int argc, char **argv) {
       auto charge = e["charge"].toArray(), stats = e["stats"].toArray();
       for (int i = 0; i < 10; i++) {
         auto p = obs.players[i].toObject();
-        check(p["hero"] == e["heroes"].toArray()[i],
+        check(e["life"].toArray()[i] == "dead" ? p["hero"].isNull()
+                                               : p["hero"] == e["heroes"].toArray()[i],
               std::string(key) + " hero " + std::to_string(i));
         check(p["life_state"] == e["life"].toArray()[i],
               std::string(key) + " life " + std::to_string(i));
@@ -102,7 +242,61 @@ int main(int argc, char **argv) {
         }
       }
     }
+    // Scale the panel relative to an unchanged canvas. Resizing an entire
+    // screenshot alone cannot exercise header-thickness/row-pitch drift.
+    for (auto key : {"ready", "stability-single-perk"}) {
+      auto original = owcs::readImage(path + "/" + key + ".png");
+      auto e = expected[key].toObject();
+      for (double scale : {.96, .98, 1.02, 1.04}) {
+        cv::Mat scaled;
+        auto transform = cv::getRotationMatrix2D(
+            cv::Point2f(original.cols / 2.f, original.rows / 2.f), 0, scale);
+        cv::warpAffine(original, scaled, transform, original.size());
+        auto sample = r.detect(scaled);
+        std::string label = std::string(key) + " panel-scale " + std::to_string(scale);
+        check(sample.confirmed && sample.players.size() == 10, label + " located");
+        if (sample.players.size() != 10)
+          continue;
+        for (int row = 0; row < 10; ++row) {
+          auto p = sample.players[row].toObject();
+          check(p["ultimate_charge"] == e["charge"].toArray()[row], label + " ultimate");
+          int column = 0;
+          for (auto stat : {"eliminations", "assists", "deaths", "damage", "healing", "mitigated"})
+            check(p["stats"].toObject()[stat] == e["stats"].toArray()[row].toArray()[column++],
+                  label + " " + stat + "/" + std::to_string(row));
+        }
+      }
+    }
     auto frame = owcs::readImage(path + "/perks.png");
+    // Blank/light backgrounds must not become digits through normalization.
+    for (int brightness : {0, 90, 150, 220, 255})
+      check(!r.number(cv::Mat(23, 64, CV_8UC3, cv::Scalar::all(brightness))).value,
+            "uniform numeric patch rejected " + std::to_string(brightness));
+    // These transforms reproduce the old 100 -> 800 error and ready-check
+    // misses without manufacturing labels from recognition output.
+    auto deathSource = owcs::readImage(path + "/deaths.png");
+    cv::Mat shiftedDigits;
+    cv::warpAffine(deathSource, shiftedDigits, cv::Mat(cv::Matx23d(1, 0, .45, 0, 1, .45)),
+                   deathSource.size());
+    auto shiftedObservation = r.detect(shiftedDigits);
+    check(shiftedObservation.players.size() == 10, "shifted numeric panel located");
+    if (shiftedObservation.players.size() == 10) {
+      auto counters = shiftedObservation.players[8].toObject()["stats"].toObject();
+      check(counters["mitigated"] == 100, "subpixel shifted 100 is not 800");
+      check(counters["damage"] == 1343, "threshold consensus preserves 1343");
+    }
+    for (int width : {1280, 1920}) {
+      auto readySource = owcs::readImage(path + "/ready.png");
+      cv::resize(readySource, readySource,
+                 {width, int(std::nearbyint(readySource.rows * double(width) / readySource.cols))},
+                 0, 0, cv::INTER_AREA);
+      auto readyObservation = r.detect(readySource);
+      check(readyObservation.players.size() == 10, "resampled ready panel located");
+      for (int row = 0; row < readyObservation.players.size(); ++row)
+        check(readyObservation.players[row].toObject()["ultimate_charge"] ==
+                  expected["ready"].toObject()["charge"].toArray()[row],
+              "ready glyph local alignment " + std::to_string(width) + "/" + std::to_string(row));
+    }
     auto unselectedFrame = owcs::readImage(path + "/unselected-panel.png");
     auto unselected = r.detect(unselectedFrame);
     check(unselected.confirmed && unselected.players.size() == 10,
@@ -208,19 +402,82 @@ int main(int argc, char **argv) {
               touching.players[0].toObject()["stats"].toObject()["damage"] == 480,
           "touching header preserves numeric crop alignment");
     auto obs = r.detect(frame);
+    for (auto color : {cv::Vec3b(130, 45, 85), cv::Vec3b(35, 160, 185), cv::Vec3b(80, 80, 80)}) {
+      cv::Mat themed;
+      cv::resize(frame, themed, {1600, 1000});
+      for (int y = obs.bounds[1].toInt(); y < obs.bounds[1].toInt() + 26; ++y)
+        for (int x = obs.bounds[0].toInt(); x < obs.bounds[2].toInt(); ++x) {
+          auto &p = themed.at<cv::Vec3b>(y, x);
+          if (std::min({p[0], p[1], p[2]}) > 170)
+            p = color;
+        }
+      auto alternateHeader = r.detect(themed);
+      check(alternateHeader.confirmed && alternateHeader.players.size() == 10,
+            "colored header uses geometric panel fallback");
+    }
     auto perk = [&](int row, const char *tier, const char *key) {
       return obs.players[row].toObject()["perks"].toObject()[tier].toObject()[key];
     };
     check(perk(1, "major", "id") == "Focused Rush", "major perk");
     check(perk(1, "minor", "id") == "Partial Scan", "minor perk");
     check(perk(6, "major", "selection") == "unselected", "empty major perk");
-    check(perk(6, "minor", "id") == "X Machina", "selected minor perk");
+    check(perk(6, "minor", "id").isNull(), "cold-start death does not invent perk identity");
     check(perk(9, "major", "id") == "Cybersecurity", "Sombra major");
     check(perk(9, "minor", "id") == "Life Hack", "Sombra minor");
     auto deaths = r.detect(owcs::readImage(path + "/deaths.png"));
     std::array<int, 5> seconds{2, 2, 8, 2, 2};
     for (int i = 0; i < 5; i++)
       check(deaths.players[i].toObject()["respawn_seconds"].toInt() == seconds[i], "respawn timer");
+    owcs::State deathHistory("death-history");
+    auto active = obs;
+    auto activeRow = active.players[0].toObject();
+    activeRow["hero"] = "tracer";
+    activeRow["hero_selection"] = "selected";
+    activeRow["hero_confidence"] = .95;
+    activeRow["selection_confidence"] = .95;
+    activeRow["life_state"] = "alive";
+    activeRow["life_confidence"] = .95;
+    active.players[0] = activeRow;
+    QJsonObject deathSnapshot;
+    for (int i = 0; i < 3; ++i)
+      deathSnapshot = deathHistory.update(active, "test", i * 200, 0);
+    auto occluded = active;
+    auto deadRow = activeRow;
+    deadRow["hero"] = "hanzo"; // An adversarial wrong match must never replace history.
+    deadRow["life_state"] = "dead";
+    deadRow["portrait_occluded"] = true;
+    deadRow["respawn_seconds"] = 8;
+    occluded.players[0] = deadRow;
+    for (int i = 0; i < 5; ++i)
+      deathSnapshot = deathHistory.update(occluded, "test", 1000 + i * 500, 0);
+    auto retained = deathSnapshot["players"].toArray()[0].toObject();
+    check(retained["hero"] == "tracer" && retained["life_state"] == "dead",
+          "death holds confirmed hero despite contradictory portrait");
+    check(retained["scoreboard"]
+                  .toObject()["fields"]
+                  .toObject()["hero"]
+                  .toObject()["age_ms"]
+                  .toInt() == 2600,
+          "held hero is history, not a fabricated fresh portrait observation");
+    owcs::State coldDeath("cold-death");
+    for (int i = 0; i < 4; ++i)
+      deathSnapshot = coldDeath.update(occluded, "test", i * 200, 0);
+    check(deathSnapshot["players"].toArray()[0].toObject()["hero"].isNull(),
+          "cold-start death leaves unknown hero empty");
+    activeRow["hero"] = "hanzo";
+    active.players[0] = activeRow;
+    deathSnapshot = deathHistory.update(active, "test", 4000, 0);
+    check(deathSnapshot["players"].toArray()[0].toObject()["hero"].isNull(),
+          "revival confirms a changed hero before combining its data");
+    for (int i = 1; i < 3; ++i)
+      deathSnapshot = deathHistory.update(active, "test", 4000 + i * 200, 0);
+    check(deathSnapshot["players"].toArray()[0].toObject()["hero"] == "hanzo",
+          "revival can confirm a new hero");
+    deathHistory.reset();
+    for (int i = 0; i < 3; ++i)
+      deathSnapshot = deathHistory.update(occluded, "test", 5000 + i * 200, 0);
+    check(deathSnapshot["players"].toArray()[0].toObject()["hero"].isNull(),
+          "reset prevents death history leaking across sessions");
     cv::Mat moved;
     cv::warpAffine(frame, moved, cv::Mat(cv::Matx23d(1, 0, 24, 0, 1, 33)), frame.size());
     auto shifted = r.detect(moved);
@@ -343,22 +600,41 @@ int main(int argc, char **argv) {
               board(reset)["stats"].toObject()["damage"] == 4350,
           "reopening the same panel preserves confirmed identity");
     auto changed = obs;
+    for (int i = 0; i < 3; ++i)
+      state.name(0, {"PLAYER_A", .99}, 10000 + i * 10);
     changed.names[0] = obs.names[6];
     changed.players[0] = obs.players[6];
     auto uncertain = state.update(changed, "test", 10200, 0);
     check(board(uncertain)["identity_generation"] == 0 &&
               board(uncertain)["stats"].toObject()["damage"] == 4350 &&
-              board(uncertain)["fields"].toObject()["damage"].toObject()["status"] == "stale",
-          "one bad name frame retains but invalidates old row");
+              board(uncertain)["fields"].toObject()["damage"].toObject()["status"] == "fresh" &&
+              uncertain["players"].toArray()[0].toObject()["display_name"].isNull(),
+          "name recheck hides only attribution, not independent row readings");
     auto recovered = state.update(obs, "test", 10400, 0);
     check(board(recovered)["identity_generation"] == 0 &&
               board(recovered)["fields"].toObject()["damage"].toObject()["status"] == "fresh",
           "one-frame name glitch does not erase the row");
     for (int i = 0; i < 3; ++i)
       reset = state.update(changed, "test", 10600 + i * 200, 0);
+    check(board(reset)["identity_generation"] == 0 &&
+              board(reset)["stats"] == changed.players[0].toObject()["stats"] && state.needsName(0),
+          "persistent visual name difference cannot reset or block row data");
+    state.name(0, {"PLAYER_A", .99}, 11010);
+    state.name(0, {"PLAYER_A", .99}, 11020);
+    state.name(0, {"PLAYER_A", .99}, 11030);
+    reset = state.update(changed, "test", 11200, 0);
+    check(board(reset)["identity_generation"] == 0 && !state.needsName(0) &&
+              reset["players"].toArray()[0].toObject()["display_name"] == "PLAYER_A",
+          "same OCR name reanchors changed appearance without clearing counters");
+    state.name(0, {"PLAYER_B", .99}, 11210);
+    state.name(0, {"PLAYER_B", .99}, 11220);
+    check(board(state.update(changed, "test", 11400, 0))["identity_generation"] == 0,
+          "unconfirmed different OCR name cannot reset identity");
+    state.name(0, {"PLAYER_B", .99}, 11410);
+    reset = state.update(changed, "test", 11600, 0);
     check(board(reset)["identity_generation"] == 1 &&
               board(reset)["stats"].toObject()["damage"].isNull(),
-          "consistent different player resets identity and counters");
+          "confirmed different OCR name resets identity and counters");
     owcs::Field field;
     owcs::State heroSwap("hero-swap");
     auto swapped = stablePerk;
@@ -373,8 +649,8 @@ int main(int argc, char **argv) {
     swapped.players[0] = replacement;
     auto pendingSwap = heroSwap.update(swapped, "test", 1200, 0);
     check(pendingSwap["players"].toArray()[0].toObject()["hero"].isNull() &&
-              board(pendingSwap)["ultimate_charge"].isNull(),
-          "replacement portrait never publishes old hero with new charge");
+              board(pendingSwap)["ultimate_charge"] == 80,
+          "hero confirmation does not erase independently confirmed charge");
     check(!board(pendingSwap)["stats"].toObject()["damage"].isNull(),
           "hero change preserves independent counters");
     replacement["hero"] = QJsonValue::Null;
@@ -382,6 +658,9 @@ int main(int argc, char **argv) {
     auto missedSwap = heroSwap.update(swapped, "test", 1400, 0);
     check(missedSwap["players"].toArray()[0].toObject()["hero"].isNull(),
           "unreadable replacement frame does not restore historical hero");
+    check(board(missedSwap)["ultimate_charge"] == 3 &&
+              missedSwap["players"].toArray()[0].toObject()["life_state"] == "alive",
+          "charge and life update while replacement hero is unreadable");
     replacement["hero"] = "tracer";
     swapped.players[0] = replacement;
     for (int i = 0; i < 3; ++i)
@@ -432,26 +711,36 @@ int main(int argc, char **argv) {
               QJsonDocument(snapshot).toJson(QJsonDocument::Compact).size() / 2,
           "compact response less than half original size");
     owcs::Field intermittent;
-    intermittent.observe(1000, .98, 0, 2, 500);
-    intermittent.observe(QJsonValue::Null, 0, 200, 2, 500);
-    intermittent.observe(1050, .98, 400, 2, 500);
-    check(intermittent.value == 1050, "one unreadable frame does not starve changing counters");
-    intermittent.observe(QJsonValue::Null, 0, 2000, 2, 500);
-    intermittent.observe(1500, .98, 2200, 2, 500);
-    check(intermittent.value == 1050 && intermittent.seen == 400,
+    intermittent.observe(1000, .98, 0, 2, owcs::Confirmation::Nondecreasing);
+    intermittent.observe(QJsonValue::Null, 0, 200, 2, owcs::Confirmation::Nondecreasing);
+    intermittent.observe(1050, .98, 400, 2, owcs::Confirmation::Nondecreasing);
+    check(intermittent.value == 1000, "one unreadable frame does not starve changing counters");
+    intermittent.observe(QJsonValue::Null, 0, 2000, 2, owcs::Confirmation::Nondecreasing);
+    intermittent.observe(1500, .98, 2200, 2, owcs::Confirmation::Nondecreasing);
+    check(intermittent.value == 1000 && intermittent.seen == 0,
           "expired candidates and missing observations never refresh values");
-    field.observe(80, .99, 0, 2, 20);
-    field.observe(81, .99, 200, 2, 20);
-    check(field.value == 81, "continuously charging ult");
-    field.observe(8, .99, 400, 2, 20);
-    check(field.value == 81, "reject one erroneous drop");
-    field.observe(0, .99, 600, 2, 20);
-    field.observe(1, .99, 800, 2, 20);
-    check(field.value == 1, "accept confirmed ult reset");
+    field.observe(80, .99, 0, 2, owcs::Confirmation::Nondecreasing);
+    field.observe(81, .99, 200, 2, owcs::Confirmation::Nondecreasing);
+    check(field.value == 80, "charging confirms the previous actual observation");
+    field.observe(8, .99, 400, 2, owcs::Confirmation::Nondecreasing);
+    check(field.value == 80, "reject one erroneous drop");
+    field.observe(0, .99, 600, 2, owcs::Confirmation::Nondecreasing);
+    field.observe(1, .99, 800, 2, owcs::Confirmation::Nondecreasing);
+    check(field.value == 0, "accept confirmed ult reset");
     owcs::NameReader names(args[1]);
     check(names.read(obs.names[6]).id == "WINERED", "Latin OCR 1");
     check(names.read(obs.names[8]).id == "HELLCAT", "Latin OCR 2");
     check(names.read(cv::Mat::zeros(28, 148, CV_8UC3)).id.isEmpty(), "blank OCR rejected");
+    auto lifeChecks = lifeRegression(r, path + "/../life");
+    checks += lifeChecks.first;
+    failures += lifeChecks.second;
+    auto audit = stateRegression(obs);
+    checks += audit["checks"].toInt();
+    failures += audit["failures"].toInt();
+    for (auto item : audit["evidence"].toArray())
+      if (!item.toObject()["passed"].toBool())
+        std::cerr << QJsonDocument(item.toObject()).toJson(QJsonDocument::Compact).toStdString()
+                  << "\n";
     std::cout << checks << " checks; " << failures << " failures\n";
     return failures ? 1 : 0;
   } catch (const std::exception &e) {

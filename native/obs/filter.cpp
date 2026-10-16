@@ -90,7 +90,9 @@ void render(void *data, gs_effect_t *) {
   uint32_t sw = obs_source_get_base_width(target), sh = obs_source_get_base_height(target);
   if (f->enabled && now >= f->next && sw >= 320 && sh >= 200 && sw <= 16384 && sh <= 16384) {
     f->next = now + 1000 / f->fps.load();
-    uint32_t w = std::min(sw, 1600u), h = uint32_t(std::nearbyint(double(sh) * w / sw));
+    // Keep small text/icon detail until the worker crops it. Localization still
+    // runs at 1600 wide; cap readback so 4K/8K sources cannot grow it unboundedly.
+    uint32_t w = std::min(sw, 2560u), h = uint32_t(std::nearbyint(double(sh) * w / sw));
     if (h > 0 && h <= 4096) {
       if (!f->texture)
         f->texture = gs_texrender_create(GS_BGRA, GS_ZS_NONE);

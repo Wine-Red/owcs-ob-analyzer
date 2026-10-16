@@ -1,4 +1,5 @@
 #include "recognizer.hpp"
+#include "life.hpp"
 #include <QFile>
 #include <QJsonDocument>
 #include <algorithm>
@@ -34,6 +35,43 @@ static cv::Mat normalized(cv::Mat m) {
     m.setTo(0);
   return m;
 }
+// Candidate-specific masks exclude both background intensity and its contribution
+// to the mean/variance. Merely painting the reference background black is not enough.
+static ForegroundBank foregroundBank(const cv::Mat &values, const cv::Mat &weights) {
+  ForegroundBank bank{cv::Mat::zeros(values.size(), CV_32F), weights.clone(), {}};
+  cv::reduce(weights, bank.counts, 1, cv::REDUCE_SUM);
+  for (int i = 0; i < values.rows; ++i) {
+    float count = bank.counts.at<float>(i);
+    if (count < 24)
+      continue;
+    double mean = values.row(i).dot(weights.row(i)) / count;
+    cv::Mat centered = values.row(i) - mean;
+    cv::Mat square = centered.mul(centered);
+    double norm = std::sqrt(square.dot(weights.row(i)));
+    if (norm > 1e-6) {
+      centered = centered.mul(weights.row(i)) / norm;
+      centered.copyTo(bank.values.row(i));
+    }
+  }
+  return bank;
+}
+static cv::Mat foregroundScores(const ForegroundBank &bank, const cv::Mat &features) {
+  cv::Mat scores(bank.values.rows, features.rows, CV_32F);
+  cv::Mat square = features.mul(features);
+  // Small batches use SIMD dot products; generic GEMM on the bundled OpenCV
+  // is disproportionately expensive during HUD offset refinement.
+  for (int j = 0; j < features.rows; ++j) {
+    auto feature = features.row(j), squared = square.row(j);
+    for (int i = 0; i < scores.rows; ++i) {
+      auto weights = bank.weights.row(i);
+      double n = bank.counts.at<float>(i), sum = weights.dot(feature);
+      double variance = n >= 24 ? weights.dot(squared) - sum * sum / n : 0;
+      scores.at<float>(i, j) =
+          variance > 1e-9 ? bank.values.row(i).dot(feature) / std::sqrt(variance) : -1;
+    }
+  }
+  return scores;
+}
 static cv::Mat hudFeature(const cv::Mat &patch, bool coarse) {
   auto g = gray(resize(patch, 64, 48, patch.cols > 64 ? cv::INTER_AREA : cv::INTER_CUBIC));
   cv::GaussianBlur(g, g, {3, 3}, 0);
@@ -60,22 +98,28 @@ cv::Mat readImage(const QString &path, int flags) {
 double Panel::cy(int row) const {
   return top + (54 + 55 * (row % 5) + (row >= 5 ? 339 : 0)) * scale;
 }
-cv::Mat Panel::crop(const cv::Mat &im, int row, double x1, double y1, double x2, double y2,
-                    bool r) const {
-  int x = r ? right : left, a = rnd(x + x1 * scale), b = rnd(x + x2 * scale),
-      c = rnd(cy(row) + y1 * scale), d = rnd(cy(row) + y2 * scale);
-  if (a < 0 || c < 0 || b > im.cols || d > im.rows || b <= a || d <= c)
+cv::Rect Panel::rect(int row, double x1, double y1, double x2, double y2, bool r,
+                     double sourceScale) const {
+  int x = r ? right : left, a = rnd((x + x1 * scale) * sourceScale),
+      b = rnd((x + x2 * scale) * sourceScale), c = rnd((cy(row) + y1 * scale) * sourceScale),
+      d = rnd((cy(row) + y2 * scale) * sourceScale);
+  return {a, c, std::max(0, b - a), std::max(0, d - c)};
+}
+cv::Mat Panel::crop(const cv::Mat &im, int row, double x1, double y1, double x2, double y2, bool r,
+                    double sourceScale) const {
+  auto area = rect(row, x1, y1, x2, y2, r, sourceScale);
+  if (area.empty() || (area & cv::Rect(0, 0, im.cols, im.rows)) != area)
     return {};
-  return im(cv::Rect(a, c, b - a, d - c));
+  return im(area);
 }
 Recognizer::Recognizer(const QString &dir) {
   QFile file(dir + "/manifest.json");
   if (!file.open(QIODevice::ReadOnly))
     throw std::runtime_error("Missing recognition manifest");
   auto m = QJsonDocument::fromJson(file.readAll()).object();
-  if (m["asset_format"].toInt() != 2)
+  if (m["asset_format"].toInt() != 3)
     throw std::runtime_error(
-        "Recognition pack format 2 required; install a matching complete resource pack");
+        "Recognition pack format 3 required; install a matching complete resource pack");
   resourceVersion_ = m["resource_version"].toString();
   if (resourceVersion_.isEmpty())
     throw std::runtime_error("Recognition pack has no resource version");
@@ -116,7 +160,7 @@ Recognizer::Recognizer(const QString &dir) {
   }
   if (at != bytes.size() || digits_.cols != 384 || digits_.type() != CV_32F ||
       digitLabels_.type() != CV_32S || digitLabels_.rows != digits_.rows ||
-      digitLabels_.cols != 1 || portraits_.type() != CV_32F || portraits_.cols != 1055 ||
+      digitLabels_.cols != 1 || portraits_.type() != CV_32F || portraits_.cols != 1764 ||
       portraits_.rows != portraitNames_.size() || hud_.type() != CV_32F || hud_.cols != 3072 ||
       hudIndices_.type() != CV_32S || hudIndices_.rows != hud_.rows || hudIndices_.cols != 1 ||
       perks_.type() != CV_32F || perks_.cols != 400)
@@ -133,45 +177,50 @@ Recognizer::Recognizer(const QString &dir) {
   unselectedPanel_ =
       gray(resize(readImage(dir + "/unselected-panel.png"), 54, 54))(cv::Rect(4, 4, 46, 46))
           .clone();
-  QFile fullFile(dir + "/portraits-full.qz");
-  if (!fullFile.open(QIODevice::ReadOnly) || fullFile.size() > 4000000)
-    throw std::runtime_error("Missing full portrait templates");
-  auto fullPacked = fullFile.readAll();
-  if (fullPacked.size() < 4 || uchar(fullPacked[0]) != 0 || uchar(fullPacked[1]) > 64)
-    throw std::runtime_error("Oversized full portrait templates");
-  auto full = qUncompress(fullPacked);
-  quint32 dimensions[2]{};
-  if (!full.startsWith("OWCSFP01") || full.size() < 16)
-    throw std::runtime_error("Invalid full portrait templates");
-  memcpy(dimensions, full.constData() + 8, 8);
-  if (dimensions[0] != quint32(portraits_.rows) || dimensions[1] != 42 * 42 ||
-      full.size() != 16 + quint64(dimensions[0]) * dimensions[1] * 4)
-    throw std::runtime_error("Invalid full portrait dimensions");
-  fullPortraits_ =
-      cv::Mat(int(dimensions[0]), int(dimensions[1]), CV_32F, full.data() + 16).clone();
-  int column = 0;
-  for (int y = 3; y < 45; ++y)
-    for (int x = 3; x < 45; ++x) {
-      int distance = (x - 24) * (x - 24) + (y - 24) * (y - 24);
-      if (distance <= 15 * 15)
-        continue;
-      if (distance > 18 * 18)
-        deathColumns_.push_back(column);
-      ++column;
-    }
-  deathPortraits_.create(portraits_.rows, int(deathColumns_.size()), CV_32F);
-  for (int i = 0; i < portraits_.rows; ++i) {
-    for (int j = 0; j < int(deathColumns_.size()); ++j)
-      deathPortraits_.at<float>(i, j) = portraits_.at<float>(i, deathColumns_[j]);
-    normalized(deathPortraits_.row(i)).copyTo(deathPortraits_.row(i));
+  QFile maskFile(dir + "/foreground.qz");
+  if (!maskFile.open(QIODevice::ReadOnly) || maskFile.size() > 64000000)
+    throw std::runtime_error("Missing or oversized foreground masks");
+  auto maskPacked = maskFile.readAll();
+  if (maskPacked.size() < 4 || uchar(maskPacked[0]) > 3)
+    throw std::runtime_error("Oversized foreground masks");
+  auto maskBytes = qUncompress(maskPacked);
+  if (!maskBytes.startsWith("OWCSFG01"))
+    throw std::runtime_error("Invalid foreground masks");
+  qsizetype maskAt = 8;
+  cv::Mat portraitMask, hudMask;
+  for (auto pair : {std::make_pair(&portraitMask, &portraits_), std::make_pair(&hudMask, &hud_)}) {
+    if (maskAt + 8 > maskBytes.size())
+      throw std::runtime_error("Truncated foreground mask header");
+    quint32 shape[2];
+    memcpy(shape, maskBytes.constData() + maskAt, 8);
+    maskAt += 8;
+    quint64 size = quint64(shape[0]) * shape[1] * 4;
+    if (shape[0] != quint32(pair.second->rows) || shape[1] != quint32(pair.second->cols) ||
+        size > quint64(maskBytes.size() - maskAt))
+      throw std::runtime_error("Foreground mask dimensions mismatch");
+    *pair.first = cv::Mat(int(shape[0]), int(shape[1]), CV_32F, maskBytes.data() + maskAt).clone();
+    maskAt += qsizetype(size);
+    if (!cv::checkRange(*pair.first, true, nullptr, 0, 1.00001))
+      throw std::runtime_error("Invalid foreground mask weights");
   }
+  if (maskAt != maskBytes.size())
+    throw std::runtime_error("Trailing foreground mask data");
+  fullBank_ = foregroundBank(portraits_, portraitMask);
+  hudBank_ = foregroundBank(hud_, hudMask);
   if (digits_.empty() || hud_.empty() || portraits_.rows != portraitNames_.size() ||
       perks_.rows != perkNames_.size())
     throw std::runtime_error("Invalid recognition assets");
   hudCoarse_.create(hud_.rows, 16 * 12, CV_32F);
-  for (int i = 0; i < hud_.rows; ++i)
-    normalized(resize(hud_.row(i).reshape(1, 48), 16, 12, cv::INTER_AREA))
+  cv::Mat coarseMasks(hud_.rows, 16 * 12, CV_32F);
+  for (int i = 0; i < hud_.rows; ++i) {
+    resize(hud_.row(i).reshape(1, 48), 16, 12, cv::INTER_AREA)
+        .reshape(1, 1)
         .copyTo(hudCoarse_.row(i));
+    auto small = resize(hudMask.row(i).reshape(1, 48), 16, 12, cv::INTER_AREA);
+    small.setTo(0, small < .999f);
+    small.reshape(1, 1).copyTo(coarseMasks.row(i));
+  }
+  hudCoarseBank_ = foregroundBank(hudCoarse_, coarseMasks);
 }
 cv::Mat Recognizer::textMask(const cv::Mat &im) {
   cv::Mat out(im.rows, im.cols, CV_8U, cv::Scalar(0));
@@ -186,32 +235,76 @@ cv::Mat Recognizer::textMask(const cv::Mat &im) {
 Number Recognizer::number(const cv::Mat &image, int maximum) const {
   if (image.empty())
     return {};
+  double minimum = 0, maximumLuminance = 0;
+  cv::minMaxLoc(gray(image), &minimum, &maximumLuminance);
+  if (maximumLuminance - minimum < 20)
+    return {}; // a uniform light rectangle is not a string of solid digits
   auto mask = textMask(image);
   auto result = numberMask(mask, maximum);
-  if (result.value)
+  if (result.value && result.confidence >= .94)
     return result;
-  // Anti-aliased edges sometimes connect neighboring glyphs. Accept a retry
-  // only when two stricter masks independently agree, retaining unknown otherwise.
-  Number retry;
-  int agreements = 0;
-  for (int threshold : {135, 155, 175}) {
-    auto strict = mask.clone();
+  // A plausible first segmentation can still be wrong (e.g. a bridged 100
+  // becomes 800). Check low-confidence readings too, not only rejected ones.
+  struct Vote {
+    int count = 0;
+    double confidence = 0;
+  };
+  std::map<int, Vote> votes;
+  if (result.value)
+    votes[*result.value] = {1, result.confidence};
+  for (int threshold : {85, 125, 145, 165, 185}) {
+    cv::Mat strict = cv::Mat::zeros(image.size(), CV_8U);
     for (int y = 0; y < image.rows; ++y)
       for (int x = 0; x < image.cols; ++x) {
         auto pixel = image.at<cv::Vec3b>(y, x);
-        if (std::min({pixel[0], pixel[1], pixel[2]}) <= threshold)
-          strict.at<uchar>(y, x) = 0;
+        int lo = std::min({pixel[0], pixel[1], pixel[2]});
+        int hi = std::max({pixel[0], pixel[1], pixel[2]});
+        strict.at<uchar>(y, x) = lo > threshold && hi - lo < 48 ? 255 : 0;
       }
     auto candidate = numberMask(strict, maximum);
     if (!candidate.value)
       continue;
-    if (retry.value && candidate.value != retry.value)
-      return result;
-    ++agreements;
-    retry = {candidate.value,
-             retry.value ? std::min(retry.confidence, candidate.confidence) : candidate.confidence};
+    auto &vote = votes[*candidate.value];
+    ++vote.count;
+    vote.confidence = std::max(vote.confidence, candidate.confidence);
   }
-  return agreements >= 2 ? retry : result;
+  if (votes.empty()) {
+    // Dim zeroes and antialiased text inherit the team's fill. A fixed neutral-
+    // white test loses their strokes; local luminance contrast preserves them.
+    auto luminance = gray(image);
+    std::vector<uchar> pixels(luminance.datastart, luminance.dataend);
+    auto middle = pixels.begin() + pixels.size() / 2;
+    std::nth_element(pixels.begin(), middle, pixels.end());
+    double background = *middle, peak = 0;
+    cv::minMaxLoc(luminance, nullptr, &peak);
+    if (peak - background >= 30)
+      for (double fraction : {.35, .5, .65}) {
+        cv::Mat local;
+        cv::threshold(luminance, local, background + fraction * (peak - background), 255,
+                      cv::THRESH_BINARY);
+        auto candidate = numberMask(local, maximum);
+        if (candidate.value) {
+          auto &vote = votes[*candidate.value];
+          ++vote.count;
+          vote.confidence = std::max(vote.confidence, candidate.confidence);
+        }
+      }
+  }
+  Number agreed;
+  for (auto &[value, vote] : votes) {
+    if (vote.count < 2)
+      continue;
+    bool dominates = true;
+    for (auto &[otherValue, other] : votes)
+      if (otherValue != value && other.count >= 2 &&
+          (vote.count < 3 || vote.count <= other.count || vote.confidence <= other.confidence))
+        dominates = false;
+    if (dominates)
+      agreed = {value, vote.confidence};
+  }
+  if (!agreed.value && votes.size() > 1)
+    return {}; // no candidate dominates the competing stable segmentations
+  return agreed.value ? agreed : (votes.size() <= 1 ? result : Number{});
 }
 Number Recognizer::numberMask(const cv::Mat &mask, int maximum) const {
   cv::Mat labels, stats, centroids;
@@ -333,6 +426,11 @@ Number Recognizer::numberMask(const cv::Mat &mask, int maximum) const {
       scores[label] = std::max(scores[label], score);
     }
     int best = int(std::max_element(scores.begin(), scores.end()) - scores.begin());
+    // Tight normalization destroys aspect ratio: a one-pixel vertical stroke
+    // expands into a solid block and can falsely score as 8. Such a narrow
+    // component is not evidence for a wide digit; let another mask resolve it.
+    if (best != 1 && piece.cols < piece.rows * .35)
+      return {};
     double score = scores[best];
     scores[best] = -1;
     double runner = *std::max_element(scores.begin(), scores.end());
@@ -353,9 +451,41 @@ std::optional<Panel> Recognizer::locate(const cv::Mat &im) const {
   cv::morphologyEx(closed, closed, cv::MORPH_OPEN, cv::Mat::ones(1, 301, CV_8U));
   std::vector<std::vector<cv::Point>> contours;
   cv::findContours(closed, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+  cv::Mat vertical;
+  cv::Sobel(im, vertical, CV_32F, 0, 1, 3);
+  std::vector<cv::Mat> gradients;
+  cv::split(vertical, gradients);
+  cv::Mat contrast = cv::abs(gradients[0]);
+  for (int channel = 1; channel < 3; ++channel)
+    cv::max(contrast, cv::abs(gradients[channel]), contrast);
+  // Equal-luminance colors still form a boundary; no particular hue is required.
+  cv::Mat boundaries = contrast > 24;
+  cv::morphologyEx(boundaries, boundaries, cv::MORPH_CLOSE, cv::Mat::ones(1, 9, CV_8U));
+  cv::morphologyEx(boundaries, boundaries, cv::MORPH_OPEN, cv::Mat::ones(1, 401, CV_8U));
+  std::vector<std::vector<cv::Point>> edges;
+  cv::findContours(boundaries, edges, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+  const size_t appearanceCandidates = contours.size();
+  for (auto &a : edges) {
+    auto top = cv::boundingRect(a);
+    for (auto &b : edges) {
+      auto bottom = cv::boundingRect(b);
+      int height = bottom.y - top.y;
+      if (height < 19 || height > 36 || std::abs(top.x - bottom.x) > 30 ||
+          std::abs(top.br().x - bottom.br().x) > 30)
+        continue;
+      // Row glow/role effects can extend the lower edge. The upper header edge
+      // provides horizontal bounds; the lower one only establishes its height.
+      int x = top.x + 1, right = top.br().x - 1;
+      int y = top.y + top.height / 2 + 1;
+      contours.push_back(
+          {{x, y}, {right - 1, y}, {right - 1, y + height - 1}, {x, y + height - 1}});
+    }
+  }
+  size_t candidateIndex = 0;
   std::optional<Panel> result;
   double distance = 1e9;
   for (auto &c : contours) {
+    bool geometry = candidateIndex++ >= appearanceCandidates;
     auto b = cv::boundingRect(c);
     if (b.width <= 480 || b.width >= 1100 || b.height < 15 || b.height > 50 ||
         std::abs(b.x + b.width / 2. - 800) >= 120)
@@ -369,40 +499,119 @@ std::optional<Panel> Recognizer::locate(const cv::Mat &im) const {
       if (present)
         band++;
     }
+    if (geometry)
+      band = b.height;
     double scale = band >= 24 && band <= 28 ? 1 : band / 26.;
     if (scale <= .7 || scale >= 1.4 || b.y + 639 * scale > im.rows)
       continue;
-    Panel p{b.x, b.y, b.x + b.width, scale};
-    bool valid = true;
-    for (int base : {0, 5}) {
-      std::array<cv::Vec3d, 5> colors;
-      for (int i = 0; i < 5; i++) {
-        auto patch = p.crop(im, base + i, -280, -5, -265, 5, true);
-        if (patch.empty()) {
-          valid = false;
-          break;
+    Panel p{b.x, double(b.y), b.x + b.width, scale};
+    // Validate repeated row separators, independent of either team's fill.
+    auto g = gray(im);
+    std::array<int, 2> separators{};
+    for (int team = 0; team < 2; ++team)
+      for (int row = 0; row < 4; ++row) {
+        int cy = rnd(p.top + (82 + 55 * row + 339 * team) * scale);
+        int left = p.left + rnd(100 * scale), right = p.right - rnd(35 * scale);
+        double strongest = 0;
+        for (int dy = -2; dy <= 2; ++dy) {
+          int y = cy + dy;
+          if (y < 1 || y + 1 >= g.rows)
+            continue;
+          cv::Mat difference;
+          cv::absdiff(g(cv::Rect(left, y - 1, right - left, 1)),
+                      g(cv::Rect(left, y + 1, right - left, 1)), difference);
+          strongest =
+              std::max(strongest, double(cv::countNonZero(difference > 3)) / (right - left));
         }
-        std::vector<cv::Mat> channels;
-        cv::split(patch, channels);
-        for (int ch = 0; ch < 3; ch++) {
-          std::vector<uchar> v(channels[ch].begin<uchar>(), channels[ch].end<uchar>());
-          std::sort(v.begin(), v.end());
-          colors[i][ch] = (v[(v.size() - 1) / 2] + v[v.size() / 2]) / 2.;
+        separators[team] += strongest > .4;
+      }
+    // Header thickness is quantized to only ~26 pixels. A one-pixel error
+    // cannot determine the scale of a 639-pixel table. If its inferred scale
+    // does not explain every row boundary, fit the repeated separators across
+    // both teams instead of letting the vertical crop drift down the table.
+    if (separators[0] != 4 || separators[1] != 4) {
+      int left = p.left + rnd(100 * scale), right = p.right - rnd(35 * scale);
+      std::vector<double> profile(g.rows, 0);
+      for (int y = std::max(1, int(std::floor(p.top)));
+           y < std::min(g.rows - 1, rnd(p.top + 660 * scale)); ++y) {
+        cv::Mat difference;
+        cv::absdiff(g(cv::Rect(left, y - 1, right - left, 1)),
+                    g(cv::Rect(left, y + 1, right - left, 1)), difference);
+        profile[y] = double(cv::countNonZero(difference > 3)) / (right - left);
+      }
+      auto at = [&](double y) {
+        int i = int(std::floor(y));
+        return i >= 0 && i + 1 < g.rows ? profile[i] * (1 - (y - i)) + profile[i + 1] * (y - i)
+                                        : 0.;
+      };
+      double best = 0, calibrated = scale, calibratedTop = p.top, proximity = 1e9;
+      for (int step = -80; step <= 80; ++step) {
+        double candidate = scale + step * .001;
+        if (candidate <= .7 || candidate >= 1.4 || p.top + 639 * candidate > im.rows)
+          continue;
+        for (double origin = p.top - 2.; origin <= p.top + 2.; origin += .25) {
+          if (origin < 0 || origin + 639 * candidate > im.rows)
+            continue;
+          double total = 0;
+          int supported = 0;
+          for (int team = 0; team < 2; ++team)
+            for (int row = 0; row < 4; ++row) {
+              double evidence = at(origin + (82 + 55 * row + 339 * team) * candidate);
+              total += evidence;
+              supported += evidence > .4;
+            }
+          double near = std::abs(candidate - scale) * 10 + std::abs(origin - p.top);
+          if (supported == 8 &&
+              (total > best + .0001 || (std::abs(total - best) <= .0001 && near < proximity))) {
+            best = total;
+            calibrated = candidate;
+            calibratedTop = origin;
+            proximity = near;
+          }
         }
       }
-      if (!valid)
-        break;
-      for (int ch = 0; ch < 3; ch++) {
-        double mean = 0, var = 0;
-        for (auto v : colors)
-          mean += v[ch] / 5.;
-        for (auto v : colors)
-          var += (v[ch] - mean) * (v[ch] - mean) / 5.;
-        if (std::sqrt(var) > 38)
-          valid = false;
+      if (best >= 6.4) {
+        // A sharp separator gives a two-pixel plateau in the difference
+        // profile. Fit the centers of all eight observed edges, rather than
+        // choosing whichever plateau pixel is closest to the coarse header.
+        // The +.5 converts pixel-center gradients to rectangle edge coordinates.
+        double sx = 0, sy = 0, sxx = 0, sxy = 0;
+        int points = 0;
+        for (int team = 0; team < 2; ++team)
+          for (int row = 0; row < 4; ++row) {
+            double x = 82 + 55 * row + 339 * team;
+            int center = rnd(calibratedTop + x * calibrated);
+            double weight = 0, position = 0;
+            for (int y = center - 2; y <= center + 2; ++y)
+              if (y >= 0 && y < int(profile.size()) && profile[y] > .4) {
+                weight += profile[y];
+                position += profile[y] * (y + .5);
+              }
+            if (weight == 0)
+              continue;
+            double y = position / weight;
+            sx += x;
+            sy += y;
+            sxx += x * x;
+            sxy += x * y;
+            ++points;
+          }
+        if (points == 8) {
+          double fittedScale = (points * sxy - sx * sy) / (points * sxx - sx * sx);
+          double fittedTop = (sy - fittedScale * sx) / points;
+          if (fittedScale > .7 && fittedScale < 1.4 && fittedTop >= 0 &&
+              fittedTop + 639 * fittedScale <= im.rows) {
+            calibrated = fittedScale;
+            calibratedTop = fittedTop;
+          }
+        }
+        p.scale = calibrated;
+        p.top = calibratedTop;
+        separators = {4, 4};
       }
     }
-    double d = std::abs((p.left + p.right) / 2. - 800);
+    bool valid = separators[0] == 4 && separators[1] == 4;
+    double d = std::abs((p.left + p.right) / 2. - 800) + (geometry ? 1000 : 0);
     if (valid && d < distance) {
       distance = d;
       result = p;
@@ -410,25 +619,8 @@ std::optional<Panel> Recognizer::locate(const cv::Mat &im) const {
   }
   return result;
 }
-static cv::Mat portraitFeatures(const cv::Mat &im) {
-  auto g = gray(resize(im, 48, 48));
-  cv::Mat mask(48, 48, CV_8U, cv::Scalar(1));
-  cv::circle(mask, {24, 24}, 15, cv::Scalar(0), -1);
-  mask.rowRange(0, 3).setTo(0);
-  mask.rowRange(45, 48).setTo(0);
-  mask.colRange(0, 3).setTo(0);
-  mask.colRange(45, 48).setTo(0);
-  cv::Mat out(1, cv::countNonZero(mask), CV_32F);
-  int i = 0;
-  for (int y = 0; y < 48; y++)
-    for (int x = 0; x < 48; x++)
-      if (mask.at<uchar>(y, x))
-        out.at<float>(i++) = g.at<uchar>(y, x);
-  return normalized(out);
-}
-static Match choose(const cv::Mat &templates, const cv::Mat &f, const QStringList &names,
-                    double minimum, double margin) {
-  cv::Mat scores = templates * f.t();
+static Match choose(const cv::Mat &scores, const QStringList &names, double minimum,
+                    double margin) {
   std::map<QString, double> by;
   for (int i = 0; i < scores.rows; i++) {
     double score = scores.at<float>(i);
@@ -448,24 +640,71 @@ static Match choose(const cv::Mat &templates, const cv::Mat &f, const QStringLis
   }
   return {best >= minimum && best - second >= margin ? name : QString(), std::clamp(best, 0., 1.)};
 }
-Match Recognizer::portrait(const cv::Mat &im, bool deathOverlay) const {
+Match Recognizer::portrait(const cv::Mat &im) const {
   if (im.empty())
     return {};
-  auto features = portraitFeatures(im);
-  if (deathOverlay) {
-    cv::Mat edge(1, int(deathColumns_.size()), CV_32F);
-    for (int j = 0; j < edge.cols; ++j)
-      edge.at<float>(j) = features.at<float>(deathColumns_[j]);
-    auto match = choose(deathPortraits_, normalized(edge), portraitNames_, .60, .15);
-    if (!match.id.isEmpty())
-      return match;
+  auto canonical = gray(resize(im, 48, 48));
+  auto full = canonical(cv::Rect(3, 3, 42, 42)).clone();
+  full.convertTo(full, CV_32F);
+  auto features = full.reshape(1, 1);
+  auto match = choose(foregroundScores(fullBank_, features), portraitNames_, .72, .12);
+  if (!match.id.isEmpty())
+    return match;
+  // Header/resize rounding can move a small face by one pixel. Search only a
+  // bounded translation; retain the foreground mask and distinct-hero margin.
+  cv::Mat aligned;
+  for (int dy : {-1, 0, 1})
+    for (int dx : {-1, 0, 1}) {
+      auto patch = canonical(cv::Rect(3 + dx, 3 + dy, 42, 42)).clone();
+      patch.convertTo(patch, CV_32F);
+      aligned.push_back(patch.reshape(1, 1));
+    }
+  cv::Mat scores;
+  cv::reduce(foregroundScores(fullBank_, aligned), scores, 1, cv::REDUCE_MAX);
+  match = choose(scores, portraitNames_, .72, .12);
+  return match;
+}
+FaceReading Recognizer::face(const cv::Mat &source) const {
+  FaceReading out;
+  if (source.empty())
+    return out;
+  cv::Mat canonical = resize(source, 54, 54), placeholderMatches;
+  cv::matchTemplate(gray(canonical), unselectedPanel_, placeholderMatches, cv::TM_CCOEFF_NORMED);
+  cv::minMaxLoc(placeholderMatches, nullptr, &out.selectionConfidence);
+  out.unselected = out.selectionConfidence >= .90;
+  if (out.unselected)
+    return out;
+  // Evaluate identity and overlay independently. The same complete-portrait
+  // matcher is used for every state; no death-specific partial-face fallback.
+  out.candidate = portrait(source);
+  auto evidence = lifeEvidence(source);
+  out.ring = evidence.ring;
+  out.cross = evidence.cross;
+  if (evidence.deathOverlay()) {
+    out.portraitOccluded = true;
+    out.life = "dead";
+    out.lifeConfidence = std::max(out.ring, out.cross);
+    // The initial cross is not a countdown digit. OCR only a settled ring;
+    // reading the timer is optional and never a prerequisite for death.
+    if (out.cross < .76 && out.ring >= .80) {
+      int x1 = rnd(source.cols * 19. / 54), x2 = rnd(source.cols * 36. / 54);
+      int y1 = rnd(source.rows * 18. / 54), y2 = rnd(source.rows * 37. / 54);
+      out.respawn = number(source(cv::Rect(x1, y1, x2 - x1, y2 - y1)), 30);
+      if (!out.respawn.value && source.cols != 54)
+        out.respawn = number(canonical(cv::Rect(19, 18, 17, 19)), 30);
+    }
   } else {
-    auto full = gray(resize(im, 48, 48))(cv::Rect(3, 3, 42, 42)).clone();
-    auto match = choose(fullPortraits_, normalized(full), portraitNames_, .72, .12);
-    if (!match.id.isEmpty())
-      return match;
+    // A very close full-portrait match resolves weak circular costume edges.
+    // A visible portrait must still match portrait structure: mere absence of
+    // a ring also occurs in partial animation occlusion. Life does not require
+    // the distinct-hero margin used to resolve the hero ID.
+    if ((out.candidate.confidence >= .72 && evidence.unobscured()) ||
+        out.candidate.confidence >= .90) {
+      out.life = "alive";
+      out.lifeConfidence = std::max(out.candidate.confidence, 1. - std::max(out.ring, out.cross));
+    }
   }
-  return choose(portraits_, features, portraitNames_, .60, .12);
+  return out;
 }
 static cv::Mat perkFeatures(cv::Mat im) {
   im = gray(im);
@@ -539,7 +778,7 @@ double Recognizer::hudQuality(const cv::Mat &im, int offset, bool coarse) const 
     hudFeature(patch, coarse).copyTo(features.row(slot));
   }
   // Match all ten slots together so the template matrix is read once per candidate.
-  cv::Mat scores = templates * features.t();
+  cv::Mat scores = foregroundScores(coarse ? hudCoarseBank_ : hudBank_, features);
   int accepted = 0;
   std::array<int, 2> acceptedTeams{};
   double sum = 0;
@@ -581,38 +820,17 @@ double Recognizer::hudQuality(const cv::Mat &im, int offset, bool coarse) const 
   if (acceptedTeams[0] < 2 || acceptedTeams[1] < 2 || y2 + offset + 18 > im.rows)
     return -1;
   std::array<int, 2> plates{};
-  std::array<std::vector<cv::Vec3d>, 2> plateColors;
+  auto grayImage = gray(im);
   for (int slot = 0; slot < 10; ++slot) {
     int left = rnd((xs[slot] - .023) * 1600) + 2, right = rnd(xe[slot] * 1600) - 2;
-    auto patch = im(cv::Rect(left, y2 + offset + 5, right - left, 13));
-    cv::Vec3d color;
-    for (int ch = 0; ch < 3; ++ch) {
-      std::vector<uchar> values;
-      for (int y = 0; y < patch.rows; ++y)
-        for (int x = 0; x < patch.cols; ++x)
-          values.push_back(patch.at<cv::Vec3b>(y, x)[ch]);
-      std::nth_element(values.begin(), values.begin() + values.size() / 2, values.end());
-      color[ch] = values[values.size() / 2];
+    double boundary = 0;
+    for (int y = y2 + offset + 2; y < std::min(im.rows - 1, y2 + offset + 22); ++y) {
+      cv::Mat difference;
+      cv::absdiff(grayImage(cv::Rect(left, y - 1, right - left, 1)),
+                  grayImage(cv::Rect(left, y + 1, right - left, 1)), difference);
+      boundary = std::max(boundary, double(cv::countNonZero(difference > 8)) / (right - left));
     }
-    int uniform = 0;
-    for (int y = 0; y < patch.rows; ++y)
-      for (int x = 0; x < patch.cols; ++x) {
-        auto pixel = patch.at<cv::Vec3b>(y, x);
-        uniform += cv::norm(cv::Vec3d(pixel) - color) <= 45;
-      }
-    if (uniform >= patch.total() * .55) {
-      ++plates[slot / 5];
-      plateColors[slot / 5].push_back(color);
-    }
-  }
-  for (int team = 0; team < 2; ++team) {
-    plates[team] = 0;
-    for (auto center : plateColors[team]) {
-      int consistent = 0;
-      for (auto c : plateColors[team])
-        consistent += cv::norm(c - center) <= 45;
-      plates[team] = std::max(plates[team], consistent);
-    }
+    plates[slot / 5] += boundary >= .55;
   }
   return plates[0] >= 3 && plates[1] >= 3 && plates[0] + plates[1] >= 8 ? sum / 10 : -1.;
 }
@@ -710,8 +928,10 @@ cv::Mat Recognizer::signature(const cv::Mat &im) {
     return {};
   return normalized(resize(mask, 96, 24));
 }
-Observation Recognizer::detect(const cv::Mat &frame) {
+Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
   Observation result;
+  if (cropTrace)
+    *cropTrace = {};
   if (frame.empty() || frame.cols < 320 || frame.rows < 200)
     return result;
   auto im = resize(frame, 1600, rnd(frame.rows * 1600. / frame.cols));
@@ -729,60 +949,73 @@ Observation Recognizer::detect(const cv::Mat &frame) {
                                               "damage",       "healing", "mitigated"};
   const std::array<int, 6> offsets{-376, -334, -291, -225, -149, -72};
   for (int row = 0; row < 10; row++) {
+    auto trace = [&](const QString &field, double a, double b, double c, double d, bool right,
+                     bool native) {
+      if (!cropTrace)
+        return;
+      bool source = native && frame.cols > im.cols;
+      const auto &sample = source ? frame : im;
+      auto box = p->rect(row, a, b, c, d, right, source ? frame.cols / double(im.cols) : 1);
+      cropTrace->append(QJsonObject{{"row", row},
+                                    {"field", field},
+                                    {"sampling", source ? "source" : "normalized"},
+                                    {"image_width", sample.cols},
+                                    {"image_height", sample.rows},
+                                    {"rect", QJsonArray{box.x, box.y, box.width, box.height}}});
+    };
     auto crop = [&](double a, double b, double c, double d) {
       return p->crop(im, row, a, b, c, d);
     };
-    auto face = crop(23, -27, 77, 27);
-    cv::Mat placeholderMatches;
-    cv::matchTemplate(gray(resize(face, 54, 54)), unselectedPanel_, placeholderMatches,
-                      cv::TM_CCOEFF_NORMED);
-    double placeholderScore = 0;
-    cv::minMaxLoc(placeholderMatches, nullptr, &placeholderScore);
-    bool unselected = placeholderScore >= .90;
+    // Locate at bounded cost, but do not discard source detail before reading
+    // small glyphs. Scale coordinates once, before rounding the final crop.
+    auto detailCrop = [&](double a, double b, double c, double d, bool right = false) {
+      return frame.cols > im.cols
+                 ? p->crop(frame, row, a, b, c, d, right, frame.cols / double(im.cols))
+                 : p->crop(im, row, a, b, c, d, right);
+    };
+    auto readNumber = [&](const QString &field, double a, double b, double c, double d, bool right,
+                          int maximum) {
+      trace(field, a, b, c, d, right, true);
+      auto reading = number(detailCrop(a, b, c, d, right), maximum);
+      // Source and normalized sampling have different antialiasing phases.
+      // Only retry an abstention, using the same segmentation/acceptance rules.
+      if (!reading.value && frame.cols > im.cols) {
+        trace(field, a, b, c, d, right, false);
+        reading = number(p->crop(im, row, a, b, c, d, right), maximum);
+      }
+      return reading;
+    };
+    trace("portrait", 23, -27, 77, 27, false, true);
+    auto identity = face(detailCrop(23, -27, 77, 27));
+    bool unselected = identity.unselected;
+    double placeholderScore = identity.selectionConfidence;
+    trace("ultimate_ready", 84, -13, 110, 13, false, false);
     double readyScore = correlation(gray(resize(crop(84, -13, 110, 13), 26, 26)), ready_);
-    auto charge = number(crop(87, -9, 107, 10), 100);
+    if (readyScore <= .8) {
+      // Search the immediate neighborhood instead of lowering the threshold:
+      // a resize can shift the small checkmark relative to the inferred row.
+      cv::Mat scores;
+      trace("ultimate_ready_search", 82, -15, 112, 15, false, true);
+      cv::matchTemplate(gray(resize(detailCrop(82, -15, 112, 15), 30, 30)), ready_, scores,
+                        cv::TM_CCOEFF_NORMED);
+      double aligned = 0;
+      cv::minMaxLoc(scores, nullptr, &aligned);
+      readyScore = std::max(readyScore, aligned);
+    }
+    auto charge = readNumber("ultimate_charge", 87, -9, 107, 10, false, 100);
     bool ready = readyScore > .8;
     if (ready)
       charge = {100, readyScore};
-    auto respawn = number(crop(42, -9, 59, 10), 30);
-    cv::Mat hsv;
-    cv::cvtColor(resize(face, 54, 54), hsv, cv::COLOR_BGR2HSV);
-    std::array<int, 4> counts{}, totals{};
-    for (int y = 0; y < 54; y++)
-      for (int x = 0; x < 54; x++) {
-        int d = (x - 27) * (x - 27) + (y - 27) * (y - 27);
-        if (d <= 144 || d >= 289)
-          continue;
-        auto v = hsv.at<cv::Vec3b>(y, x);
-        bool marked =
-            (((v[0] < 10 || v[0] > 170) && v[1] > 110 && v[2] > 95) || (v[1] < 65 && v[2] > 155));
-        for (int q : {x < 27 ? 0 : 1, y < 27 ? 2 : 3}) {
-          totals[q]++;
-          if (marked)
-            counts[q]++;
-        }
-      }
-    double ring = 1;
-    for (int q = 0; q < 4; q++)
-      ring = std::min(ring, double(counts[q]) / std::max(totals[q], 1));
-    if (ring > .38 && (!respawn.value || respawn.confidence <= .88)) {
-      // Light portraits can join the countdown digit at the normal OCR threshold.
-      auto counter = crop(42, -9, 59, 10).clone();
-      for (int y = 0; y < counter.rows; ++y)
-        for (int x = 0; x < counter.cols; ++x) {
-          auto &pixel = counter.at<cv::Vec3b>(y, x);
-          if (std::min({pixel[0], pixel[1], pixel[2]}) <= 150)
-            pixel = {};
-        }
-      respawn = number(counter, 30);
-    }
-    bool dead = !unselected && respawn.value && respawn.confidence > .88 && ring > .38;
-    auto hero = unselected ? Match{} : portrait(face, dead);
+    const bool dead = identity.life == "dead";
+    const auto respawn = identity.respawn;
+    // Only direct portrait occlusion invalidates its match. An unresolved life
+    // reading must not suppress an otherwise accepted hero observation.
+    auto hero = identity.portraitOccluded ? Match{} : identity.candidate;
     QJsonObject stats, confidence;
     int numericColumns = 0;
     for (int i = 0; i < 6; i++) {
       int w = i < 3 ? 17 : 32;
-      auto n = number(p->crop(im, row, offsets[i] - w, -11, offsets[i] + w, 12, true));
+      auto n = readNumber(statNames[i], offsets[i] - w, -11, offsets[i] + w, 12, true, 999999);
       stats[statNames[i]] = nullable(n.value);
       confidence[statNames[i]] = n.confidence;
       numericColumns += n.value.has_value();
@@ -791,20 +1024,23 @@ Observation Recognizer::detect(const cv::Mat &frame) {
     for (auto tier : {QString("major"), QString("minor")}) {
       bool shown = perkLayout == 2 || (perkLayout == 1 && tier == "minor");
       int x = tier == "major" ? -470 : -422;
-      perks[tier] = shown ? perk(p->crop(im, row, x - 20, -20, x + 20, 20, true), hero.id, tier)
+      if (shown)
+        trace("perk_" + tier, x - 20, -20, x + 20, 20, true, true);
+      perks[tier] = shown ? perk(detailCrop(x - 20, -20, x + 20, 20, true), hero.id, tier)
                           : QJsonObject{{"id", QJsonValue::Null},
                                         {"selection", "not_shown"},
                                         {"confidence", .95}};
     }
-    QString life = dead ? "dead" : (hero.id.isEmpty() ? "unknown" : "alive");
+    QString life = identity.life;
     result.players.append(QJsonObject{
         {"hero", nullable(hero.id)},
         {"hero_selection",
          unselected ? "unselected" : (hero.id.isEmpty() ? "unknown" : "selected")},
         {"selection_confidence", unselected ? placeholderScore : hero.confidence},
         {"hero_confidence", hero.confidence},
+        {"portrait_occluded", identity.portraitOccluded},
         {"life_state", life},
-        {"life_confidence", dead ? respawn.confidence : hero.confidence},
+        {"life_confidence", identity.lifeConfidence},
         {"ultimate_charge", nullable(charge.value)},
         {"ultimate_ready", charge.value ? QJsonValue(ready) : QJsonValue(QJsonValue::Null)},
         {"ultimate_confidence", charge.confidence},
@@ -812,6 +1048,7 @@ Observation Recognizer::detect(const cv::Mat &frame) {
         {"perks", perks},
         {"stats", stats},
         {"stat_confidence", confidence}});
+    trace("display_name", 119, -17, 267, 11, false, false);
     result.names[row] = crop(119, -17, 267, 11).clone();
     bool evidence = numericColumns >= 4 && charge.value.has_value();
     evidenceRows += evidence;

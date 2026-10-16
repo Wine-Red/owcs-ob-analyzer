@@ -29,6 +29,7 @@ async def main():
             r = await request('GetSourceScreenshot', sourceName='Fixture', imageFormat='png')
             return cv2.imdecode(np.frombuffer(base64.b64decode(r['imageData'].split(',')[1]), np.uint8), 1)
         expected = json.loads((ROOT / 'tests/data/scoreboard/expected.json').read_text())
+        initial_heroes = [None if life == 'dead' else hero for hero, life in zip(expected['perks']['heroes'], expected['perks']['life'])]
         existing = await request('GetInputList')
         for item in existing['inputs']:
             if item['inputName'] in {'Fixture', 'MediaFixture'}:
@@ -47,7 +48,7 @@ async def main():
             if (s.get('panel_visible')
                     and s['players'][0]['stats']['damage'] == 4350
                     and [p['ultimate_charge'] for p in s['players']] == expected['perks']['charge']
-                    and [p['hero'] for p in s['players']] == expected['perks']['heroes']):
+                    and [p['hero'] for p in s['players']] == initial_heroes):
                 break
             await asyncio.sleep(.25)
         assert s.get('panel_visible'), s
@@ -57,7 +58,7 @@ async def main():
         assert s['schema_version'] == '3.0'
         assert 'source' not in s and 'hud' not in s and 'recognition' not in s
         assert [p['ultimate_charge'] for p in s['players']] == expected['perks']['charge']
-        assert [p['hero'] for p in s['players']] == expected['perks']['heroes']
+        assert [p['hero'] for p in s['players']] == initial_heroes
         after = await screenshot()
         assert before.shape == after.shape
         difference = np.abs(before.astype(float) - after.astype(float))
@@ -115,13 +116,15 @@ async def main():
             if live_hud['status'] == 'online' and not live_hud['panel_visible']: break
         assert live_hud['status'] == 'online' and not live_hud['panel_visible']
         await request('SetInputSettings', inputName='Fixture', inputSettings={'file': str(ROOT / 'tests/data/scoreboard/header-touching-portrait.png')})
+        live_charge = [24,35,42,31,27,33,40,53,35,25]
         for _ in range(50):
             await asyncio.sleep(.2)
             live_panel = await state()
-            if live_panel['panel_visible'] and live_panel['players'][0]['ultimate_charge'] == 24: break
+            if (live_panel['panel_visible'] and
+                    [p['ultimate_charge'] for p in live_panel['players']] == live_charge): break
         assert live_panel['panel_visible']
-        assert [p['ultimate_charge'] for p in live_panel['players']] == [24,35,42,31,27,33,40,53,35,25]
-        # A 2560px source exercises OBS's GPU downscale, not just CPU fixture resizing.
+        assert [p['ultimate_charge'] for p in live_panel['players']] == live_charge, live_panel
+        # A 2560px source exercises high-resolution OBS readback and detail crops.
         await request('SetInputSettings', inputName='Fixture', inputSettings={'file': str(ROOT / 'tests/data/scoreboard/stability-single-perk.png')})
         stat_keys = ['eliminations', 'assists', 'deaths', 'damage', 'healing', 'mitigated']
         def stats_match(value):
@@ -137,13 +140,13 @@ async def main():
         assert stability['players'][6]['perks']['minor']['id'] == 'Ulterior Motive'
         (OUT / 'stability-obs-state.json').write_text(json.dumps(stability,ensure_ascii=False,indent=2),encoding='utf8')
         await request('SetInputSettings', inputName='Fixture', inputSettings={'file': str(ROOT / 'tests/data/scoreboard/stability-connected-digits.png')})
-        def connected_match(value):
+        def connected_match(value, history=True):
             rows = value.get('players', [])
             e = expected['stability-connected-digits']
             return len(rows) == 10 and all(
-                p['hero'] == e['heroes'][i] and p['life_state'] == e['life'][i]
+                p['hero'] == (e['heroes'][i] if history or e['life'][i] != 'dead' else None) and p['life_state'] == e['life'][i]
                 and [p['stats'][k] for k in stat_keys] == e['stats'][i]
-                and all(k not in p['stale_fields'] + p['unknown_fields'] for k in ['stats.' + k for k in stat_keys] + ['hero', 'life_state'])
+                and all(k not in p['stale_fields'] + p['unknown_fields'] for k in ['stats.' + k for k in stat_keys] + ['life_state'] + ([] if e['life'][i] == 'dead' else ['hero']))
                 for i, p in enumerate(rows))
         for _ in range(75):
             await asyncio.sleep(.2)
@@ -177,8 +180,8 @@ async def main():
         for _ in range(75):
             await asyncio.sleep(.2)
             selected = await state()
-            if connected_match(selected): break
-        assert connected_match(selected), selected
+            if connected_match(selected, history=False): break
+        assert connected_match(selected, history=False), selected
         await request('SetSourceFilterSettings', sourceName='Fixture', filterName='Analyzer', filterSettings={'enabled': False})
         await asyncio.sleep(.5)
         paused = await state()

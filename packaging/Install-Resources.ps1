@@ -7,8 +7,8 @@ if($running | Where-Object {!$_.Path -or $_.Path -eq (Join-Path $target 'bin/64b
 $models=Join-Path $target 'data/obs-plugins/owcs-ob-analyzer/models'
 $current=Get-Content -LiteralPath (Join-Path $models 'manifest.json') -Raw | ConvertFrom-Json
 $manifest=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'manifest.json') -Raw | ConvertFrom-Json
-if($current.asset_format -ne 2 -or $manifest.asset_format -ne 2 -or $manifest.type -ne 'owcs-recognition-pack'){throw 'Resource format mismatch. Install plugin 0.3.0 or later first'}
-$expected=@('manifest.json','names.onnx','portraits-full.qz','ready.png','templates.qz','unselected-hud.png','unselected-panel.png')
+if($current.asset_format -ne 3 -or $manifest.asset_format -ne 3 -or $manifest.type -ne 'owcs-recognition-pack'){throw 'Resource format mismatch. Install plugin 0.5.0 or later first'}
+$expected=@('manifest.json','names.onnx','foreground.qz','ready.png','templates.qz','unselected-hud.png','unselected-panel.png')
 $found=@()
 foreach($entry in $manifest.files){
   $name=([string]$entry.path) -replace '^models/',''
@@ -19,7 +19,7 @@ foreach($entry in $manifest.files){
 }
 if($found.Count -ne $expected.Count){throw 'Incomplete resource pack'}
 $incoming=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'models/manifest.json') -Raw | ConvertFrom-Json
-if($incoming.asset_format -ne 2 -or $incoming.resource_version -ne $manifest.resource_version){throw 'Resource manifest mismatch'}
+if($incoming.asset_format -ne 3 -or $incoming.resource_version -ne $manifest.resource_version){throw 'Resource manifest mismatch'}
 $stamp=(Get-Date -Format 'yyyyMMdd-HHmmss')+'-'+[guid]::NewGuid().ToString('N')
 $stage=Join-Path $target "data/obs-plugins/owcs-ob-analyzer/models-stage-$stamp"
 $backup=Join-Path $target "owcs-plugin-backups/resources-$stamp/models"

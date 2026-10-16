@@ -1,6 +1,6 @@
 {
   "source_format": 1,
-  "resource_version": "2026.10.13.1",
+  "resource_version": "2026.10.16.1",
   "heroes": [
     {
       "id": "ana",
@@ -438,1551 +438,3675 @@
   "perks": [
     {
       "hero": "ana",
-      "tier": "minor",
-      "id": "Local Anesthetic",
-      "kind": "scoreboard",
-      "file": "perks/ana/minor/Local Anesthetic.png"
-    },
-    {
-      "hero": "ana",
-      "tier": "minor",
-      "id": "Speed Serum",
-      "kind": "scoreboard",
-      "file": "perks/ana/minor/Speed Serum.png"
-    },
-    {
-      "hero": "anran",
-      "tier": "minor",
-      "id": "Heat Shield",
-      "kind": "scoreboard",
-      "file": "perks/anran/minor/Heat Shield.png"
-    },
-    {
-      "hero": "anran",
-      "tier": "minor",
-      "id": "Smoulder",
-      "kind": "scoreboard",
-      "file": "perks/anran/minor/Smoulder.png"
-    },
-    {
-      "hero": "ashe",
-      "tier": "minor",
-      "id": "Double-Barreled",
-      "kind": "scoreboard",
-      "file": "perks/ashe/minor/Double-Barreled.png"
-    },
-    {
-      "hero": "ashe",
-      "tier": "minor",
-      "id": "Remote Detonator",
-      "kind": "scoreboard",
-      "file": "perks/ashe/minor/Remote Detonator.png"
-    },
-    {
-      "hero": "baptiste",
-      "tier": "minor",
-      "id": "Assault Burst",
-      "kind": "scoreboard",
-      "file": "perks/baptiste/minor/Assault Burst.png"
-    },
-    {
-      "hero": "baptiste",
-      "tier": "minor",
-      "id": "Expanded Field",
-      "kind": "scoreboard",
-      "file": "perks/baptiste/minor/Expanded Field.png"
-    },
-    {
-      "hero": "bastion",
-      "tier": "minor",
-      "id": "Configuration Reload",
-      "kind": "scoreboard",
-      "file": "perks/bastion/minor/Configuration Reload.png"
-    },
-    {
-      "hero": "bastion",
-      "tier": "minor",
-      "id": "Smart Bomb",
-      "kind": "scoreboard",
-      "file": "perks/bastion/minor/Smart Bomb.png"
-    },
-    {
-      "hero": "brigitte",
-      "tier": "minor",
-      "id": "Combat Medic",
-      "kind": "scoreboard",
-      "file": "perks/brigitte/minor/Combat Medic.png"
-    },
-    {
-      "hero": "brigitte",
-      "tier": "minor",
-      "id": "Morale Boost",
-      "kind": "scoreboard",
-      "file": "perks/brigitte/minor/Morale Boost.png"
-    },
-    {
-      "hero": "cassidy",
-      "tier": "minor",
-      "id": "Bang Bang",
-      "kind": "scoreboard",
-      "file": "perks/cassidy/minor/Bang Bang.png"
-    },
-    {
-      "hero": "cassidy",
-      "tier": "minor",
-      "id": "Giddy Up",
-      "kind": "scoreboard",
-      "file": "perks/cassidy/minor/Giddy Up.png"
-    },
-    {
-      "hero": "dmon",
-      "tier": "minor",
-      "id": "Beast Within",
-      "kind": "scoreboard",
-      "file": "perks/dmon/minor/Beast Within.png"
-    },
-    {
-      "hero": "dmon",
-      "tier": "minor",
-      "id": "Meka Mobility",
-      "kind": "scoreboard",
-      "file": "perks/dmon/minor/Meka Mobility.png"
-    },
-    {
-      "hero": "doctrine",
-      "tier": "minor",
-      "id": "Sanguine Siphon",
-      "kind": "scoreboard",
-      "file": "perks/doctrine/minor/Sanguine Siphon.png"
-    },
-    {
-      "hero": "doctrine",
-      "tier": "minor",
-      "id": "Saving Grace",
-      "kind": "scoreboard",
-      "file": "perks/doctrine/minor/Saving Grace.png"
-    },
-    {
-      "hero": "domina",
-      "tier": "minor",
-      "id": "Efficient Design",
-      "kind": "scoreboard",
-      "file": "perks/domina/minor/Efficient Design.png"
-    },
-    {
-      "hero": "domina",
-      "tier": "minor",
-      "id": "Extended Power",
-      "kind": "scoreboard",
-      "file": "perks/domina/minor/Extended Power.png"
-    },
-    {
-      "hero": "doomfist",
-      "tier": "minor",
-      "id": "One-Two",
-      "kind": "scoreboard",
-      "file": "perks/doomfist/minor/One-Two.png"
-    },
-    {
-      "hero": "doomfist",
-      "tier": "minor",
-      "id": "Survival of the Fittest",
-      "kind": "scoreboard",
-      "file": "perks/doomfist/minor/Survival of the Fittest.png"
-    },
-    {
-      "hero": "dva",
-      "tier": "minor",
-      "id": "Bunny Power",
-      "kind": "scoreboard",
-      "file": "perks/dva/minor/Bunny Power.png"
-    },
-    {
-      "hero": "dva",
-      "tier": "minor",
-      "id": "Extended Boosters",
-      "kind": "scoreboard",
-      "file": "perks/dva/minor/Extended Boosters.png"
-    },
-    {
-      "hero": "echo",
-      "tier": "minor",
-      "id": "Aerial Munitions",
-      "kind": "scoreboard",
-      "file": "perks/echo/minor/Aerial Munitions.png"
-    },
-    {
-      "hero": "echo",
-      "tier": "minor",
-      "id": "Partial Scan",
-      "kind": "scoreboard",
-      "file": "perks/echo/minor/Partial Scan.png"
-    },
-    {
-      "hero": "emre",
-      "tier": "minor",
-      "id": "Enhanced Agility",
-      "kind": "scoreboard",
-      "file": "perks/emre/minor/Enhanced Agility.png"
-    },
-    {
-      "hero": "emre",
-      "tier": "minor",
-      "id": "Suppressive Security",
-      "kind": "scoreboard",
-      "file": "perks/emre/minor/Suppressive Security.png"
-    },
-    {
-      "hero": "freja",
-      "tier": "minor",
-      "id": "Momentum Boost",
-      "kind": "scoreboard",
-      "file": "perks/freja/minor/Momentum Boost.png"
-    },
-    {
-      "hero": "freja",
-      "tier": "minor",
-      "id": "Relentless Barrage",
-      "kind": "scoreboard",
-      "file": "perks/freja/minor/Relentless Barrage.png"
-    },
-    {
-      "hero": "genji",
-      "tier": "minor",
-      "id": "Dragon's Thirst",
-      "kind": "scoreboard",
-      "file": "perks/genji/minor/Dragon's Thirst.png"
-    },
-    {
-      "hero": "genji",
-      "tier": "minor",
-      "id": "Swift Cuts",
-      "kind": "scoreboard",
-      "file": "perks/genji/minor/Swift Cuts.png"
-    },
-    {
-      "hero": "hanzo",
-      "tier": "minor",
-      "id": "Dragon Fury",
-      "kind": "scoreboard",
-      "file": "perks/hanzo/minor/Dragon Fury.png"
-    },
-    {
-      "hero": "hanzo",
-      "tier": "minor",
-      "id": "Sonic Disruption",
-      "kind": "scoreboard",
-      "file": "perks/hanzo/minor/Sonic Disruption.png"
-    },
-    {
-      "hero": "hazard",
-      "tier": "minor",
-      "id": "Anarchic Zeal",
-      "kind": "scoreboard",
-      "file": "perks/hazard/minor/Anarchic Zeal.png"
-    },
-    {
-      "hero": "hazard",
-      "tier": "minor",
-      "id": "Reconstitution",
-      "kind": "scoreboard",
-      "file": "perks/hazard/minor/Reconstitution.png"
-    },
-    {
-      "hero": "illari",
-      "tier": "minor",
-      "id": "Rapid Construction",
-      "kind": "scoreboard",
-      "file": "perks/illari/minor/Rapid Construction.png"
-    },
-    {
-      "hero": "illari",
-      "tier": "minor",
-      "id": "Summer Solstice",
-      "kind": "scoreboard",
-      "file": "perks/illari/minor/Summer Solstice.png"
-    },
-    {
-      "hero": "jetpack-cat",
-      "tier": "minor",
-      "id": "Transport Shielding",
-      "kind": "scoreboard",
-      "file": "perks/jetpack-cat/minor/Transport Shielding.png"
-    },
-    {
-      "hero": "jetpack-cat",
-      "tier": "minor",
-      "id": "Ulterior Motive",
-      "kind": "scoreboard",
-      "file": "perks/jetpack-cat/minor/Ulterior Motive.png"
-    },
-    {
-      "hero": "junker-queen",
-      "tier": "minor",
-      "id": "Battle Shout",
-      "kind": "scoreboard",
-      "file": "perks/junker-queen/minor/Battle Shout.png"
-    },
-    {
-      "hero": "junker-queen",
-      "tier": "minor",
-      "id": "Rampant Charge",
-      "kind": "scoreboard",
-      "file": "perks/junker-queen/minor/Rampant Charge.png"
-    },
-    {
-      "hero": "junkrat",
-      "tier": "minor",
-      "id": "Bomb Voyage",
-      "kind": "scoreboard",
-      "file": "perks/junkrat/minor/Bomb Voyage.png"
-    },
-    {
-      "hero": "junkrat",
-      "tier": "minor",
-      "id": "Nitro Boost",
-      "kind": "scoreboard",
-      "file": "perks/junkrat/minor/Nitro Boost.png"
-    },
-    {
-      "hero": "juno",
-      "tier": "minor",
-      "id": "Familiar Vitals",
-      "kind": "scoreboard",
-      "file": "perks/juno/minor/Familiar Vitals.png"
-    },
-    {
-      "hero": "juno",
-      "tier": "minor",
-      "id": "Locked On",
-      "kind": "scoreboard",
-      "file": "perks/juno/minor/Locked On.png"
-    },
-    {
-      "hero": "kiriko",
-      "tier": "minor",
-      "id": "Fortune Teller",
-      "kind": "scoreboard",
-      "file": "perks/kiriko/minor/Fortune Teller.png"
-    },
-    {
-      "hero": "kiriko",
-      "tier": "minor",
-      "id": "Urgent Care",
-      "kind": "scoreboard",
-      "file": "perks/kiriko/minor/Urgent Care.png"
-    },
-    {
-      "hero": "lifeweaver",
-      "tier": "minor",
-      "id": "Dashing Escape",
-      "kind": "scoreboard",
-      "file": "perks/lifeweaver/minor/Dashing Escape.png"
-    },
-    {
-      "hero": "lifeweaver",
-      "tier": "minor",
-      "id": "Petal Protection",
-      "kind": "scoreboard",
-      "file": "perks/lifeweaver/minor/Petal Protection.png"
-    },
-    {
-      "hero": "lucio",
-      "tier": "minor",
-      "id": "Beat Drop",
-      "kind": "scoreboard",
-      "file": "perks/lucio/minor/Beat Drop.png"
-    },
-    {
-      "hero": "lucio",
-      "tier": "minor",
-      "id": "Soundwave Rider",
-      "kind": "scoreboard",
-      "file": "perks/lucio/minor/Soundwave Rider.png"
-    },
-    {
-      "hero": "mauga",
-      "tier": "minor",
-      "id": "Kinetic Bandolier",
-      "kind": "scoreboard",
-      "file": "perks/mauga/minor/Kinetic Bandolier.png"
-    },
-    {
-      "hero": "mauga",
-      "tier": "minor",
-      "id": "Pyromaniac",
-      "kind": "scoreboard",
-      "file": "perks/mauga/minor/Pyromaniac.png"
-    },
-    {
-      "hero": "mei",
-      "tier": "minor",
-      "id": "Glacial Propulsion",
-      "kind": "scoreboard",
-      "file": "perks/mei/minor/Glacial Propulsion.png"
-    },
-    {
-      "hero": "mei",
-      "tier": "minor",
-      "id": "Skating Rink",
-      "kind": "scoreboard",
-      "file": "perks/mei/minor/Skating Rink.png"
-    },
-    {
-      "hero": "mercy",
-      "tier": "minor",
-      "id": "Angelic Resurrection",
-      "kind": "scoreboard",
-      "file": "perks/mercy/minor/Angelic Resurrection.png"
-    },
-    {
-      "hero": "mercy",
-      "tier": "minor",
-      "id": "Divine Momentum",
-      "kind": "scoreboard",
-      "file": "perks/mercy/minor/Divine Momentum.png"
-    },
-    {
-      "hero": "mizuki",
-      "tier": "minor",
-      "id": "Exposed Soul",
-      "kind": "scoreboard",
-      "file": "perks/mizuki/minor/Exposed Soul.png"
-    },
-    {
-      "hero": "mizuki",
-      "tier": "minor",
-      "id": "Wellspring",
-      "kind": "scoreboard",
-      "file": "perks/mizuki/minor/Wellspring.png"
-    },
-    {
-      "hero": "moira",
-      "tier": "minor",
-      "id": "Destruction's Divide",
-      "kind": "scoreboard",
-      "file": "perks/moira/minor/Destruction's Divide.png"
-    },
-    {
-      "hero": "moira",
-      "tier": "minor",
-      "id": "Ethical Nourishment",
-      "kind": "scoreboard",
-      "file": "perks/moira/minor/Ethical Nourishment.png"
-    },
-    {
-      "hero": "orisa",
-      "tier": "minor",
-      "id": "Defense Protocol",
-      "kind": "scoreboard",
-      "file": "perks/orisa/minor/Defense Protocol.png"
-    },
-    {
-      "hero": "orisa",
-      "tier": "minor",
-      "id": "Mobile Fortification",
-      "kind": "scoreboard",
-      "file": "perks/orisa/minor/Mobile Fortification.png"
-    },
-    {
-      "hero": "pharah",
-      "tier": "minor",
-      "id": "Concussive Force",
-      "kind": "scoreboard",
-      "file": "perks/pharah/minor/Concussive Force.png"
-    },
-    {
-      "hero": "pharah",
-      "tier": "minor",
-      "id": "Helix Shields",
-      "kind": "scoreboard",
-      "file": "perks/pharah/minor/Helix Shields.png"
-    },
-    {
-      "hero": "ramattra",
-      "tier": "minor",
-      "id": "Prolonged Barrier",
-      "kind": "scoreboard",
-      "file": "perks/ramattra/minor/Prolonged Barrier.png"
-    },
-    {
-      "hero": "ramattra",
-      "tier": "minor",
-      "id": "Relentless Form",
-      "kind": "scoreboard",
-      "file": "perks/ramattra/minor/Relentless Form.png"
-    },
-    {
-      "hero": "reaper",
-      "tier": "minor",
-      "id": "Lingering Wraith",
-      "kind": "scoreboard",
-      "file": "perks/reaper/minor/Lingering Wraith.png"
-    },
-    {
-      "hero": "reaper",
-      "tier": "minor",
-      "id": "Soul Reaving",
-      "kind": "scoreboard",
-      "file": "perks/reaper/minor/Soul Reaving.png"
-    },
-    {
-      "hero": "reinhardt",
-      "tier": "minor",
-      "id": "Crusader's Fire",
-      "kind": "scoreboard",
-      "file": "perks/reinhardt/minor/Crusader's Fire.png"
-    },
-    {
-      "hero": "reinhardt",
-      "tier": "minor",
-      "id": "Crusader's Resolve",
-      "kind": "scoreboard",
-      "file": "perks/reinhardt/minor/Crusader's Resolve.png"
-    },
-    {
-      "hero": "roadhog",
-      "tier": "minor",
-      "id": "Here, Piggy Piggy",
-      "kind": "scoreboard",
-      "file": "perks/roadhog/minor/Here, Piggy Piggy.png"
-    },
-    {
-      "hero": "roadhog",
-      "tier": "minor",
-      "id": "Scrap Hook",
-      "kind": "scoreboard",
-      "file": "perks/roadhog/minor/Scrap Hook.png"
-    },
-    {
-      "hero": "shion",
-      "tier": "minor",
-      "id": "Survival Instinct",
-      "kind": "scoreboard",
-      "file": "perks/shion/minor/Survival Instinct.png"
-    },
-    {
-      "hero": "shion",
-      "tier": "minor",
-      "id": "X Machina",
-      "kind": "scoreboard",
-      "file": "perks/shion/minor/X Machina.png"
-    },
-    {
-      "hero": "sierra",
-      "tier": "minor",
-      "id": "Full Flight",
-      "kind": "scoreboard",
-      "file": "perks/sierra/minor/Full Flight.png"
-    },
-    {
-      "hero": "sierra",
-      "tier": "minor",
-      "id": "Tight Grip",
-      "kind": "scoreboard",
-      "file": "perks/sierra/minor/Tight Grip.png"
-    },
-    {
-      "hero": "sigma",
-      "tier": "minor",
-      "id": "Hyper Regeneration",
-      "kind": "scoreboard",
-      "file": "perks/sigma/minor/Hyper Regeneration.png"
-    },
-    {
-      "hero": "sigma",
-      "tier": "minor",
-      "id": "Kinetic Cycle",
-      "kind": "scoreboard",
-      "file": "perks/sigma/minor/Kinetic Cycle.png"
-    },
-    {
-      "hero": "sojourn",
-      "tier": "minor",
-      "id": "Deceleration Field",
-      "kind": "scoreboard",
-      "file": "perks/sojourn/minor/Deceleration Field.png"
-    },
-    {
-      "hero": "sojourn",
-      "tier": "minor",
-      "id": "Overcharged",
-      "kind": "scoreboard",
-      "file": "perks/sojourn/minor/Overcharged.png"
-    },
-    {
-      "hero": "soldier-76",
-      "tier": "minor",
-      "id": "Helix Propulsion",
-      "kind": "scoreboard",
-      "file": "perks/soldier-76/minor/Helix Propulsion.png"
-    },
-    {
-      "hero": "soldier-76",
-      "tier": "minor",
-      "id": "Tactical Salvo",
-      "kind": "scoreboard",
-      "file": "perks/soldier-76/minor/Tactical Salvo.png"
-    },
-    {
-      "hero": "sombra",
-      "tier": "minor",
-      "id": "CTRL ALT ESC",
-      "kind": "scoreboard",
-      "file": "perks/sombra/minor/CTRL ALT ESC.png"
-    },
-    {
-      "hero": "sombra",
-      "tier": "minor",
-      "id": "Life Hack",
-      "kind": "scoreboard",
-      "file": "perks/sombra/minor/Life Hack.png"
-    },
-    {
-      "hero": "symmetra",
-      "tier": "minor",
-      "id": "Perfect Alignment",
-      "kind": "scoreboard",
-      "file": "perks/symmetra/minor/Perfect Alignment.png"
-    },
-    {
-      "hero": "symmetra",
-      "tier": "minor",
-      "id": "Sentry Capacity",
-      "kind": "scoreboard",
-      "file": "perks/symmetra/minor/Sentry Capacity.png"
-    },
-    {
-      "hero": "torbjorn",
-      "tier": "minor",
-      "id": "Hammer Time",
-      "kind": "scoreboard",
-      "file": "perks/torbjorn/minor/Hammer Time.png"
-    },
-    {
-      "hero": "torbjorn",
-      "tier": "minor",
-      "id": "Pre-Heated",
-      "kind": "scoreboard",
-      "file": "perks/torbjorn/minor/Pre-Heated.png"
-    },
-    {
-      "hero": "tracer",
-      "tier": "minor",
-      "id": "Kinetic Reload",
-      "kind": "scoreboard",
-      "file": "perks/tracer/minor/Kinetic Reload.png"
-    },
-    {
-      "hero": "tracer",
-      "tier": "minor",
-      "id": "Temporal Regen",
-      "kind": "scoreboard",
-      "file": "perks/tracer/minor/Temporal Regen.png"
-    },
-    {
-      "hero": "vendetta",
-      "tier": "minor",
-      "id": "Extra Edge",
-      "kind": "scoreboard",
-      "file": "perks/vendetta/minor/Extra Edge.png"
-    },
-    {
-      "hero": "vendetta",
-      "tier": "minor",
-      "id": "Raging Storm",
-      "kind": "scoreboard",
-      "file": "perks/vendetta/minor/Raging Storm.png"
-    },
-    {
-      "hero": "venture",
-      "tier": "minor",
-      "id": "Deep Burrow",
-      "kind": "scoreboard",
-      "file": "perks/venture/minor/Deep Burrow.png"
-    },
-    {
-      "hero": "venture",
-      "tier": "minor",
-      "id": "Excavation Exhilaration",
-      "kind": "scoreboard",
-      "file": "perks/venture/minor/Excavation Exhilaration.png"
-    },
-    {
-      "hero": "widowmaker",
-      "tier": "minor",
-      "id": "Scoped Efficiency",
-      "kind": "scoreboard",
-      "file": "perks/widowmaker/minor/Scoped Efficiency.png"
-    },
-    {
-      "hero": "widowmaker",
-      "tier": "minor",
-      "id": "Sniper's Instinct",
-      "kind": "scoreboard",
-      "file": "perks/widowmaker/minor/Sniper's Instinct.png"
-    },
-    {
-      "hero": "winston",
-      "tier": "minor",
-      "id": "Electric Charge",
-      "kind": "scoreboard",
-      "file": "perks/winston/minor/Electric Charge.png"
-    },
-    {
-      "hero": "winston",
-      "tier": "minor",
-      "id": "Heavy Landing",
-      "kind": "scoreboard",
-      "file": "perks/winston/minor/Heavy Landing.png"
-    },
-    {
-      "hero": "wrecking-ball",
-      "tier": "minor",
-      "id": "Multi-Ball",
-      "kind": "scoreboard",
-      "file": "perks/wrecking-ball/minor/Multi-Ball.png"
-    },
-    {
-      "hero": "wrecking-ball",
-      "tier": "minor",
-      "id": "Steamroller",
-      "kind": "scoreboard",
-      "file": "perks/wrecking-ball/minor/Steamroller.png"
-    },
-    {
-      "hero": "wuyang",
-      "tier": "minor",
-      "id": "Balance",
-      "kind": "scoreboard",
-      "file": "perks/wuyang/minor/Balance.png"
-    },
-    {
-      "hero": "wuyang",
-      "tier": "minor",
-      "id": "Overflow",
-      "kind": "scoreboard",
-      "file": "perks/wuyang/minor/Overflow.png"
-    },
-    {
-      "hero": "zarya",
-      "tier": "minor",
-      "id": "Jump-Ups",
-      "kind": "scoreboard",
-      "file": "perks/zarya/minor/Jump-Ups.png"
-    },
-    {
-      "hero": "zarya",
-      "tier": "minor",
-      "id": "Spotter",
-      "kind": "scoreboard",
-      "file": "perks/zarya/minor/Spotter.png"
-    },
-    {
-      "hero": "zenyatta",
-      "tier": "minor",
-      "id": "Ascendance",
-      "kind": "scoreboard",
-      "file": "perks/zenyatta/minor/Ascendance.png"
-    },
-    {
-      "hero": "zenyatta",
-      "tier": "minor",
-      "id": "Discordant Repair",
-      "kind": "scoreboard",
-      "file": "perks/zenyatta/minor/Discordant Repair.png"
-    },
-    {
-      "hero": "ana",
       "tier": "major",
       "id": "Biotic Bounce",
-      "kind": "scoreboard",
-      "file": "perks/ana/major/Biotic Bounce.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000013B.075",
+      "loadout_guid": "000000000BB5.09E",
+      "texture_guid": "00000005E466.004",
+      "perk_guids": [
+        "00000000254D.134"
+      ],
+      "level": 2,
+      "name_zhCN": "弹跳手雷",
+      "perk_set_guid": "000000000061.177",
+      "sha256": "cc8155a0bd871727b5173c87f3a8022e8ee83c6ea514ae778b7c0a28d4e96331",
+      "file": "perks/client/ana/major/00000005E466.004.png"
     },
     {
       "hero": "ana",
       "tier": "major",
       "id": "Headhunter",
-      "kind": "scoreboard",
-      "file": "perks/ana/major/Headhunter.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000013B.075",
+      "loadout_guid": "000000000BF1.09E",
+      "texture_guid": "00000005E468.004",
+      "perk_guids": [
+        "000000002599.134"
+      ],
+      "level": 2,
+      "name_zhCN": "猎头精英",
+      "perk_set_guid": "000000000061.177",
+      "sha256": "92358483caaf5ee8c91e450ee17ff7ca2a3a49093caef2b6faf166aca87facc8",
+      "file": "perks/client/ana/major/00000005E468.004.png"
+    },
+    {
+      "hero": "ana",
+      "tier": "minor",
+      "id": "Local Anesthetic",
+      "kind": "client-glyph",
+      "hero_guid": "00000000013B.075",
+      "loadout_guid": "000000000F9C.09E",
+      "texture_guid": "00000007C82E.004",
+      "perk_guids": [
+        "000000002AB5.134"
+      ],
+      "level": 1,
+      "name_zhCN": "局部麻醉",
+      "perk_set_guid": "000000000061.177",
+      "sha256": "5e153c87d65b90bb86f9abeb63c810596a44a8e23e92526aac4ac7ce41898881",
+      "file": "perks/client/ana/minor/00000007C82E.004.png"
+    },
+    {
+      "hero": "ana",
+      "tier": "minor",
+      "id": "Speed Serum",
+      "kind": "client-glyph",
+      "hero_guid": "00000000013B.075",
+      "loadout_guid": "000000000D0A.09E",
+      "texture_guid": "0000000673E4.004",
+      "perk_guids": [
+        "0000000026F0.134"
+      ],
+      "level": 1,
+      "name_zhCN": "加速血清",
+      "perk_set_guid": "000000000061.177",
+      "sha256": "f912ad37f3bd81ed276f58feae2bf33163f9d0f2edab5ef79899376d0b0b3054",
+      "file": "perks/client/ana/minor/0000000673E4.004.png"
     },
     {
       "hero": "anran",
       "tier": "major",
       "id": "Hungering Blaze",
-      "kind": "scoreboard",
-      "file": "perks/anran/major/Hungering Blaze.png"
+      "kind": "client-glyph",
+      "hero_guid": "0000000004DD.075",
+      "loadout_guid": "000000000D71.09E",
+      "texture_guid": "00000006E73D.004",
+      "perk_guids": [
+        "0000000027C4.134"
+      ],
+      "level": 2,
+      "name_zhCN": "噬心狂炎",
+      "perk_set_guid": "00000000006F.177",
+      "sha256": "9e9b3cff0651a20386eab84b7aef10c8dea92814910ee6888891092e1fa2518f",
+      "file": "perks/client/anran/major/00000006E73D.004.png"
     },
     {
       "hero": "anran",
       "tier": "major",
       "id": "Short Fuse",
-      "kind": "scoreboard",
-      "file": "perks/anran/major/Short Fuse.png"
+      "kind": "client-glyph",
+      "hero_guid": "0000000004DD.075",
+      "loadout_guid": "000000000E3F.09E",
+      "texture_guid": "00000006EBD9.004",
+      "perk_guids": [
+        "00000000287B.134"
+      ],
+      "level": 2,
+      "name_zhCN": "易燃易爆",
+      "perk_set_guid": "00000000006F.177",
+      "sha256": "0a6787bc8003d755f0f0ee2c88ce4d5dc89c5a4adcfbc074ad8895c9e2016838",
+      "file": "perks/client/anran/major/00000006EBD9.004.png"
+    },
+    {
+      "hero": "anran",
+      "tier": "minor",
+      "id": "Heat Shield",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004DD.075",
+      "loadout_guid": "000000000E3D.09E",
+      "texture_guid": "00000006EBDA.004",
+      "perk_guids": [
+        "000000002879.134"
+      ],
+      "level": 1,
+      "name_zhCN": "烈火护体",
+      "perk_set_guid": "00000000006F.177",
+      "sha256": "05cbdbe26475b71dde9ceeb88d6f04e299ca54c70fadd641c2e4cb988591d994",
+      "file": "perks/client/anran/minor/00000006EBDA.004.png"
+    },
+    {
+      "hero": "anran",
+      "tier": "minor",
+      "id": "Smoulder",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004DD.075",
+      "loadout_guid": "000000000DEE.09E",
+      "texture_guid": "00000006EBDB.004",
+      "perk_guids": [
+        "00000000281D.134"
+      ],
+      "level": 1,
+      "name_zhCN": "长燃之焰",
+      "perk_set_guid": "00000000006F.177",
+      "sha256": "4fe3af58528380fbd7317b4b9b5d68d41079b1a26df9f9e2f0d402d0e4ed0a61",
+      "file": "perks/client/anran/minor/00000006EBDB.004.png"
     },
     {
       "hero": "ashe",
       "tier": "major",
       "id": "Airburst",
-      "kind": "scoreboard",
-      "file": "perks/ashe/major/Airburst.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000200.075",
+      "loadout_guid": "000000000B40.09E",
+      "texture_guid": "00000005E46F.004",
+      "perk_guids": [
+        "000000002565.134"
+      ],
+      "level": 2,
+      "name_zhCN": "空爆雷管",
+      "perk_set_guid": "00000000004F.177",
+      "sha256": "87b958a21459391d7d571555bdb78bf9f40c81b875fd56f4ad7e725d0fe6eb15",
+      "file": "perks/client/ashe/major/00000005E46F.004.png"
     },
     {
       "hero": "ashe",
       "tier": "major",
       "id": "Viper's Sting",
-      "kind": "scoreboard",
-      "file": "perks/ashe/major/Viper's Sting.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000200.075",
+      "loadout_guid": "000000000B3E.09E",
+      "texture_guid": "00000005E472.004",
+      "perk_guids": [
+        "000000002566.134"
+      ],
+      "level": 2,
+      "name_zhCN": "毒蛇之刺",
+      "perk_set_guid": "00000000004F.177",
+      "sha256": "78f53453cd53f0622e9c2daa2236863257fd736793b0e7788c409c7c0c15f6d1",
+      "file": "perks/client/ashe/major/00000005E472.004.png"
+    },
+    {
+      "hero": "ashe",
+      "tier": "minor",
+      "id": "Double-Barreled",
+      "kind": "client-glyph",
+      "hero_guid": "000000000200.075",
+      "loadout_guid": "000000000E4F.09E",
+      "texture_guid": "000000070E94.004",
+      "perk_guids": [
+        "0000000028B4.134"
+      ],
+      "level": 1,
+      "name_zhCN": "双筒猎枪",
+      "perk_set_guid": "00000000004F.177",
+      "sha256": "ccdbbb27e7568b810630c0f1c707365262f862e5ad8612a5e29780b6b91857d6",
+      "file": "perks/client/ashe/minor/000000070E94.004.png"
+    },
+    {
+      "hero": "ashe",
+      "tier": "minor",
+      "id": "Remote Detonator",
+      "kind": "client-glyph",
+      "hero_guid": "000000000200.075",
+      "loadout_guid": "000000000CCF.09E",
+      "texture_guid": "000000067438.004",
+      "perk_guids": [
+        "000000002686.134"
+      ],
+      "level": 1,
+      "name_zhCN": "远程引爆器",
+      "perk_set_guid": "00000000004F.177",
+      "sha256": "3766264299166debd159599f0abf259099366e6cb288192ecf34d59fd6cc8c8c",
+      "file": "perks/client/ashe/minor/000000067438.004.png"
     },
     {
       "hero": "baptiste",
       "tier": "major",
       "id": "Automated Healing",
-      "kind": "scoreboard",
-      "file": "perks/baptiste/major/Automated Healing.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000221.075",
+      "loadout_guid": "000000000B57.09E",
+      "texture_guid": "0000000673E5.004",
+      "perk_guids": [
+        "00000000256E.134"
+      ],
+      "level": 2,
+      "name_zhCN": "自动治疗",
+      "perk_set_guid": "000000000062.177",
+      "sha256": "0aa1b5d0cc8535c8c098625972e5347598c3cbb3e4074b3b77043e4e0e70e5e0",
+      "file": "perks/client/baptiste/major/0000000673E5.004.png"
     },
     {
       "hero": "baptiste",
       "tier": "major",
       "id": "Rocket Boots",
-      "kind": "scoreboard",
-      "file": "perks/baptiste/major/Rocket Boots.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000221.075",
+      "loadout_guid": "000000000B91.09E",
+      "texture_guid": "00000005E499.004",
+      "perk_guids": [
+        "00000000256B.134"
+      ],
+      "level": 2,
+      "name_zhCN": "火箭战靴",
+      "perk_set_guid": "000000000062.177",
+      "sha256": "65e5794c38357ea725d77a5b92b1b1472056f225650532763155cd06004ac116",
+      "file": "perks/client/baptiste/major/00000005E499.004.png"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "minor",
+      "id": "Assault Burst",
+      "kind": "client-glyph",
+      "hero_guid": "000000000221.075",
+      "loadout_guid": "000000000B56.09E",
+      "texture_guid": "00000005E496.004",
+      "perk_guids": [
+        "00000000256C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "强攻冲击",
+      "perk_set_guid": "000000000062.177",
+      "sha256": "a9f701a282e0efa36d8883c90749b190eb3714503e5bd913d60122e05ad1b747",
+      "file": "perks/client/baptiste/minor/00000005E496.004.png"
+    },
+    {
+      "hero": "baptiste",
+      "tier": "minor",
+      "id": "Expanded Field",
+      "kind": "client-glyph",
+      "hero_guid": "000000000221.075",
+      "loadout_guid": "000000000E45.09E",
+      "texture_guid": "000000070E95.004",
+      "perk_guids": [
+        "0000000028A6.134"
+      ],
+      "level": 1,
+      "name_zhCN": "广域力场",
+      "perk_set_guid": "000000000062.177",
+      "sha256": "3bb146db964c7b766cffc24d6cfa12566051e5c5a150796192b3d93eeefc27ad",
+      "file": "perks/client/baptiste/minor/000000070E95.004.png"
     },
     {
       "hero": "bastion",
       "tier": "major",
       "id": "Lindholm Explosives",
-      "kind": "scoreboard",
-      "file": "perks/bastion/major/Lindholm Explosives.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000015.075",
+      "loadout_guid": "000000000B4C.09E",
+      "texture_guid": "00000005E494.004",
+      "perk_guids": [
+        "000000002514.134"
+      ],
+      "level": 2,
+      "name_zhCN": "林德霍姆炸药",
+      "perk_set_guid": "000000000050.177",
+      "sha256": "b04b0c8e41e705603e8a5752c0d0cc00553860e0f71ae394c214feea9bd1c183",
+      "file": "perks/client/bastion/major/00000005E494.004.png"
     },
     {
       "hero": "bastion",
       "tier": "major",
       "id": "Self-Repair",
-      "kind": "scoreboard",
-      "file": "perks/bastion/major/Self-Repair.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000015.075",
+      "loadout_guid": "000000000B4D.09E",
+      "texture_guid": "00000005E4F0.004",
+      "perk_guids": [
+        "000000002516.134"
+      ],
+      "level": 2,
+      "name_zhCN": "自我修复",
+      "perk_set_guid": "000000000050.177",
+      "sha256": "04d6eebf176ddf7a687f6575a58871847392cb4ff525ac68dfe45a4bfdeb9557",
+      "file": "perks/client/bastion/major/00000005E4F0.004.png"
+    },
+    {
+      "hero": "bastion",
+      "tier": "minor",
+      "id": "Configuration Reload",
+      "kind": "client-glyph",
+      "hero_guid": "000000000015.075",
+      "loadout_guid": "000000000D42.09E",
+      "texture_guid": "00000006741E.004",
+      "perk_guids": [
+        "00000000273C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "装弹模式",
+      "perk_set_guid": "000000000050.177",
+      "sha256": "3e278437ea639b18663a21c12c79dfd9aa7a0b347e8ecec58b6a5a2ae9c37e93",
+      "file": "perks/client/bastion/minor/00000006741E.004.png"
+    },
+    {
+      "hero": "bastion",
+      "tier": "minor",
+      "id": "Smart Bomb",
+      "kind": "client-glyph",
+      "hero_guid": "000000000015.075",
+      "loadout_guid": "000000000B4B.09E",
+      "texture_guid": "00000005E495.004",
+      "perk_guids": [
+        "000000002515.134"
+      ],
+      "level": 1,
+      "name_zhCN": "智能炸弹",
+      "perk_set_guid": "000000000050.177",
+      "sha256": "dcea98d7313ecd703e94fc1a31f975e9e327c60ccf8136a00d21abf8fdf2ee48",
+      "file": "perks/client/bastion/minor/00000005E495.004.png"
     },
     {
       "hero": "brigitte",
       "tier": "major",
       "id": "Inspiring Strike",
-      "kind": "scoreboard",
-      "file": "perks/brigitte/major/Inspiring Strike.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000195.075",
+      "loadout_guid": "000000000D46.09E",
+      "texture_guid": "000000067460.004",
+      "perk_guids": [
+        "00000000274C.134"
+      ],
+      "level": 2,
+      "name_zhCN": "鼓舞盾击",
+      "perk_set_guid": "000000000063.177",
+      "sha256": "706d865a5e2a534d4c1f2dac27adde831b85b35320d64ae46a232289f35cb0ee",
+      "file": "perks/client/brigitte/major/000000067460.004.png"
     },
     {
       "hero": "brigitte",
       "tier": "major",
       "id": "Whiplash",
-      "kind": "scoreboard",
-      "file": "perks/brigitte/major/Whiplash.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000195.075",
+      "loadout_guid": "000000000B76.09E",
+      "texture_guid": "00000005E4CE.004",
+      "perk_guids": [
+        "0000000025C2.134"
+      ],
+      "level": 2,
+      "name_zhCN": "流星重鞭",
+      "perk_set_guid": "000000000063.177",
+      "sha256": "da670e06d5206ff1bfa0d5a7074fac43c623ae715d83500aae1c3a60023e2830",
+      "file": "perks/client/brigitte/major/00000005E4CE.004.png"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "minor",
+      "id": "Combat Medic",
+      "kind": "client-glyph",
+      "hero_guid": "000000000195.075",
+      "loadout_guid": "000000000D47.09E",
+      "texture_guid": "000000067461.004",
+      "perk_guids": [
+        "00000000274D.134"
+      ],
+      "level": 1,
+      "name_zhCN": "战地医疗兵",
+      "perk_set_guid": "000000000063.177",
+      "sha256": "d11514e0b7d63a2f9e1dd56ef8e6fb1cd79f4e5c7cf443c777668f9e395334c1",
+      "file": "perks/client/brigitte/minor/000000067461.004.png"
+    },
+    {
+      "hero": "brigitte",
+      "tier": "minor",
+      "id": "Morale Boost",
+      "kind": "client-glyph",
+      "hero_guid": "000000000195.075",
+      "loadout_guid": "000000000B74.09E",
+      "texture_guid": "00000005E4CC.004",
+      "perk_guids": [
+        "000000002554.134"
+      ],
+      "level": 1,
+      "name_zhCN": "士气高昂",
+      "perk_set_guid": "000000000063.177",
+      "sha256": "86149471fb0c3bb44bf6b80dbcb1ad923fb94f1f18946a86eb48b5446c31097b",
+      "file": "perks/client/brigitte/minor/00000005E4CC.004.png"
     },
     {
       "hero": "cassidy",
       "tier": "major",
       "id": "Rollin' Round-Up",
-      "kind": "scoreboard",
-      "file": "perks/cassidy/major/Rollin' Round-Up.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000042.075",
+      "loadout_guid": "000000000E31.09E",
+      "texture_guid": "000000070E96.004",
+      "perk_guids": [
+        "00000000286A.134"
+      ],
+      "level": 2,
+      "name_zhCN": "翻身愈合",
+      "perk_set_guid": "00000000006C.177",
+      "sha256": "5e56b0350240a10f8b5bc57c2cc460d31455de2b541ae8b6391a6bf2c62265d6",
+      "file": "perks/client/cassidy/major/000000070E96.004.png"
     },
     {
       "hero": "cassidy",
       "tier": "major",
       "id": "Silver Bullet",
-      "kind": "scoreboard",
-      "file": "perks/cassidy/major/Silver Bullet.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000042.075",
+      "loadout_guid": "000000000D2B.09E",
+      "texture_guid": "00000006741F.004",
+      "perk_guids": [
+        "000000002723.134"
+      ],
+      "level": 2,
+      "name_zhCN": "银质子弹",
+      "perk_set_guid": "00000000006C.177",
+      "sha256": "c30ad766b08e25ac14d1d9606001366c39dabb1cd3f04548c760ca3bf0e3fea2",
+      "file": "perks/client/cassidy/major/00000006741F.004.png"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "minor",
+      "id": "Bang Bang",
+      "kind": "client-glyph",
+      "hero_guid": "000000000042.075",
+      "loadout_guid": "000000000B8A.09E",
+      "texture_guid": "00000005E477.004",
+      "perk_guids": [
+        "000000002527.134"
+      ],
+      "level": 1,
+      "name_zhCN": "双发连闪",
+      "perk_set_guid": "00000000006C.177",
+      "sha256": "b96f1343c314ac1d91ba690053daa88f255bcf885942a9cd7c57e9cfd8ae66e4",
+      "file": "perks/client/cassidy/minor/00000005E477.004.png"
+    },
+    {
+      "hero": "cassidy",
+      "tier": "minor",
+      "id": "Giddy Up",
+      "kind": "client-glyph",
+      "hero_guid": "000000000042.075",
+      "loadout_guid": "000000000FB3.09E",
+      "texture_guid": "00000007B214.004",
+      "perk_guids": [
+        "000000002ADA.134"
+      ],
+      "level": 1,
+      "name_zhCN": "得儿驾",
+      "perk_set_guid": "00000000006C.177",
+      "sha256": "73a7b8dd6c4abd5e51e58095937803b54d4a1e6241d4d18cd62e9329c278faf3",
+      "file": "perks/client/cassidy/minor/00000007B214.004.png"
     },
     {
       "hero": "dmon",
       "tier": "major",
       "id": "Focused Fusion",
-      "kind": "scoreboard",
-      "file": "perks/dmon/major/Focused Fusion.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000542.075",
+      "loadout_guid": "000000000F3C.09E",
+      "texture_guid": "00000007AC9B.004",
+      "perk_guids": [
+        "0000000029E5.134"
+      ],
+      "level": 2,
+      "name_zhCN": "聚焦聚变",
+      "perk_set_guid": "0000000000A0.177",
+      "sha256": "2c5e27418fc9e1b921e29fda2c3893664a0898e03ad9bab1613b2392f11ae6b5",
+      "file": "perks/client/dmon/major/00000007AC9B.004.png"
     },
     {
       "hero": "dmon",
       "tier": "major",
       "id": "Overstrike",
-      "kind": "scoreboard",
-      "file": "perks/dmon/major/Overstrike.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000542.075",
+      "loadout_guid": "000000000F3D.09E",
+      "texture_guid": "00000007AC9A.004",
+      "perk_guids": [
+        "0000000029E4.134"
+      ],
+      "level": 2,
+      "name_zhCN": "强突刺击",
+      "perk_set_guid": "0000000000A0.177",
+      "sha256": "558ed3c997890679d8aa80e0ab7c97cd288be029166da771f4942ca1cf489980",
+      "file": "perks/client/dmon/major/00000007AC9A.004.png"
+    },
+    {
+      "hero": "dmon",
+      "tier": "minor",
+      "id": "Beast Within",
+      "kind": "client-glyph",
+      "hero_guid": "000000000542.075",
+      "loadout_guid": "000000000F3E.09E",
+      "texture_guid": "00000007AC9C.004",
+      "perk_guids": [
+        "0000000029E3.134"
+      ],
+      "level": 1,
+      "name_zhCN": "野兽之心",
+      "perk_set_guid": "0000000000A0.177",
+      "sha256": "f11dbf9dfa3e331652071882572d78a7abd513e85746adbb0b00b0479a6a162a",
+      "file": "perks/client/dmon/minor/00000007AC9C.004.png"
+    },
+    {
+      "hero": "dmon",
+      "tier": "minor",
+      "id": "MEKA Mobility",
+      "kind": "client-glyph",
+      "hero_guid": "000000000542.075",
+      "loadout_guid": "000000000F3F.09E",
+      "texture_guid": "00000007AC99.004",
+      "perk_guids": [
+        "0000000029E6.134"
+      ],
+      "level": 1,
+      "name_zhCN": "MEKA机动",
+      "perk_set_guid": "0000000000A0.177",
+      "sha256": "bac8341c110fc0507bf29fa6b532a8a85eadfd6b26351d2d1b8af163af15bfc0",
+      "file": "perks/client/dmon/minor/00000007AC99.004.png"
     },
     {
       "hero": "doctrine",
       "tier": "major",
       "id": "Cost of Life",
-      "kind": "scoreboard",
-      "file": "perks/doctrine/major/Cost of Life.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000570.075",
+      "loadout_guid": "000000000FC6.09E",
+      "texture_guid": "00000007B51C.004",
+      "perk_guids": [
+        "000000002AF2.134"
+      ],
+      "level": 2,
+      "name_zhCN": "生命代价",
+      "perk_set_guid": "0000000000A1.177",
+      "sha256": "9fe04726898403541f928fc2cd313c85801e31e58df2194f61b4bdb6c4382416",
+      "file": "perks/client/doctrine/major/00000007B51C.004.png"
     },
     {
       "hero": "doctrine",
       "tier": "major",
       "id": "Transfusion",
-      "kind": "scoreboard",
-      "file": "perks/doctrine/major/Transfusion.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000570.075",
+      "loadout_guid": "000000000F4D.09E",
+      "texture_guid": "00000007B51E.004",
+      "perk_guids": [
+        "000000002A19.134"
+      ],
+      "level": 2,
+      "name_zhCN": "活力传输",
+      "perk_set_guid": "0000000000A1.177",
+      "sha256": "c9f89526682fe699888d50ba257890510678497b5f346480090b3bf4d2e686c3",
+      "file": "perks/client/doctrine/major/00000007B51E.004.png"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "minor",
+      "id": "Sanguine Siphon",
+      "kind": "client-glyph",
+      "hero_guid": "000000000570.075",
+      "loadout_guid": "000000000F94.09E",
+      "texture_guid": "00000007B51F.004",
+      "perk_guids": [
+        "000000002AAD.134"
+      ],
+      "level": 1,
+      "name_zhCN": "猩红汲取",
+      "perk_set_guid": "0000000000A1.177",
+      "sha256": "9d0e639ca0b2efb2b532618a4c049dde28ece330451dc17762ffa7e9e4d2003e",
+      "file": "perks/client/doctrine/minor/00000007B51F.004.png"
+    },
+    {
+      "hero": "doctrine",
+      "tier": "minor",
+      "id": "Saving Grace",
+      "kind": "client-glyph",
+      "hero_guid": "000000000570.075",
+      "loadout_guid": "000000000FC5.09E",
+      "texture_guid": "00000007B520.004",
+      "perk_guids": [
+        "000000002AF1.134"
+      ],
+      "level": 1,
+      "name_zhCN": "救赎恩赐",
+      "perk_set_guid": "0000000000A1.177",
+      "sha256": "7fccba2fd7a71e06a6ce9f5095c52ebc49ef6f7e075ef3390490d6816b68f913",
+      "file": "perks/client/doctrine/minor/00000007B520.004.png"
     },
     {
       "hero": "domina",
       "tier": "major",
       "id": "Corporate Retreat",
-      "kind": "scoreboard",
-      "file": "perks/domina/major/Corporate Retreat.png"
+      "kind": "client-glyph",
+      "hero_guid": "0000000004C4.075",
+      "loadout_guid": "000000000F03.09E",
+      "texture_guid": "00000007617C.004",
+      "perk_guids": [
+        "000000002957.134"
+      ],
+      "level": 2,
+      "name_zhCN": "战略转移",
+      "perk_set_guid": "00000000002C.177",
+      "sha256": "7969553693d89be20e1e0bf2e9bba736505c3422c32c79591f008f53c6113c18",
+      "file": "perks/client/domina/major/00000007617C.004.png"
     },
     {
       "hero": "domina",
       "tier": "major",
       "id": "Disruptive Detonation",
-      "kind": "scoreboard",
-      "file": "perks/domina/major/Disruptive Detonation.png"
+      "kind": "client-glyph",
+      "hero_guid": "0000000004C4.075",
+      "loadout_guid": "000000000CE3.09E",
+      "texture_guid": "0000000721D3.004",
+      "perk_guids": [
+        "00000000269F.134"
+      ],
+      "level": 2,
+      "name_zhCN": "扰动爆破",
+      "perk_set_guid": "00000000002C.177",
+      "sha256": "3dca3ef811513ca84b19d84c15654c8e116bf4a09620a120b5e946f1c10e2809",
+      "file": "perks/client/domina/major/0000000721D3.004.png"
+    },
+    {
+      "hero": "domina",
+      "tier": "minor",
+      "id": "Efficient Design",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004C4.075",
+      "loadout_guid": "000000000CE2.09E",
+      "texture_guid": "0000000721CC.004",
+      "perk_guids": [
+        "00000000269E.134"
+      ],
+      "level": 1,
+      "name_zhCN": "高效设计",
+      "perk_set_guid": "00000000002C.177",
+      "sha256": "422365e29a87a192378fc0476321c14cc265c4bf431a26ea03d25a359a409314",
+      "file": "perks/client/domina/minor/0000000721CC.004.png"
+    },
+    {
+      "hero": "domina",
+      "tier": "minor",
+      "id": "Extended Power",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004C4.075",
+      "loadout_guid": "000000000CE5.09E",
+      "texture_guid": "0000000721CA.004",
+      "perk_guids": [
+        "0000000026A1.134"
+      ],
+      "level": 1,
+      "name_zhCN": "权力扩张",
+      "perk_set_guid": "00000000002C.177",
+      "sha256": "6501202e5c1d82d6a2826170b59ae34781a280213f68dd130f370fd0ddeb84a4",
+      "file": "perks/client/domina/minor/0000000721CA.004.png"
     },
     {
       "hero": "doomfist",
       "tier": "major",
       "id": "Aftershock",
-      "kind": "scoreboard",
-      "file": "perks/doomfist/major/Aftershock.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000012F.075",
+      "loadout_guid": "000000000C9B.09E",
+      "texture_guid": "000000067405.004",
+      "perk_guids": [
+        "000000002640.134"
+      ],
+      "level": 2,
+      "name_zhCN": "地震余波",
+      "perk_set_guid": "000000000043.177",
+      "sha256": "0539a17d8bc3bc9f79fcea74da2adce2e92508ae278ccebf8a53e84b58833d73",
+      "file": "perks/client/doomfist/major/000000067405.004.png"
     },
     {
       "hero": "doomfist",
       "tier": "major",
       "id": "Power Matrix",
-      "kind": "scoreboard",
-      "file": "perks/doomfist/major/Power Matrix.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000012F.075",
+      "loadout_guid": "000000000B2F.09E",
+      "texture_guid": "00000005E48C.004",
+      "perk_guids": [
+        "000000002549.134"
+      ],
+      "level": 2,
+      "name_zhCN": "悍猛矩阵",
+      "perk_set_guid": "000000000043.177",
+      "sha256": "25493cb98deeb802e253a959c6b8a8f7a11b093aa051af28774e9ef5c387be5c",
+      "file": "perks/client/doomfist/major/00000005E48C.004.png"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "minor",
+      "id": "One-Two",
+      "kind": "client-glyph",
+      "hero_guid": "00000000012F.075",
+      "loadout_guid": "000000000C0A.09E",
+      "texture_guid": "000000067406.004",
+      "perk_guids": [
+        "00000000259C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "左右开攻",
+      "perk_set_guid": "000000000043.177",
+      "sha256": "a8792e4522f237dacf2c0d462d2a81f8199320028603c90da74e4efd8b445f89",
+      "file": "perks/client/doomfist/minor/000000067406.004.png"
+    },
+    {
+      "hero": "doomfist",
+      "tier": "minor",
+      "id": "Survival of the Fittest",
+      "kind": "client-glyph",
+      "hero_guid": "00000000012F.075",
+      "loadout_guid": "000000000BAD.09E",
+      "texture_guid": "00000005E48E.004",
+      "perk_guids": [
+        "000000002548.134"
+      ],
+      "level": 1,
+      "name_zhCN": "优胜劣汰",
+      "perk_set_guid": "000000000043.177",
+      "sha256": "5633316cc07e1426b71e924a6b40c4712073644c9349e965a5474913ae38f0f6",
+      "file": "perks/client/doomfist/minor/00000005E48E.004.png"
     },
     {
       "hero": "dva",
       "tier": "major",
       "id": "Precision Fusion",
-      "kind": "scoreboard",
-      "file": "perks/dva/major/Precision Fusion.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000007A.075",
+      "loadout_guid": "000000000D41.09E",
+      "texture_guid": "000000067419.004",
+      "perk_guids": [
+        "00000000273E.134"
+      ],
+      "level": 2,
+      "name_zhCN": "精准聚变",
+      "perk_set_guid": "000000000042.177",
+      "sha256": "40231a6aace5e6f9c5a2ee04fc24cccfb0f691a4f21859ed08566779af67d4ec",
+      "file": "perks/client/dva/major/000000067419.004.png"
     },
     {
       "hero": "dva",
       "tier": "major",
       "id": "Shield System",
-      "kind": "scoreboard",
-      "file": "perks/dva/major/Shield System.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000007A.075",
+      "loadout_guid": "000000000B13.09E",
+      "texture_guid": "00000005E4BA.004",
+      "perk_guids": [
+        "00000000253E.134"
+      ],
+      "level": 2,
+      "name_zhCN": "护盾系统",
+      "perk_set_guid": "000000000042.177",
+      "sha256": "5b50a7b855137b77b512d18518413ffe9fca0a68c09332073f5c4127d6d697ad",
+      "file": "perks/client/dva/major/00000005E4BA.004.png"
+    },
+    {
+      "hero": "dva",
+      "tier": "minor",
+      "id": "Bunny Power",
+      "kind": "client-glyph",
+      "hero_guid": "00000000007A.075",
+      "loadout_guid": "000000000B11.09E",
+      "texture_guid": "000000061C90.004",
+      "perk_guids": [
+        "00000000253B.134"
+      ],
+      "level": 1,
+      "name_zhCN": "小兔之力",
+      "perk_set_guid": "000000000042.177",
+      "sha256": "845c265a841c1a0a927cd2aeee3eef80a64b9ec56186ae553a9ca5be7e004a3d",
+      "file": "perks/client/dva/minor/000000061C90.004.png"
+    },
+    {
+      "hero": "dva",
+      "tier": "minor",
+      "id": "Extended Boosters",
+      "kind": "client-glyph",
+      "hero_guid": "00000000007A.075",
+      "loadout_guid": "000000000C84.09E",
+      "texture_guid": "000000061C91.004",
+      "perk_guids": [
+        "0000000025E6.134"
+      ],
+      "level": 1,
+      "name_zhCN": "延时推进器",
+      "perk_set_guid": "000000000042.177",
+      "sha256": "14cde730391c07f70b27a2dc166f949323a1e469531c761f5e21243f74ec42c0",
+      "file": "perks/client/dva/minor/000000061C91.004.png"
     },
     {
       "hero": "echo",
       "tier": "major",
       "id": "Focused Rush",
-      "kind": "scoreboard",
-      "file": "perks/echo/major/Focused Rush.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000206.075",
+      "loadout_guid": "000000000CFE.09E",
+      "texture_guid": "000000067420.004",
+      "perk_guids": [
+        "0000000026BF.134"
+      ],
+      "level": 2,
+      "name_zhCN": "聚焦机动",
+      "perk_set_guid": "000000000051.177",
+      "sha256": "82938e289c699192023024570c69960f875bc31c7739dc7493e945abcc560b7a",
+      "file": "perks/client/echo/major/000000067420.004.png"
     },
     {
       "hero": "echo",
       "tier": "major",
       "id": "Full Salvo",
-      "kind": "scoreboard",
-      "file": "perks/echo/major/Full Salvo.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000206.075",
+      "loadout_guid": "000000000B42.09E",
+      "texture_guid": "00000005E489.004",
+      "perk_guids": [
+        "000000002569.134"
+      ],
+      "level": 2,
+      "name_zhCN": "炸弹齐射",
+      "perk_set_guid": "000000000051.177",
+      "sha256": "dc43a9388dc1081741654b93b4defb5cfa1552f97705d9be973c5c4988639611",
+      "file": "perks/client/echo/major/00000005E489.004.png"
+    },
+    {
+      "hero": "echo",
+      "tier": "minor",
+      "id": "Aerial Munitions",
+      "kind": "client-glyph",
+      "hero_guid": "000000000206.075",
+      "loadout_guid": "000000000FB1.09E",
+      "texture_guid": "00000007B213.004",
+      "perk_guids": [
+        "000000002AD8.134"
+      ],
+      "level": 1,
+      "name_zhCN": "空战火力",
+      "perk_set_guid": "000000000051.177",
+      "sha256": "767ca445b22b56d25c32d8b2d812e51df73aab1f9131ee84befb1f8d9b6e235d",
+      "file": "perks/client/echo/minor/00000007B213.004.png"
+    },
+    {
+      "hero": "echo",
+      "tier": "minor",
+      "id": "Partial Scan",
+      "kind": "client-glyph",
+      "hero_guid": "000000000206.075",
+      "loadout_guid": "000000000C93.09E",
+      "texture_guid": "000000067421.004",
+      "perk_guids": [
+        "000000002639.134"
+      ],
+      "level": 1,
+      "name_zhCN": "局部扫描",
+      "perk_set_guid": "000000000051.177",
+      "sha256": "cfa6d1c3b821d53731473f41e7b8a9413ba9aaf0545977d95159d8aea620f14d",
+      "file": "perks/client/echo/minor/000000067421.004.png"
     },
     {
       "hero": "emre",
       "tier": "major",
       "id": "Cyber Adhesion",
-      "kind": "scoreboard",
-      "file": "perks/emre/major/Cyber Adhesion.png"
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D8.075",
+      "loadout_guid": "000000000DF1.09E",
+      "texture_guid": "000000070E9B.004",
+      "perk_guids": [
+        "00000000282E.134"
+      ],
+      "level": 2,
+      "name_zhCN": "赛博黏附",
+      "perk_set_guid": "000000000027.177",
+      "sha256": "d60a2e43c661746fdc004fcecc638b6d7dfdc0332fdd1a0f276ded0fe1d355d4",
+      "file": "perks/client/emre/major/000000070E9B.004.png"
     },
     {
       "hero": "emre",
       "tier": "major",
       "id": "Heat Sink",
-      "kind": "scoreboard",
-      "file": "perks/emre/major/Heat Sink.png"
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D8.075",
+      "loadout_guid": "000000000E14.09E",
+      "texture_guid": "000000070E99.004",
+      "perk_guids": [
+        "000000002854.134"
+      ],
+      "level": 2,
+      "name_zhCN": "散热装置",
+      "perk_set_guid": "000000000027.177",
+      "sha256": "5650875226cc4766375068f44b22fa5be692ce90ed86f056613a501c0a801d96",
+      "file": "perks/client/emre/major/000000070E99.004.png"
+    },
+    {
+      "hero": "emre",
+      "tier": "minor",
+      "id": "Enhanced Agility",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D8.075",
+      "loadout_guid": "000000000E46.09E",
+      "texture_guid": "000000070E98.004",
+      "perk_guids": [
+        "0000000028AA.134"
+      ],
+      "level": 1,
+      "name_zhCN": "敏捷强化",
+      "perk_set_guid": "000000000027.177",
+      "sha256": "0a121b2a5da1cd94a5931a1bb09d403c559ccfb30f1f855e7722c2100d0bcf52",
+      "file": "perks/client/emre/minor/000000070E98.004.png"
+    },
+    {
+      "hero": "emre",
+      "tier": "minor",
+      "id": "Suppressive Security",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D8.075",
+      "loadout_guid": "000000000E1E.09E",
+      "texture_guid": "000000070E9A.004",
+      "perk_guids": [
+        "000000002858.134"
+      ],
+      "level": 1,
+      "name_zhCN": "压制安防",
+      "perk_set_guid": "000000000027.177",
+      "sha256": "545049b64780a489185e565fe3bb99439bbbddd83b30e8adde67822ddbd7c441",
+      "file": "perks/client/emre/minor/000000070E9A.004.png"
     },
     {
       "hero": "freja",
       "tier": "major",
       "id": "Aerial Recovery",
-      "kind": "scoreboard",
-      "file": "perks/freja/major/Aerial Recovery.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000032A.075",
+      "loadout_guid": "000000000D00.09E",
+      "texture_guid": "000000067422.004",
+      "perk_guids": [
+        "0000000026C1.134"
+      ],
+      "level": 2,
+      "name_zhCN": "飞空愈疗",
+      "perk_set_guid": "000000000052.177",
+      "sha256": "93f36399a680800aea63921f7eab17cd37add7e4321e7ce55ed8e9cf2415bc81",
+      "file": "perks/client/freja/major/000000067422.004.png"
     },
     {
       "hero": "freja",
       "tier": "major",
       "id": "Rising Winds",
-      "kind": "scoreboard",
-      "file": "perks/freja/major/Rising Winds.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000032A.075",
+      "loadout_guid": "000000000E2A.09E",
+      "texture_guid": "000000070E9C.004",
+      "perk_guids": [
+        "000000002860.134"
+      ],
+      "level": 2,
+      "name_zhCN": "劲风再起",
+      "perk_set_guid": "000000000052.177",
+      "sha256": "053eef93a29c5a7761470f1d22da7924ec3e3474de450f79daa46998256b4605",
+      "file": "perks/client/freja/major/000000070E9C.004.png"
+    },
+    {
+      "hero": "freja",
+      "tier": "minor",
+      "id": "Momentum Boost",
+      "kind": "client-glyph",
+      "hero_guid": "00000000032A.075",
+      "loadout_guid": "000000000CCA.09E",
+      "texture_guid": "000000067424.004",
+      "perk_guids": [
+        "00000000267D.134"
+      ],
+      "level": 1,
+      "name_zhCN": "疾奔之势",
+      "perk_set_guid": "000000000052.177",
+      "sha256": "82feff34cce9c71a82616cd97f2f83b23a3cab6a07371efcdbb1774ec834ba41",
+      "file": "perks/client/freja/minor/000000067424.004.png"
+    },
+    {
+      "hero": "freja",
+      "tier": "minor",
+      "id": "Relentless Barrage",
+      "kind": "client-glyph",
+      "hero_guid": "00000000032A.075",
+      "loadout_guid": "000000000C46.09E",
+      "texture_guid": "000000060748.004",
+      "perk_guids": [
+        "0000000025D1.134"
+      ],
+      "level": 1,
+      "name_zhCN": "无情弹幕",
+      "perk_set_guid": "000000000052.177",
+      "sha256": "8f7a981deb63ec6ac220292663195c28839f8fc3557cef51f4037eddcb5ee9c3",
+      "file": "perks/client/freja/minor/000000060748.004.png"
     },
     {
       "hero": "genji",
       "tier": "major",
       "id": "Blade Twisting",
-      "kind": "scoreboard",
-      "file": "perks/genji/major/Blade Twisting.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000029.075",
+      "loadout_guid": "000000000BEF.09E",
+      "texture_guid": "000000067425.004",
+      "perk_guids": [
+        "000000002597.134"
+      ],
+      "level": 2,
+      "name_zhCN": "扭转刃影",
+      "perk_set_guid": "000000000053.177",
+      "sha256": "41020dff610f53b1c2afca75d364f273804760956be25631e78ca3e76c4118c2",
+      "file": "perks/client/genji/major/000000067425.004.png"
     },
     {
       "hero": "genji",
       "tier": "major",
       "id": "Meditation",
-      "kind": "scoreboard",
-      "file": "perks/genji/major/Meditation.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000029.075",
+      "loadout_guid": "000000000BF0.09E",
+      "texture_guid": "00000005E4E3.004",
+      "perk_guids": [
+        "000000002598.134"
+      ],
+      "level": 2,
+      "name_zhCN": "冥思一闪",
+      "perk_set_guid": "000000000053.177",
+      "sha256": "b35fbfe2d05ca1ef8deb7b3582457dacd65b1c8a9b500d1aef63e0faea7aaf8e",
+      "file": "perks/client/genji/major/00000005E4E3.004.png"
+    },
+    {
+      "hero": "genji",
+      "tier": "minor",
+      "id": "Dragon's Thirst",
+      "kind": "client-glyph",
+      "hero_guid": "000000000029.075",
+      "loadout_guid": "000000000C20.09E",
+      "texture_guid": "00000005E4E2.004",
+      "perk_guids": [
+        "0000000025B0.134"
+      ],
+      "level": 1,
+      "name_zhCN": "神竜之渴",
+      "perk_set_guid": "000000000053.177",
+      "sha256": "94996cf86eac395e6c0517eb75754b5d932898b2737ec9b8bfff462335c42c1d",
+      "file": "perks/client/genji/minor/00000005E4E2.004.png"
+    },
+    {
+      "hero": "genji",
+      "tier": "minor",
+      "id": "Swift Cuts",
+      "kind": "client-glyph",
+      "hero_guid": "000000000029.075",
+      "loadout_guid": "000000000CAF.09E",
+      "texture_guid": "000000067426.004",
+      "perk_guids": [
+        "000000002653.134"
+      ],
+      "level": 1,
+      "name_zhCN": "刃至影随",
+      "perk_set_guid": "000000000053.177",
+      "sha256": "66911a1030199ac0e1583e1869e93d389c5228fd2730b1920bf27d71475c7950",
+      "file": "perks/client/genji/minor/000000067426.004.png"
     },
     {
       "hero": "hanzo",
       "tier": "major",
       "id": "Frost Arrow",
-      "kind": "scoreboard",
-      "file": "perks/hanzo/major/Frost Arrow.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000005.075",
+      "loadout_guid": "000000000E34.09E",
+      "texture_guid": "000000070E9D.004",
+      "perk_guids": [
+        "00000000286D.134"
+      ],
+      "level": 2,
+      "name_zhCN": "霜冻之箭",
+      "perk_set_guid": "000000000054.177",
+      "sha256": "d2e8cd406059e1d1fbca8fc09e6be4325cb4d08f18b1d2190c5046ad3db2940a",
+      "file": "perks/client/hanzo/major/000000070E9D.004.png"
     },
     {
       "hero": "hanzo",
       "tier": "major",
       "id": "Scatter Arrows",
-      "kind": "scoreboard",
-      "file": "perks/hanzo/major/Scatter Arrows.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000005.075",
+      "loadout_guid": "000000000C0E.09E",
+      "texture_guid": "000000067427.004",
+      "perk_guids": [
+        "00000000259F.134"
+      ],
+      "level": 2,
+      "name_zhCN": "狂岚尽散",
+      "perk_set_guid": "000000000054.177",
+      "sha256": "6cd41cf5248da8dc8578c483b81b86ea8311b8113b0f415d41dfe4d74502ca88",
+      "file": "perks/client/hanzo/major/000000067427.004.png"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "minor",
+      "id": "Dragon Fury",
+      "kind": "client-glyph",
+      "hero_guid": "000000000005.075",
+      "loadout_guid": "000000000C29.09E",
+      "texture_guid": "00000005E473.004",
+      "perk_guids": [
+        "0000000025B8.134"
+      ],
+      "level": 1,
+      "name_zhCN": "神竜之怒",
+      "perk_set_guid": "000000000054.177",
+      "sha256": "10f683db76f7d1b37f5bf9eab45dfcd500fc024948842d1fc1121eb5d118a225",
+      "file": "perks/client/hanzo/minor/00000005E473.004.png"
+    },
+    {
+      "hero": "hanzo",
+      "tier": "minor",
+      "id": "Sonic Disruption",
+      "kind": "client-glyph",
+      "hero_guid": "000000000005.075",
+      "loadout_guid": "000000000B89.09E",
+      "texture_guid": "00000005E475.004",
+      "perk_guids": [
+        "0000000024FB.134"
+      ],
+      "level": 1,
+      "name_zhCN": "干扰之音",
+      "perk_set_guid": "000000000054.177",
+      "sha256": "4c449785852d08b903881fdaea8da154c026142a26c8bf4403b9fb1ccaa54fd5",
+      "file": "perks/client/hanzo/minor/00000005E475.004.png"
     },
     {
       "hero": "hazard",
       "tier": "major",
       "id": "Deep Leap",
-      "kind": "scoreboard",
-      "file": "perks/hazard/major/Deep Leap.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000362.075",
+      "loadout_guid": "000000000BE6.09E",
+      "texture_guid": "00000005E4E9.004",
+      "perk_guids": [
+        "000000002596.134"
+      ],
+      "level": 2,
+      "name_zhCN": "强劲狂跃",
+      "perk_set_guid": "000000000044.177",
+      "sha256": "dea2e560e4e0bb5405d1fbe7aaeaf047579e5f5f4b8d99dd4d27167a4e3aca8a",
+      "file": "perks/client/hazard/major/00000005E4E9.004.png"
     },
     {
       "hero": "hazard",
       "tier": "major",
       "id": "Explosive Impalements",
-      "kind": "scoreboard",
-      "file": "perks/hazard/major/Explosive Impalements.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000362.075",
+      "loadout_guid": "000000000D30.09E",
+      "texture_guid": "0000000678FE.004",
+      "perk_guids": [
+        "00000000272C.134"
+      ],
+      "level": 2,
+      "name_zhCN": "爆炸穿刺",
+      "perk_set_guid": "000000000044.177",
+      "sha256": "7b7a45cf8948d2e82d6e6c503037b829dcba372636a72daff94c0e19366a37ae",
+      "file": "perks/client/hazard/major/0000000678FE.004.png"
+    },
+    {
+      "hero": "hazard",
+      "tier": "minor",
+      "id": "Anarchic Zeal",
+      "kind": "client-glyph",
+      "hero_guid": "000000000362.075",
+      "loadout_guid": "000000000BE7.09E",
+      "texture_guid": "00000005E4E8.004",
+      "perk_guids": [
+        "000000002595.134"
+      ],
+      "level": 1,
+      "name_zhCN": "激进狂热",
+      "perk_set_guid": "000000000044.177",
+      "sha256": "f386ca5176529b5a10d696cffef45c07cdab284c37a9279b85b60b6e1a59d40a",
+      "file": "perks/client/hazard/minor/00000005E4E8.004.png"
+    },
+    {
+      "hero": "hazard",
+      "tier": "minor",
+      "id": "Reconstitution",
+      "kind": "client-glyph",
+      "hero_guid": "000000000362.075",
+      "loadout_guid": "000000000BE8.09E",
+      "texture_guid": "00000005E4EB.004",
+      "perk_guids": [
+        "000000002594.134"
+      ],
+      "level": 1,
+      "name_zhCN": "尖刺重构",
+      "perk_set_guid": "000000000044.177",
+      "sha256": "34a80c699c73f83e2e23230a3f19332a827483cb10bdaf8799274251d3d0609e",
+      "file": "perks/client/hazard/minor/00000005E4EB.004.png"
     },
     {
       "hero": "illari",
       "tier": "major",
       "id": "Solar Flare",
-      "kind": "scoreboard",
-      "file": "perks/illari/major/Solar Flare.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000031C.075",
+      "loadout_guid": "000000000D16.09E",
+      "texture_guid": "0000000673EC.004",
+      "perk_guids": [
+        "0000000026F8.134"
+      ],
+      "level": 2,
+      "name_zhCN": "太阳耀斑",
+      "perk_set_guid": "000000000064.177",
+      "sha256": "e5d3b1f5bf023fb29bc14bb881fd95b947ad9d1b515ad813bf10ad70b5db937e",
+      "file": "perks/client/illari/major/0000000673EC.004.png"
     },
     {
       "hero": "illari",
       "tier": "major",
       "id": "Sunburn",
-      "kind": "scoreboard",
-      "file": "perks/illari/major/Sunburn.png"
+      "kind": "client-glyph",
+      "hero_guid": "00000000031C.075",
+      "loadout_guid": "000000000C25.09E",
+      "texture_guid": "00000005E4E7.004",
+      "perk_guids": [
+        "0000000025B4.134"
+      ],
+      "level": 2,
+      "name_zhCN": "烈日燎灼",
+      "perk_set_guid": "000000000064.177",
+      "sha256": "a34d31636269b6489df394109aef98bf532fc9d8093c4fd979ca9a1d529ffcb2",
+      "file": "perks/client/illari/major/00000005E4E7.004.png"
+    },
+    {
+      "hero": "illari",
+      "tier": "minor",
+      "id": "Rapid Construction",
+      "kind": "client-glyph",
+      "hero_guid": "00000000031C.075",
+      "loadout_guid": "000000000C21.09E",
+      "texture_guid": "00000005E4E4.004",
+      "perk_guids": [
+        "0000000025B1.134"
+      ],
+      "level": 1,
+      "name_zhCN": "快速建造",
+      "perk_set_guid": "000000000064.177",
+      "sha256": "33d3f0a1ac57e82245039f3afb1d5d67b50687799c9b91c76620aef2c25c7ad4",
+      "file": "perks/client/illari/minor/00000005E4E4.004.png"
+    },
+    {
+      "hero": "illari",
+      "tier": "minor",
+      "id": "Summer Solstice",
+      "kind": "client-glyph",
+      "hero_guid": "00000000031C.075",
+      "loadout_guid": "000000000C22.09E",
+      "texture_guid": "00000005E4E6.004",
+      "perk_guids": [
+        "0000000025B2.134"
+      ],
+      "level": 1,
+      "name_zhCN": "夏至骄阳",
+      "perk_set_guid": "000000000064.177",
+      "sha256": "ba7c73f78fcdbcae8aeb136d55ba41af893d43dca49a94c1589ad311e4cfb716",
+      "file": "perks/client/illari/minor/00000005E4E6.004.png"
     },
     {
       "hero": "jetpack-cat",
       "tier": "major",
       "id": "Claws Out",
-      "kind": "scoreboard",
-      "file": "perks/jetpack-cat/major/Claws Out.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000516.075",
+      "loadout_guid": "000000000E49.09E",
+      "texture_guid": "000000070EA0.004",
+      "perk_guids": [
+        "0000000028B0.134"
+      ],
+      "level": 2,
+      "name_zhCN": "嗷呜一爪",
+      "perk_set_guid": "000000000072.177",
+      "sha256": "4a6845de8a506b26d2b05be0ce23130b1b8d40eb084ad15d13edb2e04fa5c29c",
+      "file": "perks/client/jetpack-cat/major/000000070EA0.004.png"
     },
     {
       "hero": "jetpack-cat",
       "tier": "major",
       "id": "Purrfect Form",
-      "kind": "scoreboard",
-      "file": "perks/jetpack-cat/major/Purrfect Form.png"
-    },
-    {
-      "hero": "junker-queen",
-      "tier": "major",
-      "id": "Savage Satiation",
-      "kind": "scoreboard",
-      "file": "perks/junker-queen/major/Savage Satiation.png"
-    },
-    {
-      "hero": "junker-queen",
-      "tier": "major",
-      "id": "Willy-Willy",
-      "kind": "scoreboard",
-      "file": "perks/junker-queen/major/Willy-Willy.png"
-    },
-    {
-      "hero": "junkrat",
-      "tier": "major",
-      "id": "Frag Cannon",
-      "kind": "scoreboard",
-      "file": "perks/junkrat/major/Frag Cannon.png"
-    },
-    {
-      "hero": "junkrat",
-      "tier": "major",
-      "id": "Mine Recycling",
-      "kind": "scoreboard",
-      "file": "perks/junkrat/major/Mine Recycling.png"
-    },
-    {
-      "hero": "juno",
-      "tier": "major",
-      "id": "Faster Blaster",
-      "kind": "scoreboard",
-      "file": "perks/juno/major/Faster Blaster.png"
-    },
-    {
-      "hero": "juno",
-      "tier": "major",
-      "id": "Lift Off",
-      "kind": "scoreboard",
-      "file": "perks/juno/major/Lift Off.png"
-    },
-    {
-      "hero": "kiriko",
-      "tier": "major",
-      "id": "Foxtrot",
-      "kind": "scoreboard",
-      "file": "perks/kiriko/major/Foxtrot.png"
-    },
-    {
-      "hero": "kiriko",
-      "tier": "major",
-      "id": "Ready Step",
-      "kind": "scoreboard",
-      "file": "perks/kiriko/major/Ready Step.png"
-    },
-    {
-      "hero": "lifeweaver",
-      "tier": "major",
-      "id": "Sew the Seed",
-      "kind": "scoreboard",
-      "file": "perks/lifeweaver/major/Sew the Seed.png"
-    },
-    {
-      "hero": "lifeweaver",
-      "tier": "major",
-      "id": "Superbloom",
-      "kind": "scoreboard",
-      "file": "perks/lifeweaver/major/Superbloom.png"
-    },
-    {
-      "hero": "lucio",
-      "tier": "major",
-      "id": "Accelerando",
-      "kind": "scoreboard",
-      "file": "perks/lucio/major/Accelerando.png"
-    },
-    {
-      "hero": "lucio",
-      "tier": "major",
-      "id": "Noise Violation",
-      "kind": "scoreboard",
-      "file": "perks/lucio/major/Noise Violation.png"
-    },
-    {
-      "hero": "mauga",
-      "tier": "major",
-      "id": "Combat Fuel",
-      "kind": "scoreboard",
-      "file": "perks/mauga/major/Combat Fuel.png"
-    },
-    {
-      "hero": "mauga",
-      "tier": "major",
-      "id": "Firewalker",
-      "kind": "scoreboard",
-      "file": "perks/mauga/major/Firewalker.png"
-    },
-    {
-      "hero": "mei",
-      "tier": "major",
-      "id": "Cryo-Storm",
-      "kind": "scoreboard",
-      "file": "perks/mei/major/Cryo-Storm.png"
-    },
-    {
-      "hero": "mei",
-      "tier": "major",
-      "id": "Deep Freeze",
-      "kind": "scoreboard",
-      "file": "perks/mei/major/Deep Freeze.png"
-    },
-    {
-      "hero": "mercy",
-      "tier": "major",
-      "id": "Chain Boost",
-      "kind": "scoreboard",
-      "file": "perks/mercy/major/Chain Boost.png"
-    },
-    {
-      "hero": "mercy",
-      "tier": "major",
-      "id": "Double Dose",
-      "kind": "scoreboard",
-      "file": "perks/mercy/major/Double Dose.png"
-    },
-    {
-      "hero": "mizuki",
-      "tier": "major",
-      "id": "Quickstep",
-      "kind": "scoreboard",
-      "file": "perks/mizuki/major/Quickstep.png"
-    },
-    {
-      "hero": "mizuki",
-      "tier": "major",
-      "id": "Resonant Return",
-      "kind": "scoreboard",
-      "file": "perks/mizuki/major/Resonant Return.png"
-    },
-    {
-      "hero": "moira",
-      "tier": "major",
-      "id": "Phantom Step",
-      "kind": "scoreboard",
-      "file": "perks/moira/major/Phantom Step.png"
-    },
-    {
-      "hero": "moira",
-      "tier": "major",
-      "id": "Reversal",
-      "kind": "scoreboard",
-      "file": "perks/moira/major/Reversal.png"
-    },
-    {
-      "hero": "orisa",
-      "tier": "major",
-      "id": "Heavy Javelin",
-      "kind": "scoreboard",
-      "file": "perks/orisa/major/Heavy Javelin.png"
-    },
-    {
-      "hero": "orisa",
-      "tier": "major",
-      "id": "Protective Barrier",
-      "kind": "scoreboard",
-      "file": "perks/orisa/major/Protective Barrier.png"
-    },
-    {
-      "hero": "pharah",
-      "tier": "major",
-      "id": "Fuel Stores",
-      "kind": "scoreboard",
-      "file": "perks/pharah/major/Fuel Stores.png"
-    },
-    {
-      "hero": "pharah",
-      "tier": "major",
-      "id": "Rocket Salvo",
-      "kind": "scoreboard",
-      "file": "perks/pharah/major/Rocket Salvo.png"
-    },
-    {
-      "hero": "ramattra",
-      "tier": "major",
-      "id": "Nanite Repair",
-      "kind": "scoreboard",
-      "file": "perks/ramattra/major/Nanite Repair.png"
-    },
-    {
-      "hero": "ramattra",
-      "tier": "major",
-      "id": "Void Surge",
-      "kind": "scoreboard",
-      "file": "perks/ramattra/major/Void Surge.png"
-    },
-    {
-      "hero": "reaper",
-      "tier": "major",
-      "id": "Shadow Blink",
-      "kind": "scoreboard",
-      "file": "perks/reaper/major/Shadow Blink.png"
-    },
-    {
-      "hero": "reaper",
-      "tier": "major",
-      "id": "Trigger Finger",
-      "kind": "scoreboard",
-      "file": "perks/reaper/major/Trigger Finger.png"
-    },
-    {
-      "hero": "reinhardt",
-      "tier": "major",
-      "id": "Ignited Fury",
-      "kind": "scoreboard",
-      "file": "perks/reinhardt/major/Ignited Fury.png"
-    },
-    {
-      "hero": "reinhardt",
-      "tier": "major",
-      "id": "Shield Slam",
-      "kind": "scoreboard",
-      "file": "perks/reinhardt/major/Shield Slam.png"
-    },
-    {
-      "hero": "roadhog",
-      "tier": "major",
-      "id": "Hydrogen Exposure",
-      "kind": "scoreboard",
-      "file": "perks/roadhog/major/Hydrogen Exposure.png"
-    },
-    {
-      "hero": "roadhog",
-      "tier": "major",
-      "id": "Toxic Exhaust",
-      "kind": "scoreboard",
-      "file": "perks/roadhog/major/Toxic Exhaust.png"
-    },
-    {
-      "hero": "shion",
-      "tier": "major",
-      "id": "Faces of Death",
-      "kind": "scoreboard",
-      "file": "perks/shion/major/Faces of Death.png"
-    },
-    {
-      "hero": "shion",
-      "tier": "major",
-      "id": "Refuel",
-      "kind": "scoreboard",
-      "file": "perks/shion/major/Refuel.png"
-    },
-    {
-      "hero": "sierra",
-      "tier": "major",
-      "id": "Locked In",
-      "kind": "scoreboard",
-      "file": "perks/sierra/major/Locked In.png"
-    },
-    {
-      "hero": "sierra",
-      "tier": "major",
-      "id": "Medi-Drone",
-      "kind": "scoreboard",
-      "file": "perks/sierra/major/Medi-Drone.png"
-    },
-    {
-      "hero": "sigma",
-      "tier": "major",
-      "id": "Hyper Strike",
-      "kind": "scoreboard",
-      "file": "perks/sigma/major/Hyper Strike.png"
-    },
-    {
-      "hero": "sigma",
-      "tier": "major",
-      "id": "Levitation",
-      "kind": "scoreboard",
-      "file": "perks/sigma/major/Levitation.png"
-    },
-    {
-      "hero": "sojourn",
-      "tier": "major",
-      "id": "Dual Thrusters",
-      "kind": "scoreboard",
-      "file": "perks/sojourn/major/Dual Thrusters.png"
-    },
-    {
-      "hero": "sojourn",
-      "tier": "major",
-      "id": "Friction Generators",
-      "kind": "scoreboard",
-      "file": "perks/sojourn/major/Friction Generators.png"
-    },
-    {
-      "hero": "soldier-76",
-      "tier": "major",
-      "id": "Full Stride",
-      "kind": "scoreboard",
-      "file": "perks/soldier-76/major/Full Stride.png"
-    },
-    {
-      "hero": "soldier-76",
-      "tier": "major",
-      "id": "Stim Pack",
-      "kind": "scoreboard",
-      "file": "perks/soldier-76/major/Stim Pack.png"
-    },
-    {
-      "hero": "sombra",
-      "tier": "major",
-      "id": "Cybersecurity",
-      "kind": "scoreboard",
-      "file": "perks/sombra/major/Cybersecurity.png"
-    },
-    {
-      "hero": "sombra",
-      "tier": "major",
-      "id": "Data Packet",
-      "kind": "scoreboard",
-      "file": "perks/sombra/major/Data Packet.png"
-    },
-    {
-      "hero": "symmetra",
-      "tier": "major",
-      "id": "Hovering Barrier",
-      "kind": "scoreboard",
-      "file": "perks/symmetra/major/Hovering Barrier.png"
-    },
-    {
-      "hero": "symmetra",
-      "tier": "major",
-      "id": "Shield Battery",
-      "kind": "scoreboard",
-      "file": "perks/symmetra/major/Shield Battery.png"
-    },
-    {
-      "hero": "torbjorn",
-      "tier": "major",
-      "id": "Anchor Bolts",
-      "kind": "scoreboard",
-      "file": "perks/torbjorn/major/Anchor Bolts.png"
-    },
-    {
-      "hero": "torbjorn",
-      "tier": "major",
-      "id": "Overloaded Turret",
-      "kind": "scoreboard",
-      "file": "perks/torbjorn/major/Overloaded Turret.png"
-    },
-    {
-      "hero": "tracer",
-      "tier": "major",
-      "id": "Blink Packs",
-      "kind": "scoreboard",
-      "file": "perks/tracer/major/Blink Packs.png"
-    },
-    {
-      "hero": "tracer",
-      "tier": "major",
-      "id": "Quantum Entanglement",
-      "kind": "scoreboard",
-      "file": "perks/tracer/major/Quantum Entanglement.png"
-    },
-    {
-      "hero": "vendetta",
-      "tier": "major",
-      "id": "Relentless",
-      "kind": "scoreboard",
-      "file": "perks/vendetta/major/Relentless.png"
-    },
-    {
-      "hero": "vendetta",
-      "tier": "major",
-      "id": "Siphoning Strike",
-      "kind": "scoreboard",
-      "file": "perks/vendetta/major/Siphoning Strike.png"
-    },
-    {
-      "hero": "venture",
-      "tier": "major",
-      "id": "Covered in Dirt",
-      "kind": "scoreboard",
-      "file": "perks/venture/major/Covered in Dirt.png"
-    },
-    {
-      "hero": "venture",
-      "tier": "major",
-      "id": "Smart Extender",
-      "kind": "scoreboard",
-      "file": "perks/venture/major/Smart Extender.png"
-    },
-    {
-      "hero": "widowmaker",
-      "tier": "major",
-      "id": "Seeker Mine",
-      "kind": "scoreboard",
-      "file": "perks/widowmaker/major/Seeker Mine.png"
-    },
-    {
-      "hero": "widowmaker",
-      "tier": "major",
-      "id": "Widow's Bite",
-      "kind": "scoreboard",
-      "file": "perks/widowmaker/major/Widow's Bite.png"
-    },
-    {
-      "hero": "winston",
-      "tier": "major",
-      "id": "Chain Lightning",
-      "kind": "scoreboard",
-      "file": "perks/winston/major/Chain Lightning.png"
-    },
-    {
-      "hero": "winston",
-      "tier": "major",
-      "id": "Revitalizing Barrier",
-      "kind": "scoreboard",
-      "file": "perks/winston/major/Revitalizing Barrier.png"
-    },
-    {
-      "hero": "wrecking-ball",
-      "tier": "major",
-      "id": "Adaptive Barrier",
-      "kind": "scoreboard",
-      "file": "perks/wrecking-ball/major/Adaptive Barrier.png"
-    },
-    {
-      "hero": "wrecking-ball",
-      "tier": "major",
-      "id": "Hang Time",
-      "kind": "scoreboard",
-      "file": "perks/wrecking-ball/major/Hang Time.png"
-    },
-    {
-      "hero": "wuyang",
-      "tier": "major",
-      "id": "Ebb and Flow",
-      "kind": "scoreboard",
-      "file": "perks/wuyang/major/Ebb and Flow.png"
-    },
-    {
-      "hero": "wuyang",
-      "tier": "major",
-      "id": "Falling Rain",
-      "kind": "scoreboard",
-      "file": "perks/wuyang/major/Falling Rain.png"
-    },
-    {
-      "hero": "zarya",
-      "tier": "major",
-      "id": "Energy Lance",
-      "kind": "scoreboard",
-      "file": "perks/zarya/major/Energy Lance.png"
-    },
-    {
-      "hero": "zarya",
-      "tier": "major",
-      "id": "Extra Oomph",
-      "kind": "scoreboard",
-      "file": "perks/zarya/major/Extra Oomph.png"
-    },
-    {
-      "hero": "zenyatta",
-      "tier": "major",
-      "id": "Dual Harmony",
-      "kind": "scoreboard",
-      "file": "perks/zenyatta/major/Dual Harmony.png"
-    },
-    {
-      "hero": "zenyatta",
-      "tier": "major",
-      "id": "Focused Destruction",
-      "kind": "scoreboard",
-      "file": "perks/zenyatta/major/Focused Destruction.png"
-    },
-    {
-      "hero": "jetpack-cat",
-      "tier": "minor",
-      "id": "Ulterior Motive",
-      "kind": "official-glyph",
-      "file": "perks/jetpack-cat/official/jetpack-cat-Ulterior-Motive.png",
-      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1d18749d884a8c09dfa5789c5f31eb99f6c78e4b93b3268960f60730abcaf924.png",
-      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/1d18749d884a8c09dfa5789c5f31eb99f6c78e4b93b3268960f60730abcaf924.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000516.075",
+      "loadout_guid": "000000000FB0.09E",
+      "texture_guid": "00000007B212.004",
+      "perk_guids": [
+        "000000002AD7.134"
+      ],
+      "level": 2,
+      "name_zhCN": "呼噜连天",
+      "perk_set_guid": "000000000072.177",
+      "sha256": "358796ac001bef5a2d79ebc6c07c5d577af2e4d145596eb87af6e9f4ca071593",
+      "file": "perks/client/jetpack-cat/major/00000007B212.004.png"
     },
     {
       "hero": "jetpack-cat",
       "tier": "minor",
       "id": "Transport Shielding",
-      "kind": "official-glyph",
-      "file": "perks/jetpack-cat/official/jetpack-cat-Transport-Shielding.png",
-      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/acd4b58fc4607cf4471de067547d9dd1fd1760fbf55d67217f0574567aa0e98b.png",
-      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/acd4b58fc4607cf4471de067547d9dd1fd1760fbf55d67217f0574567aa0e98b.png"
+      "kind": "client-glyph",
+      "hero_guid": "000000000516.075",
+      "loadout_guid": "000000000DF8.09E",
+      "texture_guid": "000000070E9E.004",
+      "perk_guids": [
+        "000000002833.134"
+      ],
+      "level": 1,
+      "name_zhCN": "带盾运输",
+      "perk_set_guid": "000000000072.177",
+      "sha256": "b9a419838aea1e1544b653d32c4a859a4d3c4e26fbb2257ec84615c9fdb05f81",
+      "file": "perks/client/jetpack-cat/minor/000000070E9E.004.png"
     },
     {
       "hero": "jetpack-cat",
-      "tier": "major",
-      "id": "Purrfect Form",
-      "kind": "official-glyph",
-      "file": "perks/jetpack-cat/official/jetpack-cat-Purrfect-Form.png",
-      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7b90c625a71b1ab6709796db494907b934637e3f793895d4729f0387fadbc35f.png",
-      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/7b90c625a71b1ab6709796db494907b934637e3f793895d4729f0387fadbc35f.png"
+      "tier": "minor",
+      "id": "Ulterior Motive",
+      "kind": "client-glyph",
+      "hero_guid": "000000000516.075",
+      "loadout_guid": "000000000E97.09E",
+      "texture_guid": "000000078EE3.004",
+      "perk_guids": [
+        "0000000028EF.134"
+      ],
+      "level": 1,
+      "name_zhCN": "别有用心",
+      "perk_set_guid": "000000000072.177",
+      "sha256": "74774267f036e7836e2b9fe6aa2c87f1f806d87cd2093ec6236c9eb85607f64d",
+      "file": "perks/client/jetpack-cat/minor/000000078EE3.004.png"
     },
     {
-      "hero": "jetpack-cat",
+      "hero": "junker-queen",
       "tier": "major",
-      "id": "Claws Out",
-      "kind": "official-glyph",
-      "file": "perks/jetpack-cat/official/jetpack-cat-Claws-Out.png",
-      "url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/989caae5faf782438c32b4ed7451ac93ebff03d884c065c768c1cee265b8aae9.png",
-      "source_url": "https://d15f34w2p8l1cc.cloudfront.net/overwatch/989caae5faf782438c32b4ed7451ac93ebff03d884c065c768c1cee265b8aae9.png"
+      "id": "Savage Satiation",
+      "kind": "client-glyph",
+      "hero_guid": "000000000236.075",
+      "loadout_guid": "000000000B33.09E",
+      "texture_guid": "00000005E4AE.004",
+      "perk_guids": [
+        "000000002576.134"
+      ],
+      "level": 2,
+      "name_zhCN": "凶残狂噬",
+      "perk_set_guid": "000000000045.177",
+      "sha256": "a804ec58ad1e6fd21cb62748c0a43a3de5c9b92b58232c735000b629f4b68c4f",
+      "file": "perks/client/junker-queen/major/00000005E4AE.004.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "major",
+      "id": "Willy-Willy",
+      "kind": "client-glyph",
+      "hero_guid": "000000000236.075",
+      "loadout_guid": "000000000D28.09E",
+      "texture_guid": "000000067407.004",
+      "perk_guids": [
+        "00000000271C.134"
+      ],
+      "level": 2,
+      "name_zhCN": "飞沙利刃",
+      "perk_set_guid": "000000000045.177",
+      "sha256": "f848a8ab61f4ff4820dcca1b9095d254ec51ed2936f407774acf80543aafbb10",
+      "file": "perks/client/junker-queen/major/000000067407.004.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "minor",
+      "id": "Battle Shout",
+      "kind": "client-glyph",
+      "hero_guid": "000000000236.075",
+      "loadout_guid": "000000000B32.09E",
+      "texture_guid": "00000005E4AB.004",
+      "perk_guids": [
+        "000000002573.134"
+      ],
+      "level": 1,
+      "name_zhCN": "战斗怒吼",
+      "perk_set_guid": "000000000045.177",
+      "sha256": "7727e6eb895c4409e92adc3d60d9f0adc2bccd6f1b2b0bb37b61bb228405505e",
+      "file": "perks/client/junker-queen/minor/00000005E4AB.004.png"
+    },
+    {
+      "hero": "junker-queen",
+      "tier": "minor",
+      "id": "Rampant Charge",
+      "kind": "client-glyph",
+      "hero_guid": "000000000236.075",
+      "loadout_guid": "000000000C99.09E",
+      "texture_guid": "000000067462.004",
+      "perk_guids": [
+        "00000000263E.134"
+      ],
+      "level": 1,
+      "name_zhCN": "轰翻爆冲",
+      "perk_set_guid": "000000000045.177",
+      "sha256": "bfdcd7d88c786cee50162540db2f1b97251b0bf96f3dec3f1e11ba9665ce8fc8",
+      "file": "perks/client/junker-queen/minor/000000067462.004.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "major",
+      "id": "Frag Cannon",
+      "kind": "client-glyph",
+      "hero_guid": "000000000065.075",
+      "loadout_guid": "000000000C33.09E",
+      "texture_guid": "00000005E480.004",
+      "perk_guids": [
+        "0000000025C0.134"
+      ],
+      "level": 2,
+      "name_zhCN": "榴弹火炮",
+      "perk_set_guid": "000000000055.177",
+      "sha256": "f18f9a353e7658c6c9b1167d6d2b064aeb42b2e15903ccd531cbb656c6f50078",
+      "file": "perks/client/junkrat/major/00000005E480.004.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "major",
+      "id": "Mine Recycling",
+      "kind": "client-glyph",
+      "hero_guid": "000000000065.075",
+      "loadout_guid": "000000000D2F.09E",
+      "texture_guid": "00000006742A.004",
+      "perk_guids": [
+        "00000000272B.134"
+      ],
+      "level": 2,
+      "name_zhCN": "地雷回收",
+      "perk_set_guid": "000000000055.177",
+      "sha256": "3f24cdefbf7bee8d6e151649b5466c68e4170dbc6dced435ca65f756b58422ec",
+      "file": "perks/client/junkrat/major/00000006742A.004.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "minor",
+      "id": "Bomb Voyage",
+      "kind": "client-glyph",
+      "hero_guid": "000000000065.075",
+      "loadout_guid": "000000000D0D.09E",
+      "texture_guid": "000000067429.004",
+      "perk_guids": [
+        "0000000026F3.134"
+      ],
+      "level": 1,
+      "name_zhCN": "一炸冲天",
+      "perk_set_guid": "000000000055.177",
+      "sha256": "46ac56016aee5d957cc53a125ecde1bf7600f3b87a2b7ddfa297b9e7d9506c46",
+      "file": "perks/client/junkrat/minor/000000067429.004.png"
+    },
+    {
+      "hero": "junkrat",
+      "tier": "minor",
+      "id": "Nitro Boost",
+      "kind": "client-glyph",
+      "hero_guid": "000000000065.075",
+      "loadout_guid": "000000000B5E.09E",
+      "texture_guid": "00000005E481.004",
+      "perk_guids": [
+        "00000000252C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "氮气推进",
+      "perk_set_guid": "000000000055.177",
+      "sha256": "65d8f1b8cb711e72eb74f112f16916add6ab984ab9ab008897ed0d22429ae91d",
+      "file": "perks/client/junkrat/minor/00000005E481.004.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "major",
+      "id": "Faster Blaster",
+      "kind": "client-glyph",
+      "hero_guid": "000000000365.075",
+      "loadout_guid": "000000000CB7.09E",
+      "texture_guid": "0000000673ED.004",
+      "perk_guids": [
+        "00000000265D.134"
+      ],
+      "level": 2,
+      "name_zhCN": "高速冲击枪",
+      "perk_set_guid": "000000000065.177",
+      "sha256": "bc090ddd719dbbb66b3a08a42435240d2c7d28d582b04783638782d016d6d026",
+      "file": "perks/client/juno/major/0000000673ED.004.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "major",
+      "id": "Lift Off",
+      "kind": "client-glyph",
+      "hero_guid": "000000000365.075",
+      "loadout_guid": "000000000D2A.09E",
+      "texture_guid": "0000000673EE.004",
+      "perk_guids": [
+        "000000002721.134"
+      ],
+      "level": 2,
+      "name_zhCN": "飞上新高",
+      "perk_set_guid": "000000000065.177",
+      "sha256": "e3ec45ad864195c06911517e7a7e9c21faba467ac7d74f96a4f8b354803f69d8",
+      "file": "perks/client/juno/major/0000000673EE.004.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "minor",
+      "id": "Familiar Vitals",
+      "kind": "client-glyph",
+      "hero_guid": "000000000365.075",
+      "loadout_guid": "000000000BD1.09E",
+      "texture_guid": "00000005E4EC.004",
+      "perk_guids": [
+        "000000002590.134"
+      ],
+      "level": 1,
+      "name_zhCN": "急救优先",
+      "perk_set_guid": "000000000065.177",
+      "sha256": "9e9d4867eddf6781f1cb9a0192abd09a4ca2aeaeb506657b90745aaf47858105",
+      "file": "perks/client/juno/minor/00000005E4EC.004.png"
+    },
+    {
+      "hero": "juno",
+      "tier": "minor",
+      "id": "Locked On",
+      "kind": "client-glyph",
+      "hero_guid": "000000000365.075",
+      "loadout_guid": "000000000C7E.09E",
+      "texture_guid": "000000061C99.004",
+      "perk_guids": [
+        "0000000025E4.134"
+      ],
+      "level": 1,
+      "name_zhCN": "锁定打击",
+      "perk_set_guid": "000000000065.177",
+      "sha256": "64354646cffff05af72522b9a0179a81fca6b248b5b61b3a38031bd0e2c11d48",
+      "file": "perks/client/juno/minor/000000061C99.004.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "major",
+      "id": "Foxtrot",
+      "kind": "client-glyph",
+      "hero_guid": "000000000231.075",
+      "loadout_guid": "000000000B97.09E",
+      "texture_guid": "00000005E4A3.004",
+      "perk_guids": [
+        "000000002572.134"
+      ],
+      "level": 2,
+      "name_zhCN": "狐步漫舞",
+      "perk_set_guid": "000000000066.177",
+      "sha256": "7a9e87bbff2eb84982139e870052e0409d588248775081989b53eb69e503f4db",
+      "file": "perks/client/kiriko/major/00000005E4A3.004.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "major",
+      "id": "Ready Step",
+      "kind": "client-glyph",
+      "hero_guid": "000000000231.075",
+      "loadout_guid": "000000000CC8.09E",
+      "texture_guid": "0000000673F0.004",
+      "perk_guids": [
+        "00000000267B.134"
+      ],
+      "level": 2,
+      "name_zhCN": "备战瞬步",
+      "perk_set_guid": "000000000066.177",
+      "sha256": "3fc4c8a7cd3b8defa1615e627ca2d072e9f26c96dab3f8ba840ffd7b6e925be7",
+      "file": "perks/client/kiriko/major/0000000673F0.004.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "minor",
+      "id": "Fortune Teller",
+      "kind": "client-glyph",
+      "hero_guid": "000000000231.075",
+      "loadout_guid": "000000000B2A.09E",
+      "texture_guid": "00000005E4A2.004",
+      "perk_guids": [
+        "00000000256F.134"
+      ],
+      "level": 1,
+      "name_zhCN": "灵利卜师",
+      "perk_set_guid": "000000000066.177",
+      "sha256": "ec54149503885a4453ee8b68ef1ca6533b0b05d7110fd9186cfef1385aeaecd7",
+      "file": "perks/client/kiriko/minor/00000005E4A2.004.png"
+    },
+    {
+      "hero": "kiriko",
+      "tier": "minor",
+      "id": "Urgent Care",
+      "kind": "client-glyph",
+      "hero_guid": "000000000231.075",
+      "loadout_guid": "000000000B2B.09E",
+      "texture_guid": "00000005E4A5.004",
+      "perk_guids": [
+        "000000002570.134"
+      ],
+      "level": 1,
+      "name_zhCN": "救死急符",
+      "perk_set_guid": "000000000066.177",
+      "sha256": "f80d32a8ca1e4f34575525a2d2f6364cecb84c1e1d9018fe030b84cc594c79af",
+      "file": "perks/client/kiriko/minor/00000005E4A5.004.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "major",
+      "id": "Sow the Seed",
+      "kind": "client-glyph",
+      "hero_guid": "000000000291.075",
+      "loadout_guid": "000000000E3E.09E",
+      "texture_guid": "000000070EA4.004",
+      "perk_guids": [
+        "00000000287A.134"
+      ],
+      "level": 2,
+      "name_zhCN": "愈疗播种",
+      "perk_set_guid": "000000000067.177",
+      "sha256": "de45489e17d336cd78c1109e82ffca177ae686fcb99c9470e793b93d1f060492",
+      "file": "perks/client/lifeweaver/major/000000070EA4.004.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "major",
+      "id": "Superbloom",
+      "kind": "client-glyph",
+      "hero_guid": "000000000291.075",
+      "loadout_guid": "000000000C15.09E",
+      "texture_guid": "00000005E4B6.004",
+      "perk_guids": [
+        "0000000025A5.134"
+      ],
+      "level": 2,
+      "name_zhCN": "超然盛放",
+      "perk_set_guid": "000000000067.177",
+      "sha256": "09713b3699ce7d5dcb3f0baa70b58c78571525b04deea0fea4f022732166747e",
+      "file": "perks/client/lifeweaver/major/00000005E4B6.004.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "minor",
+      "id": "Dashing Escape",
+      "kind": "client-glyph",
+      "hero_guid": "000000000291.075",
+      "loadout_guid": "000000000E3A.09E",
+      "texture_guid": "000000070EA2.004",
+      "perk_guids": [
+        "000000002874.134"
+      ],
+      "level": 1,
+      "name_zhCN": "疾行脱身",
+      "perk_set_guid": "000000000067.177",
+      "sha256": "c78c5d2f0a2858767ae67325259da287a216a514bf57ece010a14202342adf88",
+      "file": "perks/client/lifeweaver/minor/000000070EA2.004.png"
+    },
+    {
+      "hero": "lifeweaver",
+      "tier": "minor",
+      "id": "Petal Protection",
+      "kind": "client-glyph",
+      "hero_guid": "000000000291.075",
+      "loadout_guid": "000000000E53.09E",
+      "texture_guid": "000000070EA3.004",
+      "perk_guids": [
+        "0000000028B6.134"
+      ],
+      "level": 1,
+      "name_zhCN": "守护花瓣",
+      "perk_set_guid": "000000000067.177",
+      "sha256": "0a5e3f2930cefc314d50d738971b7f4ea9687134ea44f2279481cd462aba06bf",
+      "file": "perks/client/lifeweaver/minor/000000070EA3.004.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "major",
+      "id": "Accelerando",
+      "kind": "client-glyph",
+      "hero_guid": "000000000079.075",
+      "loadout_guid": "000000000C3B.09E",
+      "texture_guid": "00000005E483.004",
+      "perk_guids": [
+        "0000000025C8.134"
+      ],
+      "level": 2,
+      "name_zhCN": "急速乐章",
+      "perk_set_guid": "000000000068.177",
+      "sha256": "3f0c6dc06a4880c7388923cf9b3080b8166ba1b0018d5ded062bbe9b927eebbf",
+      "file": "perks/client/lucio/major/00000005E483.004.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "major",
+      "id": "Noise Violation",
+      "kind": "client-glyph",
+      "hero_guid": "000000000079.075",
+      "loadout_guid": "000000000BBA.09E",
+      "texture_guid": "00000005E486.004",
+      "perk_guids": [
+        "00000000253A.134"
+      ],
+      "level": 2,
+      "name_zhCN": "违规噪音",
+      "perk_set_guid": "000000000068.177",
+      "sha256": "aaf6b4a3edc8f1c50af67abbb6c01fbba3f2bc043cb9046ef108bafcc10efcea",
+      "file": "perks/client/lucio/major/00000005E486.004.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "minor",
+      "id": "Beat Drop",
+      "kind": "client-glyph",
+      "hero_guid": "000000000079.075",
+      "loadout_guid": "000000000C86.09E",
+      "texture_guid": "000000029D0F.004",
+      "perk_guids": [
+        "000000002621.134"
+      ],
+      "level": 1,
+      "name_zhCN": "来点节拍",
+      "perk_set_guid": "000000000068.177",
+      "sha256": "ec33730bb0b45445e4af4e4b0ad1689e75c68f0bcfb2d4b665cf8e54569560e4",
+      "file": "perks/client/lucio/minor/000000029D0F.004.png"
+    },
+    {
+      "hero": "lucio",
+      "tier": "minor",
+      "id": "Soundwave Rider",
+      "kind": "client-glyph",
+      "hero_guid": "000000000079.075",
+      "loadout_guid": "000000000CA7.09E",
+      "texture_guid": "0000000673F4.004",
+      "perk_guids": [
+        "00000000264C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "音波滑手",
+      "perk_set_guid": "000000000068.177",
+      "sha256": "1fef7c511612def44a1185eefd05460d188d4835695540f298871c35e5f7828b",
+      "file": "perks/client/lucio/minor/0000000673F4.004.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "major",
+      "id": "Combat Fuel",
+      "kind": "client-glyph",
+      "hero_guid": "00000000030A.075",
+      "loadout_guid": "000000000B39.09E",
+      "texture_guid": "00000005E4F9.004",
+      "perk_guids": [
+        "000000002586.134"
+      ],
+      "level": 2,
+      "name_zhCN": "战斗燃料",
+      "perk_set_guid": "000000000046.177",
+      "sha256": "88b9e21bca35f324a5a383b765eed55462851168035c398f99e7255a202f7f50",
+      "file": "perks/client/mauga/major/00000005E4F9.004.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "major",
+      "id": "Firewalker",
+      "kind": "client-glyph",
+      "hero_guid": "00000000030A.075",
+      "loadout_guid": "000000000B3A.09E",
+      "texture_guid": "00000005E4FA.004",
+      "perk_guids": [
+        "000000002585.134"
+      ],
+      "level": 2,
+      "name_zhCN": "烈火奔踏",
+      "perk_set_guid": "000000000046.177",
+      "sha256": "6cd93ba8b7d09154f71e0c953fcad346b5a6912519f886eab44d8e7f6bb768bd",
+      "file": "perks/client/mauga/major/00000005E4FA.004.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "minor",
+      "id": "Kinetic Bandolier",
+      "kind": "client-glyph",
+      "hero_guid": "00000000030A.075",
+      "loadout_guid": "000000000B38.09E",
+      "texture_guid": "00000005E4FB.004",
+      "perk_guids": [
+        "000000002583.134"
+      ],
+      "level": 1,
+      "name_zhCN": "动力弹带",
+      "perk_set_guid": "000000000046.177",
+      "sha256": "d98dbde6b3edb8360c9bf896562abd897b75346b130ad0497a4bead419c779c9",
+      "file": "perks/client/mauga/minor/00000005E4FB.004.png"
+    },
+    {
+      "hero": "mauga",
+      "tier": "minor",
+      "id": "Pyromaniac",
+      "kind": "client-glyph",
+      "hero_guid": "00000000030A.075",
+      "loadout_guid": "000000000CEB.09E",
+      "texture_guid": "0000000671FB.004",
+      "perk_guids": [
+        "0000000026B9.134"
+      ],
+      "level": 1,
+      "name_zhCN": "纵情燃烧",
+      "perk_set_guid": "000000000046.177",
+      "sha256": "d06a216114ae7f11efffc0727c2d2d95d2ca245d4945246858cd21293841ce23",
+      "file": "perks/client/mauga/minor/0000000671FB.004.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "major",
+      "id": "Cryo-Storm",
+      "kind": "client-glyph",
+      "hero_guid": "0000000000DD.075",
+      "loadout_guid": "000000000B1E.09E",
+      "texture_guid": "00000005E505.004",
+      "perk_guids": [
+        "000000002541.134"
+      ],
+      "level": 2,
+      "name_zhCN": "急冻风暴",
+      "perk_set_guid": "000000000056.177",
+      "sha256": "0fdb5fcfc9fcd612a43637ef08732ff9da057c6fd1bbd4105855d6a5522faa22",
+      "file": "perks/client/mei/major/00000005E505.004.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "major",
+      "id": "Deep Freeze",
+      "kind": "client-glyph",
+      "hero_guid": "0000000000DD.075",
+      "loadout_guid": "000000000C71.09E",
+      "texture_guid": "000000061C96.004",
+      "perk_guids": [
+        "0000000025DC.134"
+      ],
+      "level": 2,
+      "name_zhCN": "深度冰冻",
+      "perk_set_guid": "000000000056.177",
+      "sha256": "55cfa526068869b6da62e0938e1124bc1a2d602e39ee51596ecb15784b6185a7",
+      "file": "perks/client/mei/major/000000061C96.004.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "minor",
+      "id": "Glacial Propulsion",
+      "kind": "client-glyph",
+      "hero_guid": "0000000000DD.075",
+      "loadout_guid": "000000000CFF.09E",
+      "texture_guid": "00000006742B.004",
+      "perk_guids": [
+        "0000000026C0.134"
+      ],
+      "level": 1,
+      "name_zhCN": "寒冰疾涌",
+      "perk_set_guid": "000000000056.177",
+      "sha256": "7b4da6a552aa2ea8ad201ba90abb46686d3bdfd5ccc1ae109aa03d68a8aa30eb",
+      "file": "perks/client/mei/minor/00000006742B.004.png"
+    },
+    {
+      "hero": "mei",
+      "tier": "minor",
+      "id": "Skating Rink",
+      "kind": "client-glyph",
+      "hero_guid": "0000000000DD.075",
+      "loadout_guid": "000000000D5C.09E",
+      "texture_guid": "0000000678FF.004",
+      "perk_guids": [
+        "00000000276C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "冰上畅滑",
+      "perk_set_guid": "000000000056.177",
+      "sha256": "fe1ae5a00499114517efc9ea74689596f2bcbba784698bf00d6eff1e9fae2f22",
+      "file": "perks/client/mei/minor/0000000678FF.004.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "major",
+      "id": "Chain Boost",
+      "kind": "client-glyph",
+      "hero_guid": "000000000004.075",
+      "loadout_guid": "000000000B24.09E",
+      "texture_guid": "00000005E46C.004",
+      "perk_guids": [
+        "0000000024FA.134"
+      ],
+      "level": 2,
+      "name_zhCN": "连锁强化",
+      "perk_set_guid": "000000000069.177",
+      "sha256": "c9fc76f12f212a7ce75940b868b35b83b596dcaaaa23695ea72e24eccb459a46",
+      "file": "perks/client/mercy/major/00000005E46C.004.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "major",
+      "id": "Double Dose",
+      "kind": "client-glyph",
+      "hero_guid": "000000000004.075",
+      "loadout_guid": "000000000E81.09E",
+      "texture_guid": "000000075508.004",
+      "perk_guids": [
+        "0000000028E8.134"
+      ],
+      "level": 2,
+      "name_zhCN": "双倍剂量",
+      "perk_set_guid": "000000000069.177",
+      "sha256": "ad7b4729f25006382cfc31d083e6176b5a774c69cac693949764ab0cad865528",
+      "file": "perks/client/mercy/major/000000075508.004.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "minor",
+      "id": "Angelic Resurrection",
+      "kind": "client-glyph",
+      "hero_guid": "000000000004.075",
+      "loadout_guid": "000000000C7F.09E",
+      "texture_guid": "000000061C9A.004",
+      "perk_guids": [
+        "0000000025E5.134"
+      ],
+      "level": 1,
+      "name_zhCN": "天使重生",
+      "perk_set_guid": "000000000069.177",
+      "sha256": "709df1c10c86a73f80efcf33edb505ac242bc94caf0245b28cdfa4a949f3af27",
+      "file": "perks/client/mercy/minor/000000061C9A.004.png"
+    },
+    {
+      "hero": "mercy",
+      "tier": "minor",
+      "id": "Winged Reach",
+      "kind": "client-glyph",
+      "hero_guid": "000000000004.075",
+      "loadout_guid": "000000000B87.09E",
+      "texture_guid": "00000005E46E.004",
+      "perk_guids": [
+        "0000000024F7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "展翅飞翔",
+      "perk_set_guid": "000000000069.177",
+      "sha256": "d6e082c04f365f6fd166dfe6184b1b43e8cc8bee69ec6ed9a2660982ce4a2094",
+      "file": "perks/client/mercy/minor/00000005E46E.004.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "major",
+      "id": "Quickstep",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004E3.075",
+      "loadout_guid": "000000000E37.09E",
+      "texture_guid": "00000006ECDB.004",
+      "perk_guids": [
+        "000000002870.134"
+      ],
+      "level": 2,
+      "name_zhCN": "飞魂迅步",
+      "perk_set_guid": "000000000073.177",
+      "sha256": "6e216b18dbf7cc87dbf1b947254cd52857fe74b645a31346c9fa545653943481",
+      "file": "perks/client/mizuki/major/00000006ECDB.004.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "major",
+      "id": "Resonant Return",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004E3.075",
+      "loadout_guid": "000000000E05.09E",
+      "texture_guid": "00000006EE1C.004",
+      "perk_guids": [
+        "000000002841.134"
+      ],
+      "level": 2,
+      "name_zhCN": "共鸣飞返",
+      "perk_set_guid": "000000000073.177",
+      "sha256": "478b291af245cc7bc7aaa3fc6b5da26536c3669c19f38b1740531a6c3151c62c",
+      "file": "perks/client/mizuki/major/00000006EE1C.004.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "minor",
+      "id": "Exposed Soul",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004E3.075",
+      "loadout_guid": "000000000E1A.09E",
+      "texture_guid": "00000006EE1B.004",
+      "perk_guids": [
+        "000000002856.134"
+      ],
+      "level": 1,
+      "name_zhCN": "魂中破绽",
+      "perk_set_guid": "000000000073.177",
+      "sha256": "68f67a7de3ab11c5fbfcfdd6e93e220f1f1966408e490d64b564352392b05be2",
+      "file": "perks/client/mizuki/minor/00000006EE1B.004.png"
+    },
+    {
+      "hero": "mizuki",
+      "tier": "minor",
+      "id": "Wellspring",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004E3.075",
+      "loadout_guid": "000000000E36.09E",
+      "texture_guid": "00000006EE1A.004",
+      "perk_guids": [
+        "00000000286F.134"
+      ],
+      "level": 1,
+      "name_zhCN": "灵气奔涌",
+      "perk_set_guid": "000000000073.177",
+      "sha256": "7c52430ae03eff03fff6374a4fa7a2ebb2b6939de4efb5820f6408090a36a91e",
+      "file": "perks/client/mizuki/minor/00000006EE1A.004.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "major",
+      "id": "Phantom Step",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001A2.075",
+      "loadout_guid": "000000000CC0.09E",
+      "texture_guid": "00000005E4C1.004",
+      "perk_guids": [
+        "000000002676.134"
+      ],
+      "level": 2,
+      "name_zhCN": "幽影幻步",
+      "perk_set_guid": "00000000006A.177",
+      "sha256": "7bd6562c449fe03c37ba279bf5223ae3ccdc3fec2fca4ebd938892e28ba75e85",
+      "file": "perks/client/moira/major/00000005E4C1.004.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "major",
+      "id": "Reversal",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001A2.075",
+      "loadout_guid": "000000000CBC.09E",
+      "texture_guid": "0000000673F7.004",
+      "perk_guids": [
+        "000000002669.134"
+      ],
+      "level": 2,
+      "name_zhCN": "魔球逆动",
+      "perk_set_guid": "00000000006A.177",
+      "sha256": "e60712e541633230f0e7d56450a521369bd2bb8953730c08eab6fd7df9896d5e",
+      "file": "perks/client/moira/major/0000000673F7.004.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "minor",
+      "id": "Destruction's Divide",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001A2.075",
+      "loadout_guid": "000000000CA5.09E",
+      "texture_guid": "0000000673F8.004",
+      "perk_guids": [
+        "00000000264A.134"
+      ],
+      "level": 1,
+      "name_zhCN": "毁灭分界",
+      "perk_set_guid": "00000000006A.177",
+      "sha256": "cd7f2768b8c5a1ba059c51c50d8d68ebf99d61feaf6b651564c56a67db5e23a1",
+      "file": "perks/client/moira/minor/0000000673F8.004.png"
+    },
+    {
+      "hero": "moira",
+      "tier": "minor",
+      "id": "Ethical Nourishment",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001A2.075",
+      "loadout_guid": "000000000C1D.09E",
+      "texture_guid": "00000005E4C0.004",
+      "perk_guids": [
+        "0000000025AD.134"
+      ],
+      "level": 1,
+      "name_zhCN": "合德滋养",
+      "perk_set_guid": "00000000006A.177",
+      "sha256": "5448501a50ba112e4612fc23e304aa9b1b016c74a74e0ecb1c9e79df9eeb401b",
+      "file": "perks/client/moira/minor/00000005E4C0.004.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "major",
+      "id": "Heavy Javelin",
+      "kind": "client-glyph",
+      "hero_guid": "00000000013E.075",
+      "loadout_guid": "000000000FAD.09E",
+      "texture_guid": "00000007B215.004",
+      "perk_guids": [
+        "000000002AD5.134"
+      ],
+      "level": 2,
+      "name_zhCN": "重型标枪",
+      "perk_set_guid": "000000000047.177",
+      "sha256": "cc7c43a5b86ba805331ac03355ac8bddca51bf8ca2ca94cd1a4aae41f4ca4b71",
+      "file": "perks/client/orisa/major/00000007B215.004.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "major",
+      "id": "Protective Barrier",
+      "kind": "client-glyph",
+      "hero_guid": "00000000013E.075",
+      "loadout_guid": "000000000BCE.09E",
+      "texture_guid": "00000005E46A.004",
+      "perk_guids": [
+        "000000002551.134"
+      ],
+      "level": 2,
+      "name_zhCN": "防护屏障",
+      "perk_set_guid": "000000000047.177",
+      "sha256": "159dd236cb00b8c97e8aa033875abb2c9ae41bfcb0f720507f05fc9b68f789d5",
+      "file": "perks/client/orisa/major/00000005E46A.004.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "minor",
+      "id": "Defense Protocol",
+      "kind": "client-glyph",
+      "hero_guid": "00000000013E.075",
+      "loadout_guid": "000000000D0B.09E",
+      "texture_guid": "000000067409.004",
+      "perk_guids": [
+        "0000000026F1.134"
+      ],
+      "level": 1,
+      "name_zhCN": "防御协议",
+      "perk_set_guid": "000000000047.177",
+      "sha256": "6779a33e8f21fe150054d8adc063fd208d916ecf6f69cf036cec6d95ac8259cb",
+      "file": "perks/client/orisa/minor/000000067409.004.png"
+    },
+    {
+      "hero": "orisa",
+      "tier": "minor",
+      "id": "Mobile Fortification",
+      "kind": "client-glyph",
+      "hero_guid": "00000000013E.075",
+      "loadout_guid": "000000000D29.09E",
+      "texture_guid": "000000067408.004",
+      "perk_guids": [
+        "000000002720.134"
+      ],
+      "level": 1,
+      "name_zhCN": "机动强固",
+      "perk_set_guid": "000000000047.177",
+      "sha256": "dda0ccf66d32df0d688d0fd9a08d63d9b4d33b70d924cf8d87b3d0a486f8cf28",
+      "file": "perks/client/orisa/minor/000000067408.004.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "major",
+      "id": "Fuel Stores",
+      "kind": "client-glyph",
+      "hero_guid": "000000000008.075",
+      "loadout_guid": "000000000BB0.09E",
+      "texture_guid": "00000005A282.004",
+      "perk_guids": [
+        "000000002509.134"
+      ],
+      "level": 2,
+      "name_zhCN": "燃油储备",
+      "perk_set_guid": "000000000057.177",
+      "sha256": "461d7eca4eaa68b18e2d5078fdc5d5de1eeff0acdec2191931981c5a2997769d",
+      "file": "perks/client/pharah/major/00000005A282.004.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "major",
+      "id": "Rocket Salvo",
+      "kind": "client-glyph",
+      "hero_guid": "000000000008.075",
+      "loadout_guid": "000000000E66.09E",
+      "texture_guid": "0000000721B1.004",
+      "perk_guids": [
+        "0000000028C6.134"
+      ],
+      "level": 2,
+      "name_zhCN": "火箭齐射",
+      "perk_set_guid": "000000000057.177",
+      "sha256": "0bc2c8bed1bad3ae1400b64658236c6767c079407e1c549ce10210ac2b8998e1",
+      "file": "perks/client/pharah/major/0000000721B1.004.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "minor",
+      "id": "Concussive Force",
+      "kind": "client-glyph",
+      "hero_guid": "000000000008.075",
+      "loadout_guid": "000000000E80.09E",
+      "texture_guid": "00000007550A.004",
+      "perk_guids": [
+        "0000000028E7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "震荡爆冲",
+      "perk_set_guid": "000000000057.177",
+      "sha256": "605a2fdebdb3a08a0c6854cc92cc350957eea2ac160c8ff54481bb2d15c8b56f",
+      "file": "perks/client/pharah/minor/00000007550A.004.png"
+    },
+    {
+      "hero": "pharah",
+      "tier": "minor",
+      "id": "Helix Shields",
+      "kind": "client-glyph",
+      "hero_guid": "000000000008.075",
+      "loadout_guid": "000000000BAE.09E",
+      "texture_guid": "00000005A283.004",
+      "perk_guids": [
+        "000000002507.134"
+      ],
+      "level": 1,
+      "name_zhCN": "海力士护盾",
+      "perk_set_guid": "000000000057.177",
+      "sha256": "db6d1c1fc53a7e34f8dfefb4e1caaf962f467d8aa803f94a6853298177722151",
+      "file": "perks/client/pharah/minor/00000005A283.004.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "major",
+      "id": "Nanite Repair",
+      "kind": "client-glyph",
+      "hero_guid": "00000000028D.075",
+      "loadout_guid": "000000000B3D.09E",
+      "texture_guid": "00000005E4C3.004",
+      "perk_guids": [
+        "00000000257C.134"
+      ],
+      "level": 2,
+      "name_zhCN": "纳米修复",
+      "perk_set_guid": "000000000048.177",
+      "sha256": "1b86df7adc762a3fcefc784dbff4d6192035ed1115f1e2c9e5c95510990ecda2",
+      "file": "perks/client/ramattra/major/00000005E4C3.004.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "major",
+      "id": "Void Surge",
+      "kind": "client-glyph",
+      "hero_guid": "00000000028D.075",
+      "loadout_guid": "000000000B3B.09E",
+      "texture_guid": "00000005E4C6.004",
+      "perk_guids": [
+        "00000000257E.134"
+      ],
+      "level": 2,
+      "name_zhCN": "虚空涌动",
+      "perk_set_guid": "000000000048.177",
+      "sha256": "6ac81cbcefbba93068d03184f0c3f5e97990d4b253e4345b6839f1735ae4fcb0",
+      "file": "perks/client/ramattra/major/00000005E4C6.004.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "minor",
+      "id": "Prolonged Barrier",
+      "kind": "client-glyph",
+      "hero_guid": "00000000028D.075",
+      "loadout_guid": "000000000B9F.09E",
+      "texture_guid": "00000005E4C4.004",
+      "perk_guids": [
+        "00000000257B.134"
+      ],
+      "level": 1,
+      "name_zhCN": "持久屏障",
+      "perk_set_guid": "000000000048.177",
+      "sha256": "a915da370a9ae550184a2a2dbf35a1645a9369c7bac3a55ca9c6a8c2f3198c1c",
+      "file": "perks/client/ramattra/minor/00000005E4C4.004.png"
+    },
+    {
+      "hero": "ramattra",
+      "tier": "minor",
+      "id": "Relentless Form",
+      "kind": "client-glyph",
+      "hero_guid": "00000000028D.075",
+      "loadout_guid": "000000000D17.09E",
+      "texture_guid": "00000006740A.004",
+      "perk_guids": [
+        "0000000026F9.134"
+      ],
+      "level": 1,
+      "name_zhCN": "铁血形态",
+      "perk_set_guid": "000000000048.177",
+      "sha256": "8bcebbbeeeb3168a23623dfbcc1ec3f534266fd5c59b6c9d1a27e7e7ce78fced",
+      "file": "perks/client/ramattra/minor/00000006740A.004.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "major",
+      "id": "Shadow Blink",
+      "kind": "client-glyph",
+      "hero_guid": "000000000002.075",
+      "loadout_guid": "000000000CC7.09E",
+      "texture_guid": "00000006742D.004",
+      "perk_guids": [
+        "00000000267A.134"
+      ],
+      "level": 2,
+      "name_zhCN": "暗影闪现",
+      "perk_set_guid": "000000000058.177",
+      "sha256": "92256796bfb2b9cd139fc5060b6f15b8e798c4b74a39328b06556f21da2c1f6b",
+      "file": "perks/client/reaper/major/00000006742D.004.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "major",
+      "id": "Trigger Finger",
+      "kind": "client-glyph",
+      "hero_guid": "000000000002.075",
+      "loadout_guid": "000000000E83.09E",
+      "texture_guid": "000000075509.004",
+      "perk_guids": [
+        "0000000028E9.134"
+      ],
+      "level": 2,
+      "name_zhCN": "开火冲动",
+      "perk_set_guid": "000000000058.177",
+      "sha256": "32f8cf9beabbb18ca3a392c54cb44a22ffd4e9da744236ab3bd87707b5bc2331",
+      "file": "perks/client/reaper/major/000000075509.004.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "minor",
+      "id": "Lingering Wraith",
+      "kind": "client-glyph",
+      "hero_guid": "000000000002.075",
+      "loadout_guid": "000000000DF4.09E",
+      "texture_guid": "00000005E4D5.004",
+      "perk_guids": [
+        "000000002830.134"
+      ],
+      "level": 1,
+      "name_zhCN": "萦绕幽灵",
+      "perk_set_guid": "000000000058.177",
+      "sha256": "fb6f63cb283bab9f0952b20e5aca54be682fc008ea22a7c14b9aa73250966e14",
+      "file": "perks/client/reaper/minor/00000005E4D5.004.png"
+    },
+    {
+      "hero": "reaper",
+      "tier": "minor",
+      "id": "Soul Reaving",
+      "kind": "client-glyph",
+      "hero_guid": "000000000002.075",
+      "loadout_guid": "000000000B47.09E",
+      "texture_guid": "00000005E4D6.004",
+      "perk_guids": [
+        "0000000024F2.134"
+      ],
+      "level": 1,
+      "name_zhCN": "灵魂收割",
+      "perk_set_guid": "000000000058.177",
+      "sha256": "0eafe107557e353fc8c07e003dec7be6b21125554b1aad61cb9b16caa9006cfc",
+      "file": "perks/client/reaper/minor/00000005E4D6.004.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "major",
+      "id": "Ignited Fury",
+      "kind": "client-glyph",
+      "hero_guid": "000000000007.075",
+      "loadout_guid": "000000000D39.09E",
+      "texture_guid": "0000000218ED.004",
+      "perk_guids": [
+        "000000002733.134"
+      ],
+      "level": 2,
+      "name_zhCN": "盛燃怒火",
+      "perk_set_guid": "000000000049.177",
+      "sha256": "8df7b6c77851bae4ba3c352c8883453c353c946cf6e86d16683085b2e47a6d67",
+      "file": "perks/client/reinhardt/major/0000000218ED.004.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "major",
+      "id": "Shield Slam",
+      "kind": "client-glyph",
+      "hero_guid": "000000000007.075",
+      "loadout_guid": "000000000B10.09E",
+      "texture_guid": "00000005E4B2.004",
+      "perk_guids": [
+        "000000002506.134"
+      ],
+      "level": 2,
+      "name_zhCN": "盾牌猛击",
+      "perk_set_guid": "000000000049.177",
+      "sha256": "6d8c96543f231f56f37fa396c57c5df22f4791b328d2154dbe4659197678e334",
+      "file": "perks/client/reinhardt/major/00000005E4B2.004.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "minor",
+      "id": "Crusader's Fire",
+      "kind": "client-glyph",
+      "hero_guid": "000000000007.075",
+      "loadout_guid": "000000000C70.09E",
+      "texture_guid": "000000061C92.004",
+      "perk_guids": [
+        "0000000025DB.134"
+      ],
+      "level": 1,
+      "name_zhCN": "十字军的烈焰",
+      "perk_set_guid": "000000000049.177",
+      "sha256": "1466333b9f761e3593bcf9060d792f396a7a590fc89f1c477f8e15800eb7c600",
+      "file": "perks/client/reinhardt/minor/000000061C92.004.png"
+    },
+    {
+      "hero": "reinhardt",
+      "tier": "minor",
+      "id": "Crusader's Resolve",
+      "kind": "client-glyph",
+      "hero_guid": "000000000007.075",
+      "loadout_guid": "000000000B95.09E",
+      "texture_guid": "00000005E4AF.004",
+      "perk_guids": [
+        "000000002503.134"
+      ],
+      "level": 1,
+      "name_zhCN": "十字军的决心",
+      "perk_set_guid": "000000000049.177",
+      "sha256": "66b1a848203319f63bbf3285f21b97f1f5ec31f657c919f05607e58d140e63d4",
+      "file": "perks/client/reinhardt/minor/00000005E4AF.004.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "major",
+      "id": "Hogdrogen Exposure",
+      "kind": "client-glyph",
+      "hero_guid": "000000000040.075",
+      "loadout_guid": "000000000B7E.09E",
+      "texture_guid": "00000005E4D7.004",
+      "perk_guids": [
+        "000000002525.134"
+      ],
+      "level": 2,
+      "name_zhCN": "氢气暴露",
+      "perk_set_guid": "00000000004A.177",
+      "sha256": "31437b7f7a5bf078076fe66250737184729e56152de0adc878ffd64b44ea8a90",
+      "file": "perks/client/roadhog/major/00000005E4D7.004.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "major",
+      "id": "Toxic Exhaust",
+      "kind": "client-glyph",
+      "hero_guid": "000000000040.075",
+      "loadout_guid": "000000000F63.09E",
+      "texture_guid": "00000007BC06.004",
+      "perk_guids": [
+        "000000002A55.134"
+      ],
+      "level": 2,
+      "name_zhCN": "剧毒废气",
+      "perk_set_guid": "00000000004A.177",
+      "sha256": "9e564e188ddaf39dce74fec094364fc22abfbda5bcb116eda2c9ea9b51b37871",
+      "file": "perks/client/roadhog/major/00000007BC06.004.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "minor",
+      "id": "Here, Piggy Piggy",
+      "kind": "client-glyph",
+      "hero_guid": "000000000040.075",
+      "loadout_guid": "000000000F47.09E",
+      "texture_guid": "00000007BC04.004",
+      "perk_guids": [
+        "000000002A13.134"
+      ],
+      "level": 1,
+      "name_zhCN": "小猪快来",
+      "perk_set_guid": "00000000004A.177",
+      "sha256": "871cd6930e58effe3bdc6f273b27cf73dc909a39d835901e906cb9dfbf353b23",
+      "file": "perks/client/roadhog/minor/00000007BC04.004.png"
+    },
+    {
+      "hero": "roadhog",
+      "tier": "minor",
+      "id": "Scrap Hook",
+      "kind": "client-glyph",
+      "hero_guid": "000000000040.075",
+      "loadout_guid": "000000000B7D.09E",
+      "texture_guid": "00000005E4DA.004",
+      "perk_guids": [
+        "000000002526.134"
+      ],
+      "level": 1,
+      "name_zhCN": "废料链钩",
+      "perk_set_guid": "00000000004A.177",
+      "sha256": "e7a0d10edd073afe03651c36a480d4a93d2e9ea74a8e92b957397e1b2a1c3670",
+      "file": "perks/client/roadhog/minor/00000005E4DA.004.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "major",
+      "id": "Faces of Death",
+      "kind": "client-glyph",
+      "hero_guid": "00000000052C.075",
+      "loadout_guid": "000000000F11.09E",
+      "texture_guid": "0000000771B7.004",
+      "perk_guids": [
+        "000000002962.134"
+      ],
+      "level": 2,
+      "name_zhCN": "死神万相",
+      "perk_set_guid": "000000000079.177",
+      "sha256": "25b2911a0d817e90555428bca16bd7daf4e586d628e58fb2d2cd0a09d94df129",
+      "file": "perks/client/shion/major/0000000771B7.004.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "major",
+      "id": "Refuel",
+      "kind": "client-glyph",
+      "hero_guid": "00000000052C.075",
+      "loadout_guid": "000000000F0E.09E",
+      "texture_guid": "0000000770E3.004",
+      "perk_guids": [
+        "00000000295F.134"
+      ],
+      "level": 2,
+      "name_zhCN": "燃料补充",
+      "perk_set_guid": "000000000079.177",
+      "sha256": "3b6e1dbe435dcd0567ab38b1428e8aaa6309ac63e4ffcf4fc58de33ddbf08d71",
+      "file": "perks/client/shion/major/0000000770E3.004.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "minor",
+      "id": "Survival Instinct",
+      "kind": "client-glyph",
+      "hero_guid": "00000000052C.075",
+      "loadout_guid": "000000000FC2.09E",
+      "texture_guid": "00000007C82D.004",
+      "perk_guids": [
+        "000000002AEE.134"
+      ],
+      "level": 1,
+      "name_zhCN": "生存本能",
+      "perk_set_guid": "000000000079.177",
+      "sha256": "d7f4a4bee123dfc2d81b9d5b92b9ec0355b489c9146308e90d53616bd1e843f7",
+      "file": "perks/client/shion/minor/00000007C82D.004.png"
+    },
+    {
+      "hero": "shion",
+      "tier": "minor",
+      "id": "X Machina",
+      "kind": "client-glyph",
+      "hero_guid": "00000000052C.075",
+      "loadout_guid": "000000000E9B.09E",
+      "texture_guid": "0000000770F2.004",
+      "perk_guids": [
+        "0000000028F3.134"
+      ],
+      "level": 1,
+      "name_zhCN": "斩杀机器",
+      "perk_set_guid": "000000000079.177",
+      "sha256": "486f983216370e3a1f9485a45764e83e199770e41dd199a8db9b2bec0ba1be32",
+      "file": "perks/client/shion/minor/0000000770F2.004.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "major",
+      "id": "Locked In",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D2.075",
+      "loadout_guid": "000000000E8A.09E",
+      "texture_guid": "000000075121.004",
+      "perk_guids": [
+        "0000000028EE.134"
+      ],
+      "level": 2,
+      "name_zhCN": "锁定猛攻",
+      "perk_set_guid": "000000000077.177",
+      "sha256": "12046565295f1718ac7d4524a681ac12850eb2959e39c268594e9690f3e9b639",
+      "file": "perks/client/sierra/major/000000075121.004.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "major",
+      "id": "Medi-Drone",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D2.075",
+      "loadout_guid": "000000000E89.09E",
+      "texture_guid": "000000075125.004",
+      "perk_guids": [
+        "0000000028ED.134"
+      ],
+      "level": 2,
+      "name_zhCN": "医疗无人机",
+      "perk_set_guid": "000000000077.177",
+      "sha256": "ae3660a64d09810360a3d87f2d80ed3b2f0d182c504947fb586aa3cde0faeed1",
+      "file": "perks/client/sierra/major/000000075125.004.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "minor",
+      "id": "Full Flight",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D2.075",
+      "loadout_guid": "000000000E88.09E",
+      "texture_guid": "000000075185.004",
+      "perk_guids": [
+        "0000000028EC.134"
+      ],
+      "level": 1,
+      "name_zhCN": "全速飞行",
+      "perk_set_guid": "000000000077.177",
+      "sha256": "894fd54be78a419e6cb86e26e72ad2bcac92485db7d1e43b14a49fb0cc0fef44",
+      "file": "perks/client/sierra/minor/000000075185.004.png"
+    },
+    {
+      "hero": "sierra",
+      "tier": "minor",
+      "id": "Tight Grip",
+      "kind": "client-glyph",
+      "hero_guid": "0000000004D2.075",
+      "loadout_guid": "000000000E85.09E",
+      "texture_guid": "00000007517C.004",
+      "perk_guids": [
+        "0000000028EA.134"
+      ],
+      "level": 1,
+      "name_zhCN": "紧盯不放",
+      "perk_set_guid": "000000000077.177",
+      "sha256": "64aea205a0adbf2ed78d6a2e787437834c03c59b03860f01278fcaca4fc84e25",
+      "file": "perks/client/sierra/minor/00000007517C.004.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "major",
+      "id": "Hyper Strike",
+      "kind": "client-glyph",
+      "hero_guid": "00000000023B.075",
+      "loadout_guid": "000000000C1F.09E",
+      "texture_guid": "00000005E506.004",
+      "perk_guids": [
+        "0000000025AF.134"
+      ],
+      "level": 2,
+      "name_zhCN": "超能打击",
+      "perk_set_guid": "00000000004B.177",
+      "sha256": "0ccf4148727f32c6eee7cdd1dc0a1bc67bc9f3d5cdd4748ed56372c585a6f139",
+      "file": "perks/client/sigma/major/00000005E506.004.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "major",
+      "id": "Levitation",
+      "kind": "client-glyph",
+      "hero_guid": "00000000023B.075",
+      "loadout_guid": "000000000B92.09E",
+      "texture_guid": "00000005E49C.004",
+      "perk_guids": [
+        "000000002577.134"
+      ],
+      "level": 2,
+      "name_zhCN": "空间漂浮",
+      "perk_set_guid": "00000000004B.177",
+      "sha256": "9f87678fe53876f00f98dff73eea4ea6781a8697a4f5824467814462a7ab64cf",
+      "file": "perks/client/sigma/major/00000005E49C.004.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "minor",
+      "id": "Hyper Regeneration",
+      "kind": "client-glyph",
+      "hero_guid": "00000000023B.075",
+      "loadout_guid": "000000000CE8.09E",
+      "texture_guid": "00000006741B.004",
+      "perk_guids": [
+        "0000000026B7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "超能恢复",
+      "perk_set_guid": "00000000004B.177",
+      "sha256": "59d8c5bba9aeb94bd26818f34865b35649d538822f409427c8386a2921bffadd",
+      "file": "perks/client/sigma/minor/00000006741B.004.png"
+    },
+    {
+      "hero": "sigma",
+      "tier": "minor",
+      "id": "Kinetic Cycle",
+      "kind": "client-glyph",
+      "hero_guid": "00000000023B.075",
+      "loadout_guid": "000000000B77.09E",
+      "texture_guid": "00000005E49B.004",
+      "perk_guids": [
+        "000000002578.134"
+      ],
+      "level": 1,
+      "name_zhCN": "动能循环",
+      "perk_set_guid": "00000000004B.177",
+      "sha256": "094cb9f8677a0abf5b7a3af0ffdf0cf480f0814c074ce019ee36ece760065b24",
+      "file": "perks/client/sigma/minor/00000005E49B.004.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "major",
+      "id": "Dual Thrusters",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001EC.075",
+      "loadout_guid": "000000000BC6.09E",
+      "texture_guid": "00000005E4D0.004",
+      "perk_guids": [
+        "000000002562.134"
+      ],
+      "level": 2,
+      "name_zhCN": "双重推进器",
+      "perk_set_guid": "000000000059.177",
+      "sha256": "8d2275dec7ed6cd967c8616ca73b82e9005f787a92aa3f82f7c6412e435298eb",
+      "file": "perks/client/sojourn/major/00000005E4D0.004.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "major",
+      "id": "Friction Generators",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001EC.075",
+      "loadout_guid": "000000000C9E.09E",
+      "texture_guid": "00000006742F.004",
+      "perk_guids": [
+        "000000002642.134"
+      ],
+      "level": 2,
+      "name_zhCN": "摩擦供能",
+      "perk_set_guid": "000000000059.177",
+      "sha256": "09d40bce03e03138eb8c213e5e6b1ac21a751d2e68b7ce3919a0ec4abe3f0c13",
+      "file": "perks/client/sojourn/major/00000006742F.004.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "minor",
+      "id": "Deceleration Field",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001EC.075",
+      "loadout_guid": "000000000CC6.09E",
+      "texture_guid": "00000006742E.004",
+      "perk_guids": [
+        "000000002679.134"
+      ],
+      "level": 1,
+      "name_zhCN": "减速力场",
+      "perk_set_guid": "000000000059.177",
+      "sha256": "df09d309b323ad7b44598a4eb481b20891b7878fee4ec7491b22f93493d059e5",
+      "file": "perks/client/sojourn/minor/00000006742E.004.png"
+    },
+    {
+      "hero": "sojourn",
+      "tier": "minor",
+      "id": "Overcharged",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001EC.075",
+      "loadout_guid": "000000000BC4.09E",
+      "texture_guid": "00000005E4D2.004",
+      "perk_guids": [
+        "000000002560.134"
+      ],
+      "level": 1,
+      "name_zhCN": "机体过载",
+      "perk_set_guid": "000000000059.177",
+      "sha256": "939d6505be29060f6ebb861a5651242dbc345c899b771bbe30d5926ba295c4cc",
+      "file": "perks/client/sojourn/minor/00000005E4D2.004.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "major",
+      "id": "Full Stride",
+      "kind": "client-glyph",
+      "hero_guid": "00000000006E.075",
+      "loadout_guid": "000000000B19.09E",
+      "texture_guid": "00000007550C.004",
+      "perk_guids": [
+        "000000002535.134"
+      ],
+      "level": 2,
+      "name_zhCN": "全速疾奔",
+      "perk_set_guid": "00000000005A.177",
+      "sha256": "e4be7b8e5c85a0fffbb3a2d6accdd4cfafbc775e337edb71ab673810b978a442",
+      "file": "perks/client/soldier-76/major/00000007550C.004.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "major",
+      "id": "Stim Pack",
+      "kind": "client-glyph",
+      "hero_guid": "00000000006E.075",
+      "loadout_guid": "000000000B17.09E",
+      "texture_guid": "000000067430.004",
+      "perk_guids": [
+        "000000002536.134"
+      ],
+      "level": 2,
+      "name_zhCN": "强化药剂",
+      "perk_set_guid": "00000000005A.177",
+      "sha256": "97363fa631dd384eb0c9f24121afb3ba52ba5fd2cc1a0e91dce7edfb13cdf818",
+      "file": "perks/client/soldier-76/major/000000067430.004.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "minor",
+      "id": "Helix Propulsion",
+      "kind": "client-glyph",
+      "hero_guid": "00000000006E.075",
+      "loadout_guid": "000000000E2C.09E",
+      "texture_guid": "000000070EAE.004",
+      "perk_guids": [
+        "000000002862.134"
+      ],
+      "level": 1,
+      "name_zhCN": "螺旋推进",
+      "perk_set_guid": "00000000005A.177",
+      "sha256": "775499838f4650de2df9166249754e6c70a045d889dbaacc6068233f56a89bc5",
+      "file": "perks/client/soldier-76/minor/000000070EAE.004.png"
+    },
+    {
+      "hero": "soldier-76",
+      "tier": "minor",
+      "id": "Tactical Salvo",
+      "kind": "client-glyph",
+      "hero_guid": "00000000006E.075",
+      "loadout_guid": "000000000CA6.09E",
+      "texture_guid": "000000067431.004",
+      "perk_guids": [
+        "00000000264B.134"
+      ],
+      "level": 1,
+      "name_zhCN": "战术齐射",
+      "perk_set_guid": "00000000005A.177",
+      "sha256": "0ca01e6fbc5c48f35713aab460bdaaadd0ad87e0da83f615040513b9f68aa960",
+      "file": "perks/client/soldier-76/minor/000000067431.004.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "major",
+      "id": "Cybersecurity",
+      "kind": "client-glyph",
+      "hero_guid": "00000000012E.075",
+      "loadout_guid": "000000000FCF.09E",
+      "texture_guid": "00000007BC0F.004",
+      "perk_guids": [
+        "000000002AFF.134"
+      ],
+      "level": 2,
+      "name_zhCN": "赛博安保",
+      "perk_set_guid": "00000000005B.177",
+      "sha256": "f31a1e7dc763e8c3482230aa8e82b32d581deee69c2d78248a62ed84e8c596b4",
+      "file": "perks/client/sombra/major/00000007BC0F.004.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "major",
+      "id": "Data Packet",
+      "kind": "client-glyph",
+      "hero_guid": "00000000012E.075",
+      "loadout_guid": "000000000FBC.09E",
+      "texture_guid": "00000007BC10.004",
+      "perk_guids": [
+        "000000002AE9.134"
+      ],
+      "level": 2,
+      "name_zhCN": "数据包",
+      "perk_set_guid": "00000000005B.177",
+      "sha256": "7bc4045d48a76f0cc0f7f1fb3ca5003c13069c8e33de8ebdd2fa94f5b6b2efd5",
+      "file": "perks/client/sombra/major/00000007BC10.004.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "minor",
+      "id": "CTRL ALT ESC",
+      "kind": "client-glyph",
+      "hero_guid": "00000000012E.075",
+      "loadout_guid": "000000000BA5.09E",
+      "texture_guid": "00000005E49E.004",
+      "perk_guids": [
+        "000000002544.134"
+      ],
+      "level": 1,
+      "name_zhCN": "CTRL+ALT+ESC",
+      "perk_set_guid": "00000000005B.177",
+      "sha256": "d6127866a404cf6f4a8603402358adc41c13c084e2340b673d7f572bb7ee68a4",
+      "file": "perks/client/sombra/minor/00000005E49E.004.png"
+    },
+    {
+      "hero": "sombra",
+      "tier": "minor",
+      "id": "Life Hack",
+      "kind": "client-glyph",
+      "hero_guid": "00000000012E.075",
+      "loadout_guid": "000000000FC4.09E",
+      "texture_guid": "00000007BC0E.004",
+      "perk_guids": [
+        "000000002AF0.134"
+      ],
+      "level": 1,
+      "name_zhCN": "黑你血条",
+      "perk_set_guid": "00000000005B.177",
+      "sha256": "76023476ad6b33f948e4e4fedbe27828367eb0008172990255d9b98780d6524e",
+      "file": "perks/client/sombra/minor/00000007BC0E.004.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "major",
+      "id": "Hovering Barrier",
+      "kind": "client-glyph",
+      "hero_guid": "000000000016.075",
+      "loadout_guid": "000000000D3F.09E",
+      "texture_guid": "0000000013A3.004",
+      "perk_guids": [
+        "00000000273A.134"
+      ],
+      "level": 2,
+      "name_zhCN": "悬浮屏障",
+      "perk_set_guid": "00000000005C.177",
+      "sha256": "f4f9a4eb3fa2655e42aa3b14cabcef3ababe86fc5cd084054ccc55e75daf3ca2",
+      "file": "perks/client/symmetra/major/0000000013A3.004.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "major",
+      "id": "Shield Battery",
+      "kind": "client-glyph",
+      "hero_guid": "000000000016.075",
+      "loadout_guid": "000000000C40.09E",
+      "texture_guid": "00000005E4F1.004",
+      "perk_guids": [
+        "0000000025CD.134"
+      ],
+      "level": 2,
+      "name_zhCN": "护盾充能",
+      "perk_set_guid": "00000000005C.177",
+      "sha256": "4df0ccd6c74f03834ad15aed7578886d0df18dbf06b20f267861ed4e868f86c5",
+      "file": "perks/client/symmetra/major/00000005E4F1.004.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "minor",
+      "id": "Perfect Alignment",
+      "kind": "client-glyph",
+      "hero_guid": "000000000016.075",
+      "loadout_guid": "000000000C3D.09E",
+      "texture_guid": "00000005E4F7.004",
+      "perk_guids": [
+        "0000000025CA.134"
+      ],
+      "level": 1,
+      "name_zhCN": "完美协同",
+      "perk_set_guid": "00000000005C.177",
+      "sha256": "8a070d39f50b75bbe0f520c0db269b9ba10a8e9f45554b3ae6cd81b8c02cee87",
+      "file": "perks/client/symmetra/minor/00000005E4F7.004.png"
+    },
+    {
+      "hero": "symmetra",
+      "tier": "minor",
+      "id": "Sentry Capacity",
+      "kind": "client-glyph",
+      "hero_guid": "000000000016.075",
+      "loadout_guid": "000000000C3F.09E",
+      "texture_guid": "00000005E4F8.004",
+      "perk_guids": [
+        "0000000025CC.134"
+      ],
+      "level": 1,
+      "name_zhCN": "哨戒容限",
+      "perk_set_guid": "00000000005C.177",
+      "sha256": "cc466fe83825779f6abde23d884ea0010a15a3a91a909ad1cb25a45abcf8909c",
+      "file": "perks/client/symmetra/minor/00000005E4F8.004.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "major",
+      "id": "Anchor Bolts",
+      "kind": "client-glyph",
+      "hero_guid": "000000000006.075",
+      "loadout_guid": "000000000B53.09E",
+      "texture_guid": "00000005E4A6.004",
+      "perk_guids": [
+        "000000002502.134"
+      ],
+      "level": 2,
+      "name_zhCN": "锚固螺栓",
+      "perk_set_guid": "00000000005D.177",
+      "sha256": "3a207aaecda82000903e4cece1ba62359082fb4186776d1ac851f70e935859c1",
+      "file": "perks/client/torbjorn/major/00000005E4A6.004.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "major",
+      "id": "Overloaded Turret",
+      "kind": "client-glyph",
+      "hero_guid": "000000000006.075",
+      "loadout_guid": "000000000B54.09E",
+      "texture_guid": "00000005E4AA.004",
+      "perk_guids": [
+        "000000002501.134"
+      ],
+      "level": 2,
+      "name_zhCN": "过载炮台",
+      "perk_set_guid": "00000000005D.177",
+      "sha256": "ca469a7a175b2fb4c1e5823c7be68092132aafb54ab7e807ff0027e94ee8af00",
+      "file": "perks/client/torbjorn/major/00000005E4AA.004.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "minor",
+      "id": "Hammer Time",
+      "kind": "client-glyph",
+      "hero_guid": "000000000006.075",
+      "loadout_guid": "000000000CB6.09E",
+      "texture_guid": "000000067433.004",
+      "perk_guids": [
+        "00000000265C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "铁锤快抡",
+      "perk_set_guid": "00000000005D.177",
+      "sha256": "a35b851ae5cac702a0fa4f9db8eb60bfadc8de1a6d571f1049c55cef0f010782",
+      "file": "perks/client/torbjorn/minor/000000067433.004.png"
+    },
+    {
+      "hero": "torbjorn",
+      "tier": "minor",
+      "id": "Pre-Heated",
+      "kind": "client-glyph",
+      "hero_guid": "000000000006.075",
+      "loadout_guid": "000000000E59.09E",
+      "texture_guid": "000000070EA8.004",
+      "perk_guids": [
+        "0000000028BC.134"
+      ],
+      "level": 1,
+      "name_zhCN": "核心预热",
+      "perk_set_guid": "00000000005D.177",
+      "sha256": "1c5309a14975995ea721f7badde81e7644b734c84e738696dba98f9f8bf1985c",
+      "file": "perks/client/torbjorn/minor/000000070EA8.004.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "major",
+      "id": "Blink Packs",
+      "kind": "client-glyph",
+      "hero_guid": "000000000003.075",
+      "loadout_guid": "000000000BF3.09E",
+      "texture_guid": "00000005E4FE.004",
+      "perk_guids": [
+        "00000000259B.134"
+      ],
+      "level": 2,
+      "name_zhCN": "闪现急救包",
+      "perk_set_guid": "00000000005E.177",
+      "sha256": "15b370c077c04624c457ca1c1d3b2df6132957d2edb2c775f51a818a1c3bb4a0",
+      "file": "perks/client/tracer/major/00000005E4FE.004.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "major",
+      "id": "Quantum Entanglement",
+      "kind": "client-glyph",
+      "hero_guid": "000000000003.075",
+      "loadout_guid": "000000000C0B.09E",
+      "texture_guid": "00000005E500.004",
+      "perk_guids": [
+        "00000000259D.134"
+      ],
+      "level": 2,
+      "name_zhCN": "量子纠缠",
+      "perk_set_guid": "00000000005E.177",
+      "sha256": "ec0f079dcf4f8e01a79b38c13a4f6ec2eeaff7adae92a452b45e27f265601e4a",
+      "file": "perks/client/tracer/major/00000005E500.004.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "minor",
+      "id": "Kinetic Reload",
+      "kind": "client-glyph",
+      "hero_guid": "000000000003.075",
+      "loadout_guid": "000000000CE7.09E",
+      "texture_guid": "000000067434.004",
+      "perk_guids": [
+        "0000000026B6.134"
+      ],
+      "level": 1,
+      "name_zhCN": "动能装填",
+      "perk_set_guid": "00000000005E.177",
+      "sha256": "fef83fdab7b60ff045254c0bcfaf0a4dd7752960b667e7f25e2230c4891034f4",
+      "file": "perks/client/tracer/minor/000000067434.004.png"
+    },
+    {
+      "hero": "tracer",
+      "tier": "minor",
+      "id": "Temporal Regen",
+      "kind": "client-glyph",
+      "hero_guid": "000000000003.075",
+      "loadout_guid": "000000000FA6.09E",
+      "texture_guid": "00000007B211.004",
+      "perk_guids": [
+        "000000002AC7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "时空恢复",
+      "perk_set_guid": "00000000005E.177",
+      "sha256": "693296fabc311d32ff16422638dd48a753b96ac0d5da4b784801e592a124af34",
+      "file": "perks/client/tracer/minor/00000007B211.004.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "major",
+      "id": "Relentless",
+      "kind": "client-glyph",
+      "hero_guid": "000000000472.075",
+      "loadout_guid": "000000000CE0.09E",
+      "texture_guid": "00000006BB47.004",
+      "perk_guids": [
+        "00000000269B.134"
+      ],
+      "level": 2,
+      "name_zhCN": "无情君威",
+      "perk_set_guid": "00000000002A.177",
+      "sha256": "316933be445437386e349cf020a6ce59617d781f177c90561aec232cb6749619",
+      "file": "perks/client/vendetta/major/00000006BB47.004.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "major",
+      "id": "Siphoning Strike",
+      "kind": "client-glyph",
+      "hero_guid": "000000000472.075",
+      "loadout_guid": "000000000C77.09E",
+      "texture_guid": "00000006BB46.004",
+      "perk_guids": [
+        "0000000025DF.134"
+      ],
+      "level": 2,
+      "name_zhCN": "虹吸斩击",
+      "perk_set_guid": "00000000002A.177",
+      "sha256": "f05d45109413ce82c1f113b3c07ca63cdf49d16a5c4ea12fbfbca84641394802",
+      "file": "perks/client/vendetta/major/00000006BB46.004.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "minor",
+      "id": "Extra Edge",
+      "kind": "client-glyph",
+      "hero_guid": "000000000472.075",
+      "loadout_guid": "000000000E6D.09E",
+      "texture_guid": "0000000724BA.004",
+      "perk_guids": [
+        "0000000028C9.134"
+      ],
+      "level": 1,
+      "name_zhCN": "充盈剑气",
+      "perk_set_guid": "00000000002A.177",
+      "sha256": "fa72645e88c425cef3456cdf98f5dc0c8c40a62e36775d0506549dbb5235f262",
+      "file": "perks/client/vendetta/minor/0000000724BA.004.png"
+    },
+    {
+      "hero": "vendetta",
+      "tier": "minor",
+      "id": "Raging Storm",
+      "kind": "client-glyph",
+      "hero_guid": "000000000472.075",
+      "loadout_guid": "000000000CD8.09E",
+      "texture_guid": "00000006BB48.004",
+      "perk_guids": [
+        "000000002691.134"
+      ],
+      "level": 1,
+      "name_zhCN": "狂怒风暴",
+      "perk_set_guid": "00000000002A.177",
+      "sha256": "7ac649500f6196fd062aa9cfa196289becfc01f2c7c4acbb1c580aec5ea0893e",
+      "file": "perks/client/vendetta/minor/00000006BB48.004.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "major",
+      "id": "Covered In Dirt",
+      "kind": "client-glyph",
+      "hero_guid": "00000000032B.075",
+      "loadout_guid": "000000000C2A.09E",
+      "texture_guid": "00000005E4BB.004",
+      "perk_guids": [
+        "0000000025B9.134"
+      ],
+      "level": 2,
+      "name_zhCN": "尘土满身",
+      "perk_set_guid": "00000000005F.177",
+      "sha256": "934ab1117c0df6da16d06069242eaff919bd8c666791e004d001fc2e2baabf48",
+      "file": "perks/client/venture/major/00000005E4BB.004.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "major",
+      "id": "SMART Extender",
+      "kind": "client-glyph",
+      "hero_guid": "00000000032B.075",
+      "loadout_guid": "000000000B1A.09E",
+      "texture_guid": "000000067435.004",
+      "perk_guids": [
+        "00000000258C.134"
+      ],
+      "level": 2,
+      "name_zhCN": "智能延展器",
+      "perk_set_guid": "00000000005F.177",
+      "sha256": "03ef67fd128cce0562cc4234b4b7e1eef5db0ddcb94e29ee9ef1557aef7f941f",
+      "file": "perks/client/venture/major/000000067435.004.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "minor",
+      "id": "Deep Burrow",
+      "kind": "client-glyph",
+      "hero_guid": "00000000032B.075",
+      "loadout_guid": "000000000CED.09E",
+      "texture_guid": "0000000673E7.004",
+      "perk_guids": [
+        "0000000026BB.134"
+      ],
+      "level": 1,
+      "name_zhCN": "深岩掘地",
+      "perk_set_guid": "00000000005F.177",
+      "sha256": "677dbb7f9094de85760ec5093ef0a24f804cf2dc7442de9025d21d5d0dec79d2",
+      "file": "perks/client/venture/minor/0000000673E7.004.png"
+    },
+    {
+      "hero": "venture",
+      "tier": "minor",
+      "id": "Excavation Exhilaration",
+      "kind": "client-glyph",
+      "hero_guid": "00000000032B.075",
+      "loadout_guid": "000000000C3A.09E",
+      "texture_guid": "00000005E4BC.004",
+      "perk_guids": [
+        "0000000025C7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "轰轰钻机汹汹来袭",
+      "perk_set_guid": "00000000005F.177",
+      "sha256": "0980a39f3782c2258c85653a9ec6dd7bc839bc3b8bc37ec991e2151b6f842d37",
+      "file": "perks/client/venture/minor/00000005E4BC.004.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "major",
+      "id": "Seeker Mine",
+      "kind": "client-glyph",
+      "hero_guid": "00000000000A.075",
+      "loadout_guid": "000000000D1E.09E",
+      "texture_guid": "000000067436.004",
+      "perk_guids": [
+        "000000002704.134"
+      ],
+      "level": 2,
+      "name_zhCN": "寻敌诡雷",
+      "perk_set_guid": "000000000060.177",
+      "sha256": "12e2d97066d6000433a294ee26f2d5c7ca9b79f95f9ec7fea43dac19cf32089a",
+      "file": "perks/client/widowmaker/major/000000067436.004.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "major",
+      "id": "Widow's Bite",
+      "kind": "client-glyph",
+      "hero_guid": "00000000000A.075",
+      "loadout_guid": "000000000E39.09E",
+      "texture_guid": "000000070EAF.004",
+      "perk_guids": [
+        "000000002873.134"
+      ],
+      "level": 2,
+      "name_zhCN": "黑百合之噬",
+      "perk_set_guid": "000000000060.177",
+      "sha256": "1e922a2b3946f2f1a87d889356a88002991bf6d647db40d66615d532c21aac59",
+      "file": "perks/client/widowmaker/major/000000070EAF.004.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "minor",
+      "id": "Scoped Efficiency",
+      "kind": "client-glyph",
+      "hero_guid": "00000000000A.075",
+      "loadout_guid": "000000000C32.09E",
+      "texture_guid": "00000005E504.004",
+      "perk_guids": [
+        "0000000025A7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "高效开镜",
+      "perk_set_guid": "000000000060.177",
+      "sha256": "73b635a67760774d08b75ca14a7893134d7564712cd328b26ab1034ff55e8660",
+      "file": "perks/client/widowmaker/minor/00000005E504.004.png"
+    },
+    {
+      "hero": "widowmaker",
+      "tier": "minor",
+      "id": "Sniper's Instinct",
+      "kind": "client-glyph",
+      "hero_guid": "00000000000A.075",
+      "loadout_guid": "000000000D3A.09E",
+      "texture_guid": "000000067437.004",
+      "perk_guids": [
+        "000000002736.134"
+      ],
+      "level": 1,
+      "name_zhCN": "狙击手的直觉",
+      "perk_set_guid": "000000000060.177",
+      "sha256": "6b5e7020a4341c02d0fd90685187473ebc15bdb362e033012634cb89edc1d0c5",
+      "file": "perks/client/widowmaker/minor/000000067437.004.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "major",
+      "id": "Chain Lightning",
+      "kind": "client-glyph",
+      "hero_guid": "000000000009.075",
+      "loadout_guid": "000000000B7A.09E",
+      "texture_guid": "00000005E4DC.004",
+      "perk_guids": [
+        "00000000250D.134"
+      ],
+      "level": 2,
+      "name_zhCN": "连锁闪电",
+      "perk_set_guid": "00000000004C.177",
+      "sha256": "cc305b2a9951c3be77be943d91e03be04e930cbadb5ab654a5417d1452ffb70b",
+      "file": "perks/client/winston/major/00000005E4DC.004.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "major",
+      "id": "Revitalizing Barrier",
+      "kind": "client-glyph",
+      "hero_guid": "000000000009.075",
+      "loadout_guid": "000000000B7B.09E",
+      "texture_guid": "00000005E4DE.004",
+      "perk_guids": [
+        "00000000250E.134"
+      ],
+      "level": 2,
+      "name_zhCN": "复苏屏障",
+      "perk_set_guid": "00000000004C.177",
+      "sha256": "7ab0c7948a662fd8810339f3b5873b3ed738ec7c33da488937c04b2c33a9e482",
+      "file": "perks/client/winston/major/00000005E4DE.004.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "minor",
+      "id": "Electric Charge",
+      "kind": "client-glyph",
+      "hero_guid": "000000000009.075",
+      "loadout_guid": "000000000E54.09E",
+      "texture_guid": "000000070EAB.004",
+      "perk_guids": [
+        "0000000028B7.134"
+      ],
+      "level": 1,
+      "name_zhCN": "电能快充",
+      "perk_set_guid": "00000000004C.177",
+      "sha256": "d48ec095c3636819fb2ea18f2faa455f3cfaa765693b19151dcace0b5dfee410",
+      "file": "perks/client/winston/minor/000000070EAB.004.png"
+    },
+    {
+      "hero": "winston",
+      "tier": "minor",
+      "id": "Heavy Landing",
+      "kind": "client-glyph",
+      "hero_guid": "000000000009.075",
+      "loadout_guid": "000000000B7C.09E",
+      "texture_guid": "00000005E4DD.004",
+      "perk_guids": [
+        "00000000250C.134"
+      ],
+      "level": 1,
+      "name_zhCN": "天降巨猩",
+      "perk_set_guid": "00000000004C.177",
+      "sha256": "cf177a464a98ef0c4be048f2f5d604b2dcfad2e95ffba1ad565027e1ec92f4f6",
+      "file": "perks/client/winston/minor/00000005E4DD.004.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "major",
+      "id": "Adaptive Barrier",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001CA.075",
+      "loadout_guid": "000000000C9A.09E",
+      "texture_guid": "000000067417.004",
+      "perk_guids": [
+        "00000000263F.134"
+      ],
+      "level": 2,
+      "name_zhCN": "感应屏障",
+      "perk_set_guid": "00000000004D.177",
+      "sha256": "a2400dbf20ea7b99feffb7a5e4bfe11f58e70000a097b91b53dca454d8c2562f",
+      "file": "perks/client/wrecking-ball/major/000000067417.004.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "major",
+      "id": "Hang Time",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001CA.075",
+      "loadout_guid": "000000000C2D.09E",
+      "texture_guid": "00000005E462.004",
+      "perk_guids": [
+        "0000000025BB.134"
+      ],
+      "level": 2,
+      "name_zhCN": "滞空时间",
+      "perk_set_guid": "00000000004D.177",
+      "sha256": "223aafca76758a7be988198202b9cf39eaca5a2a2ed4b5730a2d24b6859b99bb",
+      "file": "perks/client/wrecking-ball/major/00000005E462.004.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "minor",
+      "id": "Multi-Ball",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001CA.075",
+      "loadout_guid": "000000000E2E.09E",
+      "texture_guid": "000000070EAC.004",
+      "perk_guids": [
+        "000000002867.134"
+      ],
+      "level": 1,
+      "name_zhCN": "多重地雷",
+      "perk_set_guid": "00000000004D.177",
+      "sha256": "43600c2c947cffaab60c2c070fa2ff36fac7d5b4a717c71a49315bb9feb180ee",
+      "file": "perks/client/wrecking-ball/minor/000000070EAC.004.png"
+    },
+    {
+      "hero": "wrecking-ball",
+      "tier": "minor",
+      "id": "Steamroller",
+      "kind": "client-glyph",
+      "hero_guid": "0000000001CA.075",
+      "loadout_guid": "000000000C2E.09E",
+      "texture_guid": "00000005E464.004",
+      "perk_guids": [
+        "0000000025BC.134"
+      ],
+      "level": 1,
+      "name_zhCN": "重装压路机",
+      "perk_set_guid": "00000000004D.177",
+      "sha256": "7177f19738df835c31de5a778404643828c8916bf3745eaf4f6628c352822383",
+      "file": "perks/client/wrecking-ball/minor/00000005E464.004.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "major",
+      "id": "Ebb and Flow",
+      "kind": "client-glyph",
+      "hero_guid": "0000000003C3.075",
+      "loadout_guid": "000000000C60.09E",
+      "texture_guid": "000000065FC2.004",
+      "perk_guids": [
+        "0000000025D8.134"
+      ],
+      "level": 2,
+      "name_zhCN": "潮涨潮落",
+      "perk_set_guid": "000000000029.177",
+      "sha256": "da9ae4fe2f28af2bd799e1cda65dfdc9506b66900b1202037e143d0aa370d7cd",
+      "file": "perks/client/wuyang/major/000000065FC2.004.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "major",
+      "id": "Falling Rain",
+      "kind": "client-glyph",
+      "hero_guid": "0000000003C3.075",
+      "loadout_guid": "000000000C69.09E",
+      "texture_guid": "000000065FC1.004",
+      "perk_guids": [
+        "0000000025DA.134"
+      ],
+      "level": 2,
+      "name_zhCN": "暴雨倾盆",
+      "perk_set_guid": "000000000029.177",
+      "sha256": "600fd89f0c93d3246b706a2a644af9ba9dc9f965f852645c271175989147358b",
+      "file": "perks/client/wuyang/major/000000065FC1.004.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "minor",
+      "id": "Balance",
+      "kind": "client-glyph",
+      "hero_guid": "0000000003C3.075",
+      "loadout_guid": "000000000C66.09E",
+      "texture_guid": "000000065FC0.004",
+      "perk_guids": [
+        "0000000025D9.134"
+      ],
+      "level": 1,
+      "name_zhCN": "阴阳平衡",
+      "perk_set_guid": "000000000029.177",
+      "sha256": "eed61522e2b43028c6bd26f2a606627cbdb2af4d88df587f4b5d18477a0c9981",
+      "file": "perks/client/wuyang/minor/000000065FC0.004.png"
+    },
+    {
+      "hero": "wuyang",
+      "tier": "minor",
+      "id": "Overflow",
+      "kind": "client-glyph",
+      "hero_guid": "0000000003C3.075",
+      "loadout_guid": "000000000C4B.09E",
+      "texture_guid": "000000065FC8.004",
+      "perk_guids": [
+        "0000000025D2.134"
+      ],
+      "level": 1,
+      "name_zhCN": "水满则溢",
+      "perk_set_guid": "000000000029.177",
+      "sha256": "f23922b58c553456f1cee3234217295f00bd4b2f31be8330c255a8bdf1cdbe9f",
+      "file": "perks/client/wuyang/minor/000000065FC8.004.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "major",
+      "id": "Energy Lance",
+      "kind": "client-glyph",
+      "hero_guid": "000000000068.075",
+      "loadout_guid": "000000000B15.09E",
+      "texture_guid": "00000005E4C7.004",
+      "perk_guids": [
+        "000000002530.134"
+      ],
+      "level": 2,
+      "name_zhCN": "能量长枪",
+      "perk_set_guid": "00000000004E.177",
+      "sha256": "69191bab5d8d0409d0b9df55d256feed9c8a80ce37072db55c67a7260645c868",
+      "file": "perks/client/zarya/major/00000005E4C7.004.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "major",
+      "id": "Extra Oomph",
+      "kind": "client-glyph",
+      "hero_guid": "000000000068.075",
+      "loadout_guid": "000000000E65.09E",
+      "texture_guid": "000000070EAD.004",
+      "perk_guids": [
+        "0000000028C5.134"
+      ],
+      "level": 2,
+      "name_zhCN": "能量加码",
+      "perk_set_guid": "00000000004E.177",
+      "sha256": "54e1722546a4ec4170fa5e733769dd217d6e11d6a12e20b1a94a657de9cdf821",
+      "file": "perks/client/zarya/major/000000070EAD.004.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "minor",
+      "id": "Jump-Ups",
+      "kind": "client-glyph",
+      "hero_guid": "000000000068.075",
+      "loadout_guid": "000000000B14.09E",
+      "texture_guid": "00000005E4C9.004",
+      "perk_guids": [
+        "000000002531.134"
+      ],
+      "level": 1,
+      "name_zhCN": "弹跳训练",
+      "perk_set_guid": "00000000004E.177",
+      "sha256": "1835b70473b5dc8efca7d1ab7f9babb185fe4703d53dbe8855df537aab243e9f",
+      "file": "perks/client/zarya/minor/00000005E4C9.004.png"
+    },
+    {
+      "hero": "zarya",
+      "tier": "minor",
+      "id": "Spotter",
+      "kind": "client-glyph",
+      "hero_guid": "000000000068.075",
+      "loadout_guid": "000000000B16.09E",
+      "texture_guid": "00000005E4CA.004",
+      "perk_guids": [
+        "000000002532.134"
+      ],
+      "level": 1,
+      "name_zhCN": "前线哨兵",
+      "perk_set_guid": "00000000004E.177",
+      "sha256": "052d6fc24c1860a53df8141e75b07afcb0389a6538e2b4279269eb6ab175a687",
+      "file": "perks/client/zarya/minor/00000005E4CA.004.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "major",
+      "id": "Dual Harmony",
+      "kind": "client-glyph",
+      "hero_guid": "000000000020.075",
+      "loadout_guid": "000000000D25.09E",
+      "texture_guid": "0000000673F9.004",
+      "perk_guids": [
+        "000000002712.134"
+      ],
+      "level": 2,
+      "name_zhCN": "双音谐奏",
+      "perk_set_guid": "00000000006B.177",
+      "sha256": "3227e0e9ba3866bec9579cd95e9f693f8cdfd9aa754b29678b1d9c570d527551",
+      "file": "perks/client/zenyatta/major/0000000673F9.004.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "major",
+      "id": "Focused Destruction",
+      "kind": "client-glyph",
+      "hero_guid": "000000000020.075",
+      "loadout_guid": "000000000C19.09E",
+      "texture_guid": "00000005E47D.004",
+      "perk_guids": [
+        "0000000025A9.134"
+      ],
+      "level": 2,
+      "name_zhCN": "凝神寂灭",
+      "perk_set_guid": "00000000006B.177",
+      "sha256": "2029da8fb7b39ad3fd17f14ec39af49e24d079145d5a19ec10c33cb55847c2a0",
+      "file": "perks/client/zenyatta/major/00000005E47D.004.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "minor",
+      "id": "Ascendance",
+      "kind": "client-glyph",
+      "hero_guid": "000000000020.075",
+      "loadout_guid": "000000000C1B.09E",
+      "texture_guid": "00000005E47B.004",
+      "perk_guids": [
+        "0000000025AB.134"
+      ],
+      "level": 1,
+      "name_zhCN": "悬空参禅",
+      "perk_set_guid": "00000000006B.177",
+      "sha256": "4b80e310a4b6afca9896b829f4e7f9a4b7b4d64c33ceae7a02755b413bde26f6",
+      "file": "perks/client/zenyatta/minor/00000005E47B.004.png"
+    },
+    {
+      "hero": "zenyatta",
+      "tier": "minor",
+      "id": "Discordant Repair",
+      "kind": "client-glyph",
+      "hero_guid": "000000000020.075",
+      "loadout_guid": "000000000E44.09E",
+      "texture_guid": "000000070E93.004",
+      "perk_guids": [
+        "00000000289B.134"
+      ],
+      "level": 1,
+      "name_zhCN": "乱中求存",
+      "perk_set_guid": "00000000006B.177",
+      "sha256": "47de06e63dce2d39125d40591f6bc0d6b3498c8e0fad36c7dc4823d4f3313138",
+      "file": "perks/client/zenyatta/minor/000000070E93.004.png"
     }
   ],
   "ui": {
@@ -2004,7 +4128,7 @@
       "name": "DanLane09/Overwatch-Stats-Elo",
       "revision": "95d1084f8eae9261735947fd0b02125c3407dd7c",
       "url": "https://github.com/DanLane09/Overwatch-Stats-Elo",
-      "use": "scoreboard portrait and perk reference features"
+      "use": "scoreboard portrait reference features"
     },
     {
       "name": "RapidOCR / PaddleOCR PP-OCRv4",
@@ -2013,15 +4137,323 @@
       "license": "Apache-2.0"
     },
     {
-      "name": "Official perk glyphs",
-      "url": "https://overwatch.blizzard.com/en-us/heroes/jetpack-cat/",
-      "retrieved": "2026-10-13",
-      "copyright": "Blizzard Entertainment"
-    },
-    {
       "name": "Provided preselection screenshots",
       "use": "unselected HUD and scoreboard placeholder references",
       "copyright": "Blizzard Entertainment game artwork"
+    },
+    {
+      "name": "Installed Overwatch client perk textures",
+      "use": "All active perk mappings and glyphs",
+      "copyright": "Blizzard Entertainment",
+      "client": {
+        "Version": "2.25.0.0.154461N",
+        "Build Key": "1fb898e8e1f784272b6df1af05341f1d",
+        "CDN Key": "c3fcf2a11f2638cfdb16c6554e389b72",
+        "Branch": "cn",
+        "Product": "pro"
+      },
+      "tool": {
+        "path": "E:\\Program\\OWCS_OB_Analyzer\\.deps\\owlib\\bin\\DataTool.exe",
+        "datatool_sha256": "f48d58f0c198fda63421240363fd8bc048b0804fde9c0b925fdf519f553da06e",
+        "version_line": "[Core] DataTool v2.25.0.0+1151+68397365",
+        "dll_sha256": {
+          "Accessibility.dll": "8a445cfd0d566a0bfbebd30ba3cd1bab449c73f22f40dc4aba499bf96a2f0850",
+          "AdonisUI.ClassicTheme.dll": "89b75cdf263a4bfc81399caf3c98255c4c16307172dc7702cbbdb2b0bd0bae61",
+          "AdonisUI.dll": "b978eb7e4544c601d1705c79a42175914c1477790bdd6eb01c3d91e8607fa60d",
+          "AssetRipper.TextureDecoder.dll": "d932239f7f08b5807eef0353a2b8e664a69679a0c74566e5e41c500a23529e74",
+          "clretwrc.dll": "7a2186201c87bbc597a1b8b26facd88e68f03be4c4a4211fd65cc6595c72e45b",
+          "clrgc.dll": "65e2f97d263824bfb9f75f92e66ebd22229aaf3a5faddef9345811d856c8840e",
+          "clrgcexp.dll": "23a8050ec68542989b6da6cc906a90faf8a14e6416fd2871a260b781b1c374ae",
+          "clrjit.dll": "0749d8fc8e944d0576e1bb47120f87add8f875e5cd8968995633063fc79256f6",
+          "CommunityToolkit.HighPerformance.dll": "196607c6d4d704b5ee95c80f8e3cd799595b7d8a08108701894c211b138d2839",
+          "coreclr.dll": "128aee8c62a673d64739e585e3876b61133571cec83a46240a62581d5465639b",
+          "CsvHelper.dll": "189a0d69f35a7e3827bfc35111d5d6e29d08bae60780cc48b215a06b18b6a852",
+          "CurrentPerks.dll": "ebb6878a32ee46d04af9f2a0a3a40d5513115e8461c3fab1e78ffc3dbf309481",
+          "D3DCompiler_47_cor3.dll": "a05f99734f7c4822fefc12b367af21fd0976ed6608752fb1e1e80b6ece7ecbbb",
+          "DataTool.dll": "25700b79b5d4358583a6d7ed09b5c7b90ddbef44202bd78448f4d71d376ae709",
+          "DirectWriteForwarder.dll": "d12b14c20971eee7a7b2532fd8e9f0b2a6ea72137b35be7391a06d41c4600ca4",
+          "DirectXTexNet.dll": "3405b7644a34cc9e3eb42e8fa62227f30cb109ce8069cff0ef504f91799a146c",
+          "DirectXTexNetImpl.dll": "4c43eb0e79f525b23456532333a5c1e2c56a224ed14beb75f5e942147da91cbf",
+          "DynamicExpresso.Core.dll": "51b4e50850cd06ca88ac780a1b8b4cc06cd84dea8452a65fed720f2dc3a78489",
+          "Google.Protobuf.dll": "db5b8c7001b8dd9baa8ae281a441d05e665fc8d6faceb101bbd332aef2816fb6",
+          "hostfxr.dll": "838591885c5396fb0588a3aedc2f3e841d3afc67570868b1bce615264005a44c",
+          "hostpolicy.dll": "e92a2e71eeeaf7c574e905935b3e3724ef29bade44317659dbe06f505e99dbe0",
+          "Ijwhost.dll": "e0f98056ae7645caba2c0f990e2cda248aa32d1efe143e729864a84e4434398f",
+          "librevorb.dll": "423e6b2f884ea1ccc7ef6f04c0115c0b995346d7632d1b384bbf791968c8c552",
+          "libzstd.dll": "89bca20b4c22c5a5300ce382451bc19e8852d52a41ec2dd8e7f0b60f729987e1",
+          "LZ4.dll": "0f370a5379b9535d8ec6d9cf4b2cebde3dad38901ecdc9d3e659304a17e7c27b",
+          "LZ4pn.dll": "e4324fb676308ddf1f616c317eb6e6d8fa90332ec870383d4b6384c1f8930a14",
+          "Microsoft.CSharp.dll": "2000912f2fc52e0c64ed893d79f4e7b143502540fb7170b5ae5fcea7099ba431",
+          "Microsoft.DiaSymReader.Native.amd64.dll": "70e4b89978ce57ef87b28f4921f3140c383b04aa96e7f3bdb3c4ebb898fd8a72",
+          "Microsoft.VisualBasic.Core.dll": "2666b24eb6e295476b44abd057ea250fd5957db9c1c7adee6a223a747ddfe3d2",
+          "Microsoft.VisualBasic.dll": "5d2b577ef50f89fa08d5e45b25092ef9e0d9dd0f0f45713a5c6a549f08cc1b64",
+          "Microsoft.VisualBasic.Forms.dll": "ab4be826f49cbb92cbc1ba549ec52b85d42b40bcf2382e540ad75259bd2e01be",
+          "Microsoft.Win32.Primitives.dll": "6c21472b0ae2f9b484a97614fad5485a22f18f9f19ee1adb9ceb3ed8ddb072d7",
+          "Microsoft.Win32.Registry.AccessControl.dll": "521c91df5d6274066f353a0276ca648c2f006a5458a85691b7502ee3c637d257",
+          "Microsoft.Win32.Registry.dll": "76849cfde4369f3ae93e28261fe5e1010dbf1332f7da95c98543cba9b03961c0",
+          "Microsoft.Win32.SystemEvents.dll": "78eca75a0ddacdf6015f5414f9fee56a970f9f21b94b1c6a0e5dbb974ae8b48b",
+          "Microsoft.WindowsAPICodePack.Core.dll": "f4eec0a30b31fefad68cf67c86cf7fd0cfcae23a6b103c6aa9d48eeae49d52e8",
+          "Microsoft.WindowsAPICodePack.Shell.dll": "542ef75fb0056d8793e43f27a34b0f0d4245d2331a757ea534916d2310478039",
+          "MimeKitLite.dll": "48b108deae452a8e6960536179cc24333e673c431968630b42df97bed7a88049",
+          "mscordaccore.dll": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+          "mscordaccore_amd64_amd64_10.0.1226.42308.dll": "86c29a7b945525135de16c3dcb71e3b8517848c459cbb21395b352d4e6bba09c",
+          "mscordbi.dll": "753e92805f3886221f56dcfc07191ad7ee44235bf689db0490bdf777f25e9175",
+          "mscorlib.dll": "b698595367a7d4fa57ccacab73751fde0bb8f2415345c62cdfe7ced890da2c0c",
+          "mscorrc.dll": "f0d8c7491d4659a4c5a4c00615255a60e05634f311162c2775a51e03c070c9e0",
+          "msquic.dll": "b7158d427b01c70483bb3d80c5211e387dd98e9471c8a70e4484d449de9157e8",
+          "NAudio.Asio.dll": "ca03780217139b37f7f5b6921d59defb8d24988315b16b167a77fa88caa7d00f",
+          "NAudio.Core.dll": "fcf493fc47a2f478a65303886b975fbdbf714cbb1f2d79f7fce97e4bb16b01a8",
+          "NAudio.dll": "c001e49d31497f608b14066b0f10304c0ccb7e3b9df9d5fec5cf3196f92961b8",
+          "NAudio.Midi.dll": "f246e29921797b173b54229685e997a11f9cc388fa1e589c212328abd7a94ebe",
+          "NAudio.Vorbis.dll": "0ae4de203ffeb14cc5f10859402d3f56e9fe6689c58587d52ba4aa731ef3e8c0",
+          "NAudio.Wasapi.dll": "618ef0e49d64e7a66dfe64bbf6ae81705b9d9683d8a9f321e5c3024d666bdf82",
+          "NAudio.WinForms.dll": "b313f530227fd31fc2b6fa74547f4c8a964cde7696c07624dfc19b693fe9c468",
+          "NAudio.WinMM.dll": "749a01ebbb5edd8b1a03c5263b04de6acadecf52e4cc84d7412bc6e93f180958",
+          "netstandard.dll": "3dc81dbc9dacd28261632c94410859eda24c2db50cd6c14309cbb2a434b50c57",
+          "Newtonsoft.Json.dll": "a28c251dfe36d881e9e2462e171441b8b0ec156fe3f452602c9149b1b9efe05b",
+          "NVorbis.dll": "d4fd7a6a7b8672b30f77de08c0256dbcbd0d3eee07b78554ebce97741aa7a819",
+          "PenImc_cor3.dll": "c4c9cd3d9d4d8ee175575545048d38328c09f12ba15c606bda49ba0d2ee73bac",
+          "PresentationCore.dll": "a0ce98a232c65ed2b9f9af58b39359a6016066afd62e85ecfd745da202f0b01b",
+          "PresentationFramework-SystemCore.dll": "9786d5093a4bd639be043f44202c1c28d4cb452b8ff0d58f4abafc45a23f13b4",
+          "PresentationFramework-SystemData.dll": "a210c3e380b897f8b967051324b601eda4815acd757ee60cbca367202710bffb",
+          "PresentationFramework-SystemDrawing.dll": "ac43b0a5147aadf4d7d7af2778697d2fdb5c3142258e4ae7516c016a77358f32",
+          "PresentationFramework-SystemXml.dll": "077d445816dacc7ba0c50ae87985c58b73a8ff0132ace636006d70fbbe4e8281",
+          "PresentationFramework-SystemXmlLinq.dll": "2302db05ecc1fe43c3bdc34385203f691b46fcb72b679fc710840ccbc0c7b322",
+          "PresentationFramework.Aero.dll": "6fb5b4dc53323f52b770a323ff782f7ea22f5eab31ef20f5a5a4e88a1f95ed84",
+          "PresentationFramework.Aero2.dll": "3739daa957a94e83dae823a370bb2a0d44b896f94a042fd2a1e3e1bf5ba37995",
+          "PresentationFramework.AeroLite.dll": "13a9318079a467b8daeae5dbe24a18271ca8c5834a29d1edab87142a1be24556",
+          "PresentationFramework.Classic.dll": "cf287bbfa5aee5da10ce6595ebaba9b1899906fb0bf932de4f6d47da30d209fe",
+          "PresentationFramework.dll": "2446f9a76b605f910a3c90fe4134f7b9c96b13f4b742b646363e7c5a43d69609",
+          "PresentationFramework.Fluent.dll": "fc46d8f490efc3fef3b12f64097ceacb20466ced8d26270eaf8610b81d4cfc18",
+          "PresentationFramework.Luna.dll": "e18b36a8146093b4eb7f107be391c712f24e20f9a540f74003f4fdfa188c0337",
+          "PresentationFramework.Royale.dll": "967ad6d0e927071992089104ce064adc7f626dfb40ec719c5c617dd4cbc843aa",
+          "PresentationNative_cor3.dll": "42e2e543c17e1b37499baf00d956433b8afb655348ec0fae89c926fb7d149b6e",
+          "PresentationUI.dll": "9e98cd819315396fab6c1dcaf42a5caa0817d99f9b22c5febb4e4a976f80eccd",
+          "ReachFramework.dll": "0e4c8abafd26d0fe4abea03423b8c9374a1ab043099f365fe71723ce5e1205d2",
+          "RevorbStd.dll": "9f6cb4da35fd2586af13e1a99f419904a1c3a222e8ee479a667d334d421f13db",
+          "SixLabors.ImageSharp.dll": "609a57965d0a7b5ccfb79d919ea7384e7ec86c03266b0390a19bd5f2104bc353",
+          "Spectre.Console.Ansi.dll": "a4c1d0c06b8304a41c6658e1566b717b1b53bda32781afecc87cfb4709af5acc",
+          "Spectre.Console.dll": "4f116678c1a711850fc20778098e19bdc2c1f7e6b27b21b82e1ce0443194157c",
+          "SymSpell.dll": "c0e0ebbf7cbb9f2d1824c6aabf62342ca51979214ef0ac9351dabe4ce7f3c6ac",
+          "System.AppContext.dll": "d9dd9fa44e019f27172d6b2662e2b6038f48c270912ac8aae53d4d909da7e9be",
+          "System.Buffers.dll": "a1a35f5524e2f831d08ca55f702fbddcb8c6dfecd264f0f563d81a1c8b8280bd",
+          "System.CodeDom.dll": "cb14dde18ee24339133094e40c8b6853819b1a0995558e4e820596e95c9c972d",
+          "System.Collections.Concurrent.dll": "082f4bc0da1141eb65111b6da633d75624adfb7bb067d7ee90c5622c8b30885b",
+          "System.Collections.dll": "df6f2037eabee28100184e92f7536427ba2f086c1110629804d466b124bc4d54",
+          "System.Collections.Immutable.dll": "b527dd7b2beb82c22aa39787298cbeb33f3eac9eb9b83a0f0271353421db28db",
+          "System.Collections.NonGeneric.dll": "aa4d5216d066c91cb489f63c6cbfcaf1f47b6e74e070db45639d3460454fc60b",
+          "System.Collections.Specialized.dll": "e31af1f866e880844e027be59f545b9a6b34108e0b0680ebe3fbc19a53070819",
+          "System.ComponentModel.Annotations.dll": "e3be2d35d81e6475c64110cfc099895b71df22c8b46a18c2d7c76a913b8ba903",
+          "System.ComponentModel.DataAnnotations.dll": "d40e8c7062e6b9ce11ba83eab3d26be0eec8066b99970ea88b8e87fb75f411bd",
+          "System.ComponentModel.dll": "e3b6f75864ee944898540937c1f300e04f44a1b2729516f0bbf948589a8b14b2",
+          "System.ComponentModel.EventBasedAsync.dll": "cc84fe814ef5e58271d83193e328f8ec220efd4696d90af9a7c4690c10451495",
+          "System.ComponentModel.Primitives.dll": "1e2451184c287409ea25acde3c90f25950bf34d16458a6e52a94ca4292434f62",
+          "System.ComponentModel.TypeConverter.dll": "10dae312a6697718f8ce3dfcdb17d6ae4b74687c765d74d50de8a8e69e08f5e7",
+          "System.Configuration.ConfigurationManager.dll": "a5a7e65996c3b6900f3254d23fe263fee25dc1d7466c26eb8e6e4e2ce3d29512",
+          "System.Configuration.dll": "3952a72e1f18774f16952b46c20e80ed2bc601a06eca01f33fa924c738022a9c",
+          "System.Console.dll": "3b85daf02a3d9ed99b84bb1c639fe8b1ced46d8d157fa56f525f6b8c5be43b3e",
+          "System.Core.dll": "ac23faf1b37fa49f1b117baad951a65609e799a6e669a6df06d3552677e0c086",
+          "System.Data.Common.dll": "66bdd62047ee460e2ce2c33d15dd1173ac97997b2745864a905179594f821acc",
+          "System.Data.DataSetExtensions.dll": "aeeae0755c8c7f6747765cdf82fa43182e320e97f2035e3a0a19f21905e6c113",
+          "System.Data.dll": "49f52958a2a6e461d0fd7a47e54a199eb263c69ecfcc0fc684b73b5918ebf466",
+          "System.Design.dll": "e1a59a96224708e66c0bbe8af5b44ffeecd42d2c2d1a430860033d358940a778",
+          "System.Diagnostics.Contracts.dll": "6c05cacd9b61b08ae75f2d783cc402b0b5fc848e3d68c29c10b93897cc083e8b",
+          "System.Diagnostics.Debug.dll": "8b160ffe7518588bf64e13c01c6dcb2ef504d64f38bbf0f198d31e7b698db92c",
+          "System.Diagnostics.DiagnosticSource.dll": "6267c1bd1bdf2bdd4b5748b885b0adcda10f18697adfea8488a19a009ad44fdb",
+          "System.Diagnostics.EventLog.dll": "d79e654cf2b016e605d68911a70e52b9406d9d3fdbd416b8480400a4f3c90662",
+          "System.Diagnostics.EventLog.Messages.dll": "8f3def30d41d85e2bd87b2d2e7542d49d625f0b4d96a6dc9b03e0f49bd59b8ef",
+          "System.Diagnostics.FileVersionInfo.dll": "e94f158142e93834dec3100bde3313935517d549ff36c65819a06d3104dec427",
+          "System.Diagnostics.PerformanceCounter.dll": "b2b1be898529665110d4f8a56088bb99e6667588a1e6796cfdbb2775289ef359",
+          "System.Diagnostics.Process.dll": "51a57fbe918f8b68930c090792b718fc0850ea12da869d50b97a3796af29a740",
+          "System.Diagnostics.StackTrace.dll": "8f6397c1e2ba9b8b8bfa317962151b5035049ce8d6b3575e5027a0d0eeacc797",
+          "System.Diagnostics.TextWriterTraceListener.dll": "1bf165cee916a854e1150f489e4348ce94755359d5fcdcc0bc2bbbe6a7102bdd",
+          "System.Diagnostics.Tools.dll": "841c5e2b6c171fa9aaff0fc6295f3fbc93dc5dcab44118b62f1c942bb674aff2",
+          "System.Diagnostics.TraceSource.dll": "8445c7f1bbaae6cffde60e2c9a8753faaa5100255fbe31d0a1927d9d9bb7f194",
+          "System.Diagnostics.Tracing.dll": "9563d5eec35f94d13a5e62eaa9535dbe0e9ea474f055da132fb8af46b0b01263",
+          "System.DirectoryServices.dll": "2ababf530412e5034079a2ddf70bece0889ba9c77fa0a4ac1a2d64e7105369ef",
+          "System.dll": "ef135f0bda0c41e142fdbd67b93e5aa7911916cb250f7df302f4151a3bbfa380",
+          "System.Drawing.Common.dll": "2e4785b9ce61bb16c90b9be94894e61ae8672afdc137f1b0f4e64c1de8bd1639",
+          "System.Drawing.Design.dll": "42c5a0055e328b59d9dcbf3d547e187c4c88921bfdb812f1a53c55f76041840b",
+          "System.Drawing.dll": "a451e50a64762b53be66ce684db7888e261405a9e63da72460c2772d73be2483",
+          "System.Drawing.Primitives.dll": "17585b32ca91bac8ccff2ef1c6ddf62ee9ea5efc552928c3a9d1b868394246e9",
+          "System.Dynamic.Runtime.dll": "c0eac30c791db8c1a2b50b61c50d029f4ddd0eadfdd35433745001688a3e7466",
+          "System.Formats.Asn1.dll": "a163fe5f96d1689f1bc1ac531b38c3aba95792ac7dd52231d325d658947fbcfd",
+          "System.Formats.Nrbf.dll": "12fff18b2eb13a748d49d74542e63540ecd7a66ffb46514a9c03968363a07720",
+          "System.Formats.Tar.dll": "44c9984f269a158915195fd32007f22c3bb692dcfeb933cda8ea45a3ac6cd1ce",
+          "System.Globalization.Calendars.dll": "e0f3f3f6e4acc7b6755782fed5cb075ecf70beee4fc5d404579ae99bc0883ef2",
+          "System.Globalization.dll": "66902cffd057673b4b77aa68faf80d33ffa4c94510e61db2a067943cc53b7702",
+          "System.Globalization.Extensions.dll": "be0390557cc72078a7217cf94fd44b9ab66aa30838c00a92aa78c62469c44aa0",
+          "System.IO.Compression.Brotli.dll": "0a59a95787ee15784d73079fdd5dc555b78659a6c560b6cbbf0d7452e638df89",
+          "System.IO.Compression.dll": "c942747f84b730887090f5e0cf86d164c0ee402e524dce2750e06a6df48513fb",
+          "System.IO.Compression.FileSystem.dll": "4aeec2c0189f73ba8122f05c0d759008ddae1a8873b167cc8a558d53f2af80e1",
+          "System.IO.Compression.Native.dll": "4d174b78aa8b3516c7e3cec0355dfe9ae570894055c377d2e5565d077a9a7a1e",
+          "System.IO.Compression.ZipFile.dll": "2da76eb281740be485b5637da8c60fe0ce12bc2848d1a1a81ce144fa74313e18",
+          "System.IO.dll": "388400ccb189b819d6ec5f1ef70710a39641d93ed5b870fc9324866b75dfb78b",
+          "System.IO.FileSystem.AccessControl.dll": "f7f9ed6cdab35274711e9345266784ec332ae8040db184d141c70e7941fbbec5",
+          "System.IO.FileSystem.dll": "c251f33b29382c47b773d907463edd9fe978a06e39efd5670ef3b3b1d4f8c2b7",
+          "System.IO.FileSystem.DriveInfo.dll": "0a7f3dd2fb6147a3fc046aeac8501d764effe5a3d8cfa56d2b244aa50b874b98",
+          "System.IO.FileSystem.Primitives.dll": "d3b21b8b38e48c6b4d1cb5cfe9adfe4abad7b3353601febd3c7e4027f9ef9c6b",
+          "System.IO.FileSystem.Watcher.dll": "8ab1704e4bd171056ec5a11e886d5199d05a641c6d0233c53d4766bf30328dd3",
+          "System.IO.IsolatedStorage.dll": "2272a8bde18ed0e7c9e54ece9b849b9be76c90b978909d2b2fc94cf0ccbce427",
+          "System.IO.MemoryMappedFiles.dll": "6e8b281ecb2f0f5e7aad3980f61d8812caa6b37884737f542f95410a76663e0e",
+          "System.IO.Packaging.dll": "787feb238f47d039109c6ebdedb665efd4f443962636a5a12adf4a0cd0d440a6",
+          "System.IO.Pipelines.dll": "ee9f0fd6c659f50799afd103c6ed9c5e408967e28dfa059bddf4b0a3fd2557dd",
+          "System.IO.Pipes.AccessControl.dll": "1102f25a6e88f2fae81e4cd3628d8ef826f847b9c9b6a4d32ff8b37e0300da35",
+          "System.IO.Pipes.dll": "3804f9992861122e60990b0765d0b50b33cdc2e4d89d26d9dbf8641d1d0134a2",
+          "System.IO.UnmanagedMemoryStream.dll": "ad6a5f859589e1951103a00f45566da079cf87bd8b03f0c6ad985a6f39f19c5a",
+          "System.Linq.AsyncEnumerable.dll": "925208e8ac40ac3f7b988aba6ccbbb58adac38ad1876a7d97ee137be6c21a653",
+          "System.Linq.dll": "284d38945b6e92e847129bd28af458b19818d0f2181f79882888ab2003f4c519",
+          "System.Linq.Expressions.dll": "8830f4a6a6982f53cfbb54f992858ee36b4994a6ff6e6078c39627e77bef282f",
+          "System.Linq.Parallel.dll": "aa6068e3d8f6b2e492cc63dcaad6b02942edbae445cb2b88c24f1850b25c49f5",
+          "System.Linq.Queryable.dll": "b3b3a9c1b87a51dacd46a3f9ec392c5d05e449152d44d6bd495df0994350e2fa",
+          "System.Memory.dll": "f8f9d38efd6b0de30954d6bf1f353e9617bfb36d3d245c013a3b12be9f6bd88a",
+          "System.Net.dll": "481b38c912f8779b3510cd00f079e45096ea22b6defdaab66780d5ac3ae6986a",
+          "System.Net.Http.dll": "b98ed0cb80dd54c33fc049f33af5448710752155bbd5cc8cbcd932e01f066801",
+          "System.Net.Http.Json.dll": "a9fe81ba3c048f9977e0099800eefd570a49be723c555725da57ba797c92b4e0",
+          "System.Net.HttpListener.dll": "3dfe11fb30c5f84c911d9562be6c2037113cd8976ef2def3550ac415ae58955b",
+          "System.Net.Mail.dll": "b585a55ee67c80d7f02a84d50d626d279c7aa77fd3e38206b434bd20c181eedc",
+          "System.Net.NameResolution.dll": "e786c0940f5322f0ad6e8e34e7b582e5b050df0fb2230329325307e61bfd994c",
+          "System.Net.NetworkInformation.dll": "7e8791833eb2d0aea77b119fed3cab8bf501f6a553155cc1c4e5b1c02f65593b",
+          "System.Net.Ping.dll": "06bb307343db955a312634d00ba5e097cf5168a901284437592c28d780804e33",
+          "System.Net.Primitives.dll": "4dbb41a178ef013a898327152eccd146228dd2eb83859b9bb36078333b41f0f1",
+          "System.Net.Quic.dll": "af5b52cdee62d014af677c411530a3fde5c1c368adecb8f83dcfe9246e8bbe73",
+          "System.Net.Requests.dll": "ed82d9d0b7942b2b02c5744a4591fbe2316879618adfc5660c9f111f814155f2",
+          "System.Net.Security.dll": "a78bd713e807729f15b0e085c67fd6cbfefa85736a2618512d4ff1212759eba5",
+          "System.Net.ServerSentEvents.dll": "c0b1944020d0e5688b90fba9f29209e367674e29d2020f700c302994d5417eda",
+          "System.Net.ServicePoint.dll": "84fa83cd96e62fda02991b8a8e99fa1c7b3ac08807b04f7486a896cfe6b4a760",
+          "System.Net.Sockets.dll": "645c56d637ce15976998119e50722a911315682ce141b4aab98874ce1b063f3a",
+          "System.Net.WebClient.dll": "defa7bbf90c77ed01d6add53f678e4adfbcf97f3b1152affec06e652d327f1a2",
+          "System.Net.WebHeaderCollection.dll": "74d66f776b4c15936a7b887f47ceb8bf277dbe82e71a78dd3ea5d02502b081e7",
+          "System.Net.WebProxy.dll": "408e3daabb3f42b4f1b72a1e1def38f12ba58eb9d23dca620086819cf7484195",
+          "System.Net.WebSockets.Client.dll": "f308a69b9ee1ac982f53d1d94374f4972a7e3c700742901ff7c2bbfb570019d2",
+          "System.Net.WebSockets.dll": "c014a074d408c71011e26eac69be85003a852cfe115e8608bb5d4fd70536eb2e",
+          "System.Numerics.dll": "35adc9360421b3b7a3d50399cb2c651c160158d7e8c302907acbce5f61f4a4f7",
+          "System.Numerics.Vectors.dll": "a9a980ee33ed0c798a5e1960c4557521f465ac9e0987dfd2c3049d53b1f2fa5a",
+          "System.ObjectModel.dll": "2179bb19f335b4fcacd0994ad2ccfdac6840deff09c7889debfe9dbb5b88a3e6",
+          "System.Printing.dll": "54cd222b1782fb7e78d45ed8ee099f0e41551d8037591d63f59472a3faf4e073",
+          "System.Private.CoreLib.dll": "1125acc8106c43fc8bad2d203c4c4485df6182d292846c2fff415c1040c54678",
+          "System.Private.DataContractSerialization.dll": "8c07a5333c4e938cad8ac8f24b5965121bc0622442a352cbe81c58f17c2349a8",
+          "System.Private.Uri.dll": "b15c84d2120e1ec9612c66ba59bc3d7e67d841e2bce7b7d0478cb212537539b4",
+          "System.Private.Windows.Core.dll": "1af707e6489ebe4847651b2820c858b77fe2c08995831678b4c631aea23e9978",
+          "System.Private.Windows.GdiPlus.dll": "59efe4aecd13b14d210af5d5c3c372b67fe39e862485f9d5a8d213096741e5f7",
+          "System.Private.Xml.dll": "d71e72a7a9de324352edd281a46466b51bd0bdd2831b1573f8d3bae8bd2dd4a6",
+          "System.Private.Xml.Linq.dll": "c832b73de9783e6929ca5ff4863fc313e13ef7cfb5965c52587c4f77f6e037a7",
+          "System.Reflection.DispatchProxy.dll": "bf93a361c0bba8497889c9f7713add5968ba39394f9e6bda27e86294c6c43560",
+          "System.Reflection.dll": "95059346d6271dd6d0322cc321e5fb8cceab662f550c67aee7615059e41739bb",
+          "System.Reflection.Emit.dll": "09059981bbeea0fdc5df589be5d7e3937d57e22bec4d78ceb492c587926fc238",
+          "System.Reflection.Emit.ILGeneration.dll": "6b42ddd05b0ca1c7342d73ea9f401fe588044215d65c67b756deb780f0894a26",
+          "System.Reflection.Emit.Lightweight.dll": "d2724a2b7b46146877ec1f6e400c49ea05f84bdd31f3bba52ae139ee68a4f779",
+          "System.Reflection.Extensions.dll": "ceb1b81e1eb488d87bd43d16dc54450b2a78e0b653c44c988aae2a20abc162bc",
+          "System.Reflection.Metadata.dll": "82973e772017944a0548e445f30757595d95fe99e1f5c4a446df8c4db04b1c18",
+          "System.Reflection.Primitives.dll": "c2bbd885d03da5e880667c228ac1f56a5f3a72ea37d43f010ada000adc33da28",
+          "System.Reflection.TypeExtensions.dll": "7cac73ed746ce05a4a2f1e61dd52d41322ecc6ba84cfec463380f49487031459",
+          "System.Resources.Extensions.dll": "6a61ed68a8f54fa1db43004347674b266581ee109384559faaffcfbfa4a0553e",
+          "System.Resources.Reader.dll": "20bdb5d302b5e28f6042c9f281cfa3ae2f2358544cc40783052fe5abf6aa859b",
+          "System.Resources.ResourceManager.dll": "f709eb5cf16e26679782784c428825019785fcc7085562092425d4999bece03d",
+          "System.Resources.Writer.dll": "684836486b9ba2817efa3099118860d259fd16db0c4c0533d42cad8c6c165b62",
+          "System.Runtime.CompilerServices.Unsafe.dll": "6e685ec0477b21a688cd38bfcafc673888cdf186c99df3c96fab352e96d6fdc8",
+          "System.Runtime.CompilerServices.VisualC.dll": "5fd85d3d7b47a921bdf48bf938c6615a49a4a3d493e1ea199f1b997c709618f4",
+          "System.Runtime.dll": "76be53624f64b23d0249dfa0bbe85390086de7c44bfd490642ea86c6faaf44af",
+          "System.Runtime.Extensions.dll": "3d7b517d4fd89ee58c53e0f642cc9be42e7a8669b51a85e861dafe118067cbfd",
+          "System.Runtime.Handles.dll": "985457a3e6a67e96a445ee0fb69b2d58bcdadc4c964253fb63e2d5061a36b050",
+          "System.Runtime.InteropServices.dll": "e5eb1679f3579c9141e2bb9dbdce62624a623f38d299805cc1de07bacd21841f",
+          "System.Runtime.InteropServices.JavaScript.dll": "5ba32bcde2d72362db2d6e02763ece79fa35bc878b50493e956ce594307e997f",
+          "System.Runtime.InteropServices.RuntimeInformation.dll": "c26d9f94329422bd000f28f6c65fdc162bf9397a6d29e418a189d4ca49c5c3ec",
+          "System.Runtime.Intrinsics.dll": "b07694ec91f3a200acf0f8b37c6ce5fcf05126a9198ae156d839fa5ca8439dc5",
+          "System.Runtime.Loader.dll": "9b9b2a4f0358d9146e76178ddb87d019be380c78baa7dac853493d45df089f03",
+          "System.Runtime.Numerics.dll": "8ac94fb810c092a9297a903762e79a75ae07d7229d0721540c391f86d3d5d220",
+          "System.Runtime.Serialization.dll": "d565fc261ca98cbd14833821f777860291e8a0f775de7aee91778a9f6647f6f4",
+          "System.Runtime.Serialization.Formatters.dll": "5e8e957c6b7a63132555ede5bcf5fe6a59934c83300e28074ec6e9845ecdd17f",
+          "System.Runtime.Serialization.Json.dll": "2fd71e3545dab4fc89b3fe54d13a1142f26a0cf187ebe375b3f7fa210fcb2596",
+          "System.Runtime.Serialization.Primitives.dll": "f96093940e64d8eead98c86de9773d3c9d12c2b033bc6b1312ac88398303fdf3",
+          "System.Runtime.Serialization.Xml.dll": "eedb66ea2cd1a26cc45a46d6631209ccbec959af82208872a93b3ae52f189222",
+          "System.Security.AccessControl.dll": "cdc304f9ddb32023adb8db8953e56711c9b64462e4341d0b62e87ccd19dc7b10",
+          "System.Security.Claims.dll": "c53c8a7e95d8296f951872fdd2e6334d11c20bffd4322f1a088773bf9dcaa3c2",
+          "System.Security.Cryptography.Algorithms.dll": "eb99ae7dbe058a1b015aba6769ce1f65155b7ff51ff9a7203fcf6d7cdea5fef7",
+          "System.Security.Cryptography.Cng.dll": "7319f97896d92a7d0729cf28dc6c4d1f797c1520b656ee01a780eec726ec2c16",
+          "System.Security.Cryptography.Csp.dll": "4002af141e9cb29875b677841adf64a9681e5672c2595492dcbc161460d4e121",
+          "System.Security.Cryptography.dll": "e0a839a540e47343b53a936b32d91599a3470005228d50fd0b896f8bbdcc65b0",
+          "System.Security.Cryptography.Encoding.dll": "994494aec7760f40fade2264aa7c13eebae36360f0b1399a7134bb19c9d58fda",
+          "System.Security.Cryptography.OpenSsl.dll": "1a8902bbad1b577a98bec62a8472105dc1e9a253e390f69fbe3d167e93206968",
+          "System.Security.Cryptography.Pkcs.dll": "b9e94f44acdf9d748cd79e7a5d02664a7f96c0dc098fa58ae3326bd3b874661e",
+          "System.Security.Cryptography.Primitives.dll": "194cccea9354bb248e44c954b5373f9069163f8f21524b3ee4b3185fe436bc15",
+          "System.Security.Cryptography.ProtectedData.dll": "64b138ec078e4313c08fd3ea46e54e2e51fdcd84ece938fcb4685d08547f84d6",
+          "System.Security.Cryptography.X509Certificates.dll": "7439c3b90bc2ee49a9275b28ed29052b4d48b45999ac1b7d25593033b1bb8dd6",
+          "System.Security.Cryptography.Xml.dll": "d2d7c9bd3bb10b0f8ff7df689f83cb34f9574c5ad4887de85b768d3d826b07d5",
+          "System.Security.dll": "d8efd304765e859369698efef9b3ca707defa8e142721fe5605d7a2de7d38375",
+          "System.Security.Permissions.dll": "61bc8e050d610a808bec07e3179f6a07d3bb195f87a5a70fce2f6cdf96a9dc02",
+          "System.Security.Principal.dll": "1d3e351058be3a33214b23b308fe57f78cd6fd4d8fad448fc84cbbe7376129f9",
+          "System.Security.Principal.Windows.dll": "2311a3f92971de918943573dfb66e04e25c1d543663951eb24e8eb1a0dcd4251",
+          "System.Security.SecureString.dll": "73aac97072b7deefa4de9647bf822162224f1452ad467841b989ff89d4d94595",
+          "System.ServiceModel.Web.dll": "ce91013ee3a9a9d69a85e258f7749e6ece488295d7cb66f7c1079f2e8678fc5e",
+          "System.ServiceProcess.dll": "63fc498c9d04e3c4345dfdb8016ad0639d54562dd7d8c707c072792c854df944",
+          "System.Text.Encoding.CodePages.dll": "226e216e33c94ef7594bdffe670ba4dc5907151c113cb41ac9e9d570227e1765",
+          "System.Text.Encoding.dll": "5e347db6b4f9b2746d50e1ac85be2d9cc7dc4038fde98ac4295bc7030c83cda9",
+          "System.Text.Encoding.Extensions.dll": "8f51b9535db64fe027a40d6076200b1a6b0889bf05f62bb8e68c3eb083c7f113",
+          "System.Text.Encodings.Web.dll": "d20431f20d992e71a4e82e5f25c822474e2f4097d8527972d3d78ea1f26e47c3",
+          "System.Text.Json.dll": "fa99f413be21ed5f484a09093fe5f0beba7de3062cf9cc9f847dbf8108dba55a",
+          "System.Text.RegularExpressions.dll": "060bcc88a688e687ff1404b83b5fb5cf17e19ec57f33d5b8a48ab494da83c134",
+          "System.Threading.AccessControl.dll": "66d618b5522b3e4f7a3c7f2bd872fc378fa6f9bbdca3636854eb1a8cb948e631",
+          "System.Threading.Channels.dll": "afc5deb3c32b3f64bced2025d0b01b316d41b691ebc6ccb1a2ec445ad4c15e39",
+          "System.Threading.dll": "6c32ed1bf8067e4169e8feddd15e6489b89d19d1c7aae1520a551b57745d0a60",
+          "System.Threading.Overlapped.dll": "89fde15f8e520c4bcbc6cbfdceba2baed8670cdf52399a4cd7a21c6efb276c1a",
+          "System.Threading.Tasks.Dataflow.dll": "a895b0c73d3a1afc4d89c1d9e445ed447af12864c25aad2c4cb7398ff50aa934",
+          "System.Threading.Tasks.dll": "f80b21f7dae04377b73945456cabe25e2ab1f4b564095aed546c2aa571644567",
+          "System.Threading.Tasks.Extensions.dll": "f148e3a1414b7c2763ae21529ad79ad759f7cfd3c885256b64b0d2209dec2613",
+          "System.Threading.Tasks.Parallel.dll": "6fa359bdbebb56be96339f244ed41658afcead5e010074da470df1115d1e7699",
+          "System.Threading.Thread.dll": "ce71949bb1ea67b686e799128582015ebf8758f1107e59e43f342ece3f662930",
+          "System.Threading.ThreadPool.dll": "58fbc6c4b9c72087152fd0f0670a527098c00b0c19ba8d0979d3ca5ce07c6936",
+          "System.Threading.Timer.dll": "9e4620846572f49aeb476aa99405071b4bbd0df4323e4e232787ed73642b1ee5",
+          "System.Transactions.dll": "56abfca0350c111d077b3d86a2469ea3da4fccc1871f7c51a8b4fdb664bb0ede",
+          "System.Transactions.Local.dll": "8d0283a311a16333ffb6f966d9765e4d8b866777ad99291a93b30db349a15bc4",
+          "System.ValueTuple.dll": "07a5347f6a597e5e0d72109efa1a525697e8c3f74fb0029005500f8ebbf9187a",
+          "System.Web.dll": "bc260b3db247ad9a6e4a82a275da85c3691a41272cc745cb7eaefcf1f31cc817",
+          "System.Web.HttpUtility.dll": "2cedef51b0a2c2b84240583339ecf2422c650e3388aa46f3494160b93b673887",
+          "System.Windows.Controls.Ribbon.dll": "892f63a39fbc2894bb92458b8541d96e0f53813991684b11d51263bfc60088fa",
+          "System.Windows.dll": "716eee98ceee87d38f0b301224462f8442aa793f4b1b9c3ffac315753320ab37",
+          "System.Windows.Extensions.dll": "265c3db543caa843d108d9cd4679908900ca5df9958e989462ae65ae18ed8b90",
+          "System.Windows.Forms.Design.dll": "4dc904431a32c5368b00708c6162f56c937ac2cdd7facfdec1d169b66ae8277d",
+          "System.Windows.Forms.Design.Editors.dll": "68cc0922bb12f17870f70fd559bd6e412da672a06fb0232b97bc12f5468c8966",
+          "System.Windows.Forms.dll": "28cbefb565c6b19998bff06ef568389c53bd2c00b2d437d1b1995f73d4aad7e4",
+          "System.Windows.Forms.Primitives.dll": "3eca2d3db1960ee9b2a86fb40489a185f51be55e722584f667a631e6a7ef82e1",
+          "System.Windows.Input.Manipulations.dll": "f5382c746f519157a90306b0dac265bf6c00179c4f3117ff9b76c35556c574e7",
+          "System.Windows.Presentation.dll": "478ee80691d2c8a475b75a2a311dc9620c1b67ac64df17c1239c81950afe9784",
+          "System.Windows.Primitives.dll": "6dc84fc609ad226002c7ad55cd5653206f1455c77ecfc196b46a8a78996c6d9f",
+          "System.Xaml.dll": "dba0b135a53a2c7381bc36ad4d714ff4ecd88713127cdb2040b9d455ec921c48",
+          "System.Xml.dll": "277a84ba155fe7808a514f32694a8157ec9f0eeeef00ef9643e5250004054ff0",
+          "System.Xml.Linq.dll": "ae04903b25717fa4695e7e63489091f0d461e791e0bd264c6c85250d668f540d",
+          "System.Xml.ReaderWriter.dll": "8e48fed4d12bcffff01e8059caafb564697275797d2f5ec6823fdd82b87fe938",
+          "System.Xml.Serialization.dll": "489694401c60905cb6dca8ef0bf738cb609cd45b337126a01c825b913086ba43",
+          "System.Xml.XDocument.dll": "3ff858607de5146051498a7124ef983bea280d86e165f993516c6c26af81cfb5",
+          "System.Xml.XmlDocument.dll": "a50b9b3a03596e36e73e7a7d54f4d018e8dcfaa7fe79e8cf900af8838ef3ec36",
+          "System.Xml.XmlSerializer.dll": "0b7d057c2b5b2272e8d4096a755edfd96f3cf03ab9aaa3fef54b462bf48d517e",
+          "System.Xml.XPath.dll": "c817b11c58d95fa942fbc62a4cfa8219e16dafa5641eb004cb2be424028ed5d8",
+          "System.Xml.XPath.XDocument.dll": "5bcd27a7e93515b745993f6dda51391033883cb8a1a8a2e3dad5caed3548f0da",
+          "TACTLib.dll": "86e75a86335dc61163663dbaee13ef5e24635194f075c2b166660da3912714e5",
+          "TankLib.dll": "5cfa29ec0ad382444c117ad9c4802e7c7563c5e235bc0c25655b6b0f43ddbeed",
+          "TankView.dll": "a02b6d6dcac97baeb89b1d2a45900e5ba23383e75ba9c8cc0605b6636b07cd72",
+          "UIAutomationClient.dll": "31091e7da6e893bd8cc116ebadee5ea1b9b4a3857341dd4ab1418829b5af1b9c",
+          "UIAutomationClientSideProviders.dll": "6c07621fb93bc4dbd4277ee00009ed2b58c958bf206e2fe69dd91f4d5fb2e1ba",
+          "UIAutomationProvider.dll": "d96aad39d95191b6e210d8b5305c7252ff72e0e3393b3d19aabe7cdebf7fa33d",
+          "UIAutomationTypes.dll": "226184a3b5bfa558efc073ec00645e915c73f5f2850bf52e52a12b8ed2144ead",
+          "ValveKeyValue.dll": "f4e08321402b6434ea09f83a29fe340606e445acc83cecf3b060ddf76a3d3476",
+          "vcruntime140_cor3.dll": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066",
+          "VirtualizingWrapPanel.dll": "09c6b18223705a4d7a3b81b36c65a8c64080a736d041b99bd2a2c772ccc1ac31",
+          "WindowsBase.dll": "1bbb63072d40ee2c40792b20866742fed08283ef5484b1e344c4f24c3caac713",
+          "WindowsFormsIntegration.dll": "f7f57b32db7f8ed5548c40a82293a6a34e06647243ba714653a65c5a6b1d2de9",
+          "wpfgfx_cor3.dll": "501a1cd67d51bb1663870b12af0f8c0ba29b3d37b8b509be896d2aaf32db214a",
+          "ZstdNet.dll": "573cfc1cbb3a71b796adca4865c293970ebbb8ccaa4c767c2d13a3979af24f98"
+        },
+        "log": "heroes-enUS.json.log",
+        "english_text_cdn_allowed": true,
+        "textures_offline": true,
+        "current_reference_helper": {
+          "source_sha256": "0ed75358d6aebdf5e1873c7a7bc82fc528dfa01b8a371d44ebabbe8277610e08",
+          "binary_sha256": "ebb6878a32ee46d04af9f2a0a3a40d5513115e8461c3fab1e78ffc3dbf309481"
+        }
+      },
+      "upstream": "https://github.com/overtools/OWLib",
+      "scope": "54 project heroes; 216 current client perks"
     }
   ]
 }
