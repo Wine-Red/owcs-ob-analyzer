@@ -16,7 +16,7 @@ static void event(enum obs_frontend_event event, void *) {
 bool obs_module_load() {
   registerAnalyzerFilter();
   obs_frontend_add_event_callback(event, nullptr);
-  blog(LOG_INFO, "[owcs-ob] Native plugin 0.5.5 loaded; no Python runtime");
+  blog(LOG_INFO, "[owcs-ob] Native plugin " OWCS_PLUGIN_VERSION " loaded; no Python runtime");
   return true;
 }
 MODULE_EXPORT void obs_module_post_load() { createAnalyzerDock(); }

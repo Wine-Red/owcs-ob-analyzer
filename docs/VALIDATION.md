@@ -1,6 +1,6 @@
 # 构建与验证
 
-适用版本：0.5.5。环境：Windows x64、Visual Studio 2022、OBS 32.2.2。运行时无需 Python；下面的 Python 工具仅用于开发验证和资源维护。
+适用版本：0.5.6。环境：Windows x64、Visual Studio 2022；构建基线为 OBS 30.0.0 / Qt 6.5.3。运行时无需 Python；下面的 Python 工具仅用于开发验证和资源维护。
 
 ## 原生识别与状态回归
 
@@ -177,3 +177,31 @@ python scripts/test_theme_invariance.py --obs 'E:/SteamLibrary/steamapps/common/
 - 安装器校验包内文件并备份覆盖内容。发布前校验归档、清单和中文路径安装。
 - 自动 Tab 曾在真实游戏及管理员 OBS 中由用户确认生效；当前集成不模拟真实游戏按键。
 - 未覆盖所有设备、实体采集卡、HDR、任意字体/语言、超宽屏、赛事横向重排及长时间直播压力。姓名 OCR 可能存在同形字误读。
+
+
+## OBS 30.x 兼容（0.5.6，2026-10-17）
+
+构建固定使用 OBS 30.0.0 SDK、该版本官方 Windows 运行库导出的链接库及 Qt 6.5.3。版本、下载地址和 SHA256 集中在 `scripts/obs-baseline.json`；Qt/SDK/运行库使用带版本的目录。`-ObsPath` 只选择原生测试运行环境，不改变编译基线。CMake 精确要求 Qt 版本并清除旧缓存，测试 PATH 不再注入开发用 Qt。
+
+旧版 0.5.5 DLL 对 OBS 30.2.3 的导入表检查发现五个不存在的 Qt6Core 符号，涉及 QJsonValue 比较、QString/QByteArray 子串及 QUrl 解码。新包的 616 个 OBS/Qt 导入符号在下列三个版本均全部解析成功。CI 在基线完成编译和原生回归，并对打包 DLL 增加 30.2.3、32.2.2 的实际导出表检查。
+
+| OBS | 自带 Qt | 本地集成结果 |
+| --- | --- | --- |
+| 30.0.0 | 6.5.3 | 通过，正常退出 |
+| 30.2.3 | 6.6.3 | 通过，正常退出 |
+| 32.2.2 | 6.11.1 | 通过，正常退出 |
+
+三个独立便携实例安装同一份 0.5.6 DLL，使用各自的 Qt。完整集成覆盖图片与媒体源、源画面逐像素不变、HTTP/WebSocket、schema 3.0、多源、暂停和移除、无面板搜索、紧贴头像的表头、粘连数字/死亡头像、未选择英雄及切换。30.2.3 另通过进程模块列表确认 Qt 来自测试实例的 bin/64bit。报告和 OBS 日志保存在 `.diagnostics/compat-0.5.6/<version>/`。
+
+原生回归通过 2095 项检查、0 失败。移植时修正三处测试辅助代码：显式保存 QJsonValue，避免旧 Qt 返回的 QJsonValueRef 引用已经销毁的临时对象；没有更改识别算法或公开数据结构。
+
+重复验证时，将官方 OBS 解压到 `.diagnostics` 内的专用目录，放置 `.owcs-compat-test` 标记并安装插件，然后运行：
+
+```powershell
+./scripts/test-obs-imports.ps1 -ObsPath '.diagnostics/compat-0.5.6/30.2.3'
+python scripts/run-obs-compatibility.py --obs-dir .diagnostics/compat-0.5.6/30.2.3 --version 30.2.3
+```
+
+运行器会重建该测试实例的场景及配置，只允许带标记的 `.diagnostics` 子目录。不同实例可用 `--websocket-port` 和 `--api-port` 隔离。OBS 30.0 使用 global.ini 的旧 WebSocket 配置，较新版本使用 JSON 配置，运行器同时准备两种格式。
+
+本轮是实际 OBS 进程中的离线图片/媒体源联测，没有进行实时游戏、自动 Tab 或实体采集卡复测。未逐个测试所有 30.x/31.x 补丁版本。

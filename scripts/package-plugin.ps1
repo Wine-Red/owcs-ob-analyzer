@@ -18,7 +18,8 @@ New-Item -ItemType Directory -Force (Join-Path $stage 'docs'),(Join-Path $stage 
 Copy-Item -LiteralPath (Join-Path $root 'docs/STATE_API.md'),(Join-Path $root 'docs/RESOURCE_PACKS.md'),(Join-Path $root 'docs/CLIENT_PERKS.md') -Destination (Join-Path $stage 'docs')
 Copy-Item -Path (Join-Path $root 'schema/*.json') -Destination (Join-Path $stage 'schema')
 $files=@(Get-ChildItem -LiteralPath (Join-Path $stage 'obs-plugins'),(Join-Path $stage 'data') -Recurse -File | Sort-Object FullName | ForEach-Object {@{path=$_.FullName.Substring($stage.Length+1).Replace('\','/');sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()}})
-@{version=$version;platform='windows-x64';obs_minimum='32.2.2';files=$files} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage 'manifest.json') -Encoding utf8
+$baseline=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'obs-baseline.json') -Raw | ConvertFrom-Json
+@{version=$version;platform='windows-x64';obs_minimum=$baseline.obs_version;qt_build=$baseline.qt_version;files=$files} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $stage 'manifest.json') -Encoding utf8
 $release=Join-Path $root 'release'
 New-Item -ItemType Directory -Force $release | Out-Null
 $zip=Join-Path $release "OWCS-OB-Analyzer-OBS-$version-windows-x64.zip"

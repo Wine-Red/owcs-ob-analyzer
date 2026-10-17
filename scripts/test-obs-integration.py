@@ -1,4 +1,5 @@
 """Developer integration test against an isolated OBS instance, never the user's session."""
+import argparse
 import asyncio
 import base64
 import json
@@ -8,11 +9,19 @@ import cv2
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / '.diagnostics'
+parser = argparse.ArgumentParser()
+parser.add_argument('--websocket-port', type=int, default=4457)
+parser.add_argument('--api-port', type=int, default=8766)
+parser.add_argument('--output', type=Path, default=ROOT / '.diagnostics')
+parser.add_argument('--expect-obs-version')
+args = parser.parse_args()
+OUT = args.output.resolve()
+OUT.mkdir(parents=True, exist_ok=True)
+API = f'http://127.0.0.1:{args.api_port}'
 
 async def main():
     async with aiohttp.ClientSession() as http:
-        ws = await http.ws_connect('http://127.0.0.1:4457')
+        ws = await http.ws_connect(f'http://127.0.0.1:{args.websocket_port}')
         hello = await ws.receive_json()
         assert 'authentication' not in hello['d'], 'Use only the isolated, no-auth test OBS'
         await ws.send_json({'op': 1, 'd': {'rpcVersion': 1, 'eventSubscriptions': 0}})
@@ -25,6 +34,9 @@ async def main():
             result = (await ws.receive_json())['d']
             assert result['requestStatus']['result'], result
             return result.get('responseData', {})
+        version = await request('GetVersion')
+        if args.expect_obs_version:
+            assert version['obsVersion'] == args.expect_obs_version, version
         async def screenshot():
             r = await request('GetSourceScreenshot', sourceName='Fixture', imageFormat='png')
             return cv2.imdecode(np.frombuffer(base64.b64decode(r['imageData'].split(',')[1]), np.uint8), 1)
@@ -41,7 +53,7 @@ async def main():
         before = await screenshot()
         await request('CreateSourceFilter', sourceName='Fixture', filterName='Analyzer', filterKind='owcs_ob_analyzer_filter', filterSettings={'enabled': True, 'recognize_names': True, 'fps': 5, 'auto_tab': False})
         async def state():
-            async with http.get('http://127.0.0.1:8766/v1/state') as response:
+            async with http.get(API + '/v1/state') as response:
                 return await response.json()
         for _ in range(100):
             s = await state()
@@ -64,7 +76,7 @@ async def main():
         difference = np.abs(before.astype(float) - after.astype(float))
         assert difference.max() == 0, ('Filter changed pixels', difference.mean(), difference.max())
         cv2.imwrite(str(OUT / 'native-obs-source.png'), after)
-        async with http.ws_connect('http://127.0.0.1:8766/v1/state-stream') as stream:
+        async with http.ws_connect(API + '/v1/state-stream') as stream:
             first = await stream.receive_json(timeout=3)
             await stream.ping(b'test')
             second = await stream.receive_json(timeout=3)
@@ -82,10 +94,10 @@ async def main():
         await request('CreateSourceFilter', sourceName='MediaFixture', filterName='AnalyzerMedia', filterKind='owcs_ob_analyzer_filter', filterSettings={'enabled': True, 'recognize_names': False, 'fps': 5, 'auto_tab': False})
         media_state = None
         for _ in range(80):
-            async with http.get('http://127.0.0.1:8766/v1/streams') as resp: streams = (await resp.json())['streams']
+            async with http.get(API + '/v1/streams') as resp: streams = (await resp.json())['streams']
             for item in streams:
                 if item.get('name') == 'MediaFixture':
-                    async with http.get('http://127.0.0.1:8766/v1/state', params={'stream': item['stream_id']}) as resp: media_state = await resp.json()
+                    async with http.get(API + '/v1/state', params={'stream': item['stream_id']}) as resp: media_state = await resp.json()
             if (media_state and media_state.get('panel_visible') and
                     media_state['players'][1]['ultimate_charge'] == 100): break
             await asyncio.sleep(.25)
@@ -190,7 +202,7 @@ async def main():
         await request('RemoveInput', inputName='Fixture')
         await asyncio.sleep(.5)
         assert (await state())['players'] == []
-        report = {'plugin_loaded': True, 'image_source': True, 'media_source': True, 'pixels_unchanged': True, 'http_websocket': True, 'pause_remove': True, 'search_remains_online': True, 'touching_header_panel': True, 'recognized_names': [p['display_name'] for p in s['players']]}
+        report = {'obs_version': version['obsVersion'], 'plugin_loaded': True, 'image_source': True, 'media_source': True, 'pixels_unchanged': True, 'http_websocket': True, 'pause_remove': True, 'search_remains_online': True, 'touching_header_panel': True, 'recognized_names': [p['display_name'] for p in s['players']]}
         report['connected_digits_and_death_portraits'] = True
         report['schema_version'] = '3.0'
         report['unselected_hud_panel_and_selection_transition'] = 'public panel transitions; HUD detection covered by native tests'

@@ -13,7 +13,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: .deps
-          key: obs32.2.2-qt6.8.3-opencv4.10-ort1.20.1-v1
+          key: obs30-qt653-opencv410-ort120-${{ hashFiles('scripts/obs-baseline.json', 'scripts/bootstrap.ps1') }}
       - name: Build, test and package
         shell: pwsh
         run: ./scripts/package-plugin.ps1
@@ -21,3 +21,32 @@ jobs:
         with:
           name: OWCS-OB-Analyzer-OBS-windows-x64
           path: release/OWCS-OB-Analyzer-OBS-*
+  imports:
+    needs: windows
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        include:
+          - version: '30.2.3'
+            archive: OBS-Studio-30.2.3-Windows.zip
+            sha256: c5bf721258f6d8b2342ed39f04e65cdd3a07a9d1300654471d4be91d87fee65b
+          - version: '32.2.2'
+            archive: OBS-Studio-32.2.2-Windows-x64.zip
+            sha256: 4d6e40e3ab155f56b30de517380566a206d74b63cdf5ad49aa596924768f97e1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: OWCS-OB-Analyzer-OBS-windows-x64
+          path: release
+      - name: Check packaged imports against OBS ${{ matrix.version }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference='Stop'
+          Invoke-WebRequest 'https://github.com/obsproject/obs-studio/releases/download/${{ matrix.version }}/${{ matrix.archive }}' -OutFile obs.zip
+          if((Get-FileHash obs.zip -Algorithm SHA256).Hash.ToLowerInvariant() -ne '${{ matrix.sha256 }}'){throw 'OBS checksum mismatch'}
+          Expand-Archive obs.zip -DestinationPath .deps/import-check
+          $package=Get-ChildItem release/*-windows-x64.zip
+          if(@($package).Count -ne 1){throw 'Expected one plugin package'}
+          Expand-Archive $package.FullName -DestinationPath .build/package-check
+          ./scripts/test-obs-imports.ps1 -ObsPath .deps/import-check -PluginPath .build/package-check/obs-plugins/64bit/owcs-ob-analyzer.dll

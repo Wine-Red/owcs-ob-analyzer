@@ -123,7 +123,7 @@ std::pair<int, int> lifeRegression(owcs::Recognizer &r, const QString &directory
     return player(independent.update(sequence, "test", now, 0), 9);
   };
   auto board = [](const QJsonObject &p) { return p["scoreboard"].toObject(); };
-  auto status = [&](const QJsonObject &p, const QString &field) {
+  auto status = [&](const QJsonObject &p, const QString &field) -> QJsonValue {
     return board(p)["fields"].toObject()[field].toObject()["status"];
   };
   submit(0);

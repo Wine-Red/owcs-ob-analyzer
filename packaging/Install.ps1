@@ -4,9 +4,10 @@ $target=[IO.Path]::GetFullPath($ObsPath)
 $exe=Join-Path $target 'bin/64bit/obs64.exe'
 if(!(Test-Path -LiteralPath $exe)){throw 'Select the OBS installation root containing bin/64bit/obs64.exe'}
 $version=(Get-Item -LiteralPath $exe).VersionInfo.FileVersion
-if([version]($version -replace '[^0-9.].*$','') -lt [version]'32.2.2'){throw 'This package requires OBS 32.2.2 or newer'}
-if(Get-Process obs64 -ErrorAction SilentlyContinue | Where-Object {$_.Path -eq $exe}){throw 'Close this OBS installation before installing. Your scenes and settings will be preserved.'}
 $manifest=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'manifest.json') -Raw | ConvertFrom-Json
+if(!$manifest.obs_minimum){throw 'Package manifest is missing obs_minimum'}
+if([version]($version -replace '[^0-9.].*$','') -lt [version]$manifest.obs_minimum){throw "This package requires OBS $($manifest.obs_minimum) or newer"}
+if(Get-Process obs64 -ErrorAction SilentlyContinue | Where-Object {$_.Path -eq $exe}){throw 'Close this OBS installation before installing. Your scenes and settings will be preserved.'}
 $files=@()
 foreach($entry in $manifest.files){
   $relative=[string]$entry.path

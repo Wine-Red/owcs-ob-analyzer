@@ -1,6 +1,6 @@
 # OWCS OB Analyzer 0.5.5
 
-守望先锋 OB 计分板识别插件，支持英雄、威能中文显示，以及 HTTP / WebSocket 数据输出。适用 Windows 10/11 x64、OBS Studio 32.2.2，无需另外安装 Python 或启动服务。
+守望先锋 OB 计分板识别插件，支持英雄、威能中文显示，以及 HTTP / WebSocket 数据输出。适用 Windows 10/11 x64、OBS Studio 30.0 及以上，无需另外安装 Python 或启动服务。
 
 ## 安装与使用
 

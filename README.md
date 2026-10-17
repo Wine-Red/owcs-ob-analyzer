@@ -6,9 +6,9 @@ Windows x64 原生 OBS 插件，自动识别守望先锋 OB 计分板中的选�
 
 ## 安装
 
-适用 Windows 10/11 x64、OBS Studio 32.2.2。
+适用 Windows 10/11 x64、OBS Studio 30.0 及以上。
 
-1. 从 [Releases](https://github.com/Wine-Red/owcs-ob-analyzer/releases/latest) 下载 `OWCS-OB-Analyzer-OBS-0.5.5-windows-x64.zip` 并解压。
+1. 从 [Releases](https://github.com/Wine-Red/owcs-ob-analyzer/releases/latest) 下载 `OWCS-OB-Analyzer-OBS-0.5.6-windows-x64.zip` 并解压。
 2. 退出 OBS，将安装包中的 `obs-plugins` 和 `data` 文件夹复制到 OBS 安装根目录，与原目录合并；也可执行包内 `Install.ps1`。
 3. **每次以管理员身份启动 OBS**。
 4. 在视频源的“滤镜 → 效果滤镜”中添加“OWCS 观战数据识别”，在“停靠窗口”菜单打开“OWCS 观战数据”。
@@ -24,6 +24,8 @@ Windows x64 原生 OBS 插件，自动识别守望先锋 OB 计分板中的选�
 ```powershell
 ./scripts/package-plugin.ps1 -ObsPath 'C:/Program Files/obs-studio'
 ```
+
+固定使用 OBS 30.0.0 SDK 和 Qt 6.5.3 构建；`-ObsPath` 仅指定原生测试使用的 OBS 安装目录，省略时使用下载的 30.0.0。
 
 脚本下载并校验构建依赖，编译插件、运行原生测试，将安装包、源码包和 SHA256 清单输出到 `release/`。
 

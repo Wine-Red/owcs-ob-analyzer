@@ -419,7 +419,9 @@ int main(int argc, char **argv) {
       check(alternateHeader.confirmed && alternateHeader.players.size() == 10,
             "colored header uses geometric panel fallback");
     }
-    auto perk = [&](int row, const char *tier, const char *key) {
+    // Qt 6.5's non-const operator[] returns a proxy into the temporary object.
+    // Materialize a value before that object is destroyed.
+    auto perk = [&](int row, const char *tier, const char *key) -> QJsonValue {
       return obs.players[row].toObject()["perks"].toObject()[tier].toObject()[key];
     };
     check(perk(1, "major", "id") == "Focused Rush", "major perk");
@@ -495,7 +497,7 @@ int main(int argc, char **argv) {
       check(result.visible, "resized panel visible");
       int known = 0;
       for (int i = 0; i < result.players.size(); i++) {
-        auto value = result.players[i].toObject()["ultimate_charge"];
+        QJsonValue value = result.players[i].toObject()["ultimate_charge"];
         known += !value.isNull();
         check(value.isNull() || value == expected["perks"].toObject()["charge"].toArray()[i],
               "resized ult never invented");

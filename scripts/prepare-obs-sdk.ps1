@@ -1,12 +1,14 @@
-param([Parameter(Mandatory)][string]$ObsPath)
+param()
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
+$baseline=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'obs-baseline.json') -Raw | ConvertFrom-Json
+$ObsPath=Join-Path $root ('.deps/'+$baseline.runtime_directory)
 $vswhere="${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
 $vs=& $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
 if (!$vs) { throw 'Install Visual Studio 2022 C++ build tools' }
 $toolset=(Get-Content (Join-Path $vs 'VC/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt')).Trim()
 $tools=Join-Path $vs "VC/Tools/MSVC/$toolset/bin/Hostx64/x64"
-$sdk=Join-Path $root '.deps/obs-sdk'
+$sdk=Join-Path $root ('.deps/'+$baseline.sdk_directory)
 New-Item -ItemType Directory -Force $sdk | Out-Null
 foreach($name in @('obs','obs-frontend-api')) {
   $dll=Join-Path $ObsPath "bin/64bit/$name.dll"

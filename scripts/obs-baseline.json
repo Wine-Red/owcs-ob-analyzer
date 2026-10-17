@@ -1,0 +1,30 @@
+{
+  "obs_version": "30.0.0",
+  "qt_version": "6.5.3",
+  "sdk_directory": "obs-sdk-30.0.0",
+  "runtime_directory": "obs-runtime-30.0.0",
+  "qt_directory": "qt6-6.5.3",
+  "downloads": [
+    {
+      "name": "obs",
+      "file": "obs-30.0.0.zip",
+      "url": "https://codeload.github.com/obsproject/obs-studio/zip/refs/tags/30.0.0",
+      "sha": "2bfdadf5f46ba56276d588b77653a10b9e2b2e3c05d8029b27a25b8ada9ab474",
+      "ready": "obs/obs-studio-30.0.0/libobs/obs.h"
+    },
+    {
+      "name": "qt6-6.5.3",
+      "file": "compat-downloads/windows-deps-qt6-2023-11-03-x64.zip",
+      "url": "https://github.com/obsproject/obs-deps/releases/download/2023-11-03/windows-deps-qt6-2023-11-03-x64.zip",
+      "sha": "bc57dedf76b47119a6dce0435a2f21b35b08c8f2948b1cb34a157320f77732d1",
+      "ready": "qt6-6.5.3/lib/cmake/Qt6/Qt6Config.cmake"
+    },
+    {
+      "name": "obs-runtime-30.0.0",
+      "file": "compat-downloads/30.0.0/OBS-Studio-30.0.zip",
+      "url": "https://github.com/obsproject/obs-studio/releases/download/30.0.0/OBS-Studio-30.0.zip",
+      "sha": "016d659a488df07f386e8f2ce7a7db977a788db4ac65e6af1119e326a76d44bf",
+      "ready": "obs-runtime-30.0.0/bin/64bit/obs64.exe"
+    }
+  ]
+}
