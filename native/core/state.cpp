@@ -128,7 +128,7 @@ QJsonObject State::update(const Observation &obs, const QString &source, qint64 
             raw["selection_confidence"].toDouble(raw["hero_confidence"].toDouble()), now, 2);
         f["hero"].observe(raw["hero"], raw["hero_confidence"].toDouble(), now, 2);
         if (selection == "unselected" || !raw["hero"].isNull())
-          p.heroPending = selection != f["hero_selection"].value ||
+          p.heroPending = QJsonValue(selection) != f["hero_selection"].value ||
                           (!raw["hero"].isNull() && raw["hero"] != f["hero"].value);
       } else {
         // Direct overlay evidence invalidates this portrait only. Historical

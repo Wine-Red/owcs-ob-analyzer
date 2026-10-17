@@ -193,7 +193,7 @@ python scripts/test_theme_invariance.py --obs 'E:/SteamLibrary/steamapps/common/
 
 三个独立便携实例安装同一份 0.5.6 DLL，使用各自的 Qt。完整集成覆盖图片与媒体源、源画面逐像素不变、HTTP/WebSocket、schema 3.0、多源、暂停和移除、无面板搜索、紧贴头像的表头、粘连数字/死亡头像、未选择英雄及切换。30.2.3 另通过进程模块列表确认 Qt 来自测试实例的 bin/64bit。报告和 OBS 日志保存在 `.diagnostics/compat-0.5.6/<version>/`。
 
-原生回归通过 2095 项检查、0 失败。移植时修正三处测试辅助代码：显式保存 QJsonValue，避免旧 Qt 返回的 QJsonValueRef 引用已经销毁的临时对象；没有更改识别算法或公开数据结构。
+原生回归通过 2095 项检查、0 失败。移植时修正三处测试辅助代码：显式保存 QJsonValue，避免旧 Qt 返回的 QJsonValueRef 引用已经销毁的临时对象；另将 QString 与 QJsonValue 的隐式比较改为显式 QJsonValue 比较，兼容新版 MSVC 的 C++20 重载解析；没有更改比较语义、识别算法或公开数据结构。
 
 重复验证时，将官方 OBS 解压到 `.diagnostics` 内的专用目录，放置 `.owcs-compat-test` 标记并安装插件，然后运行：
 
