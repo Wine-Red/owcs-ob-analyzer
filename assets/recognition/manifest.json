@@ -1,6 +1,6 @@
 {
   "source_format": 1,
-  "resource_version": "2026.10.16.2",
+  "resource_version": "2026.10.18.1",
   "heroes": [
     {
       "id": "ana",
@@ -10,7 +10,8 @@
         "heroes/ana/ana_red.png"
       ],
       "hero_guid": "00000000013B.075",
-      "name_zhCN": "安娜"
+      "name_zhCN": "安娜",
+      "role": "support"
     },
     {
       "id": "anran",
@@ -20,7 +21,8 @@
         "heroes/anran/anran_red.png"
       ],
       "hero_guid": "0000000004DD.075",
-      "name_zhCN": "安燃"
+      "name_zhCN": "安燃",
+      "role": "damage"
     },
     {
       "id": "ashe",
@@ -30,7 +32,8 @@
         "heroes/ashe/ashe_red.png"
       ],
       "hero_guid": "000000000200.075",
-      "name_zhCN": "艾什"
+      "name_zhCN": "艾什",
+      "role": "damage"
     },
     {
       "id": "baptiste",
@@ -40,7 +43,8 @@
         "heroes/baptiste/baptiste_red.png"
       ],
       "hero_guid": "000000000221.075",
-      "name_zhCN": "巴蒂斯特"
+      "name_zhCN": "巴蒂斯特",
+      "role": "support"
     },
     {
       "id": "bastion",
@@ -50,7 +54,8 @@
         "heroes/bastion/bastion_red.png"
       ],
       "hero_guid": "000000000015.075",
-      "name_zhCN": "堡垒"
+      "name_zhCN": "堡垒",
+      "role": "damage"
     },
     {
       "id": "brigitte",
@@ -60,7 +65,8 @@
         "heroes/brigitte/brigitte_red.png"
       ],
       "hero_guid": "000000000195.075",
-      "name_zhCN": "布丽吉塔"
+      "name_zhCN": "布丽吉塔",
+      "role": "support"
     },
     {
       "id": "cassidy",
@@ -70,7 +76,8 @@
         "heroes/cassidy/cassidy_red.png"
       ],
       "hero_guid": "000000000042.075",
-      "name_zhCN": "卡西迪"
+      "name_zhCN": "卡西迪",
+      "role": "damage"
     },
     {
       "id": "domina",
@@ -80,7 +87,8 @@
         "heroes/domina/domina_red.png"
       ],
       "hero_guid": "0000000004C4.075",
-      "name_zhCN": "金驭"
+      "name_zhCN": "金驭",
+      "role": "tank"
     },
     {
       "id": "doomfist",
@@ -90,7 +98,8 @@
         "heroes/doomfist/doomfist_red.png"
       ],
       "hero_guid": "00000000012F.075",
-      "name_zhCN": "末日铁拳"
+      "name_zhCN": "末日铁拳",
+      "role": "tank"
     },
     {
       "id": "dva",
@@ -100,7 +109,8 @@
         "heroes/dva/dva_red.png"
       ],
       "hero_guid": "00000000007A.075",
-      "name_zhCN": "D.Va"
+      "name_zhCN": "D.Va",
+      "role": "tank"
     },
     {
       "id": "echo",
@@ -110,7 +120,8 @@
         "heroes/echo/echo_red.png"
       ],
       "hero_guid": "000000000206.075",
-      "name_zhCN": "回声"
+      "name_zhCN": "回声",
+      "role": "damage"
     },
     {
       "id": "emre",
@@ -120,7 +131,8 @@
         "heroes/emre/emre_red.png"
       ],
       "hero_guid": "0000000004D8.075",
-      "name_zhCN": "埃姆雷"
+      "name_zhCN": "埃姆雷",
+      "role": "damage"
     },
     {
       "id": "freja",
@@ -130,7 +142,8 @@
         "heroes/freja/freja_red.png"
       ],
       "hero_guid": "00000000032A.075",
-      "name_zhCN": "弗蕾娅"
+      "name_zhCN": "弗蕾娅",
+      "role": "damage"
     },
     {
       "id": "genji",
@@ -140,7 +153,8 @@
         "heroes/genji/genji_red.png"
       ],
       "hero_guid": "000000000029.075",
-      "name_zhCN": "源氏"
+      "name_zhCN": "源氏",
+      "role": "damage"
     },
     {
       "id": "hanzo",
@@ -150,7 +164,8 @@
         "heroes/hanzo/hanzo_red.png"
       ],
       "hero_guid": "000000000005.075",
-      "name_zhCN": "半藏"
+      "name_zhCN": "半藏",
+      "role": "damage"
     },
     {
       "id": "hazard",
@@ -160,7 +175,8 @@
         "heroes/hazard/hazard_red.png"
       ],
       "hero_guid": "000000000362.075",
-      "name_zhCN": "骇灾"
+      "name_zhCN": "骇灾",
+      "role": "tank"
     },
     {
       "id": "illari",
@@ -170,7 +186,8 @@
         "heroes/illari/illari_red.png"
       ],
       "hero_guid": "00000000031C.075",
-      "name_zhCN": "伊拉锐"
+      "name_zhCN": "伊拉锐",
+      "role": "support"
     },
     {
       "id": "jetpack-cat",
@@ -180,7 +197,8 @@
         "heroes/jetpack-cat/jetpack_cat_red.png"
       ],
       "hero_guid": "000000000516.075",
-      "name_zhCN": "飞天猫"
+      "name_zhCN": "飞天猫",
+      "role": "support"
     },
     {
       "id": "junker-queen",
@@ -190,7 +208,8 @@
         "heroes/junker-queen/junker_queen_red.png"
       ],
       "hero_guid": "000000000236.075",
-      "name_zhCN": "渣客女王"
+      "name_zhCN": "渣客女王",
+      "role": "tank"
     },
     {
       "id": "junkrat",
@@ -200,7 +219,8 @@
         "heroes/junkrat/junkrat_red.png"
       ],
       "hero_guid": "000000000065.075",
-      "name_zhCN": "狂鼠"
+      "name_zhCN": "狂鼠",
+      "role": "damage"
     },
     {
       "id": "juno",
@@ -210,7 +230,8 @@
         "heroes/juno/juno_red.png"
       ],
       "hero_guid": "000000000365.075",
-      "name_zhCN": "朱诺"
+      "name_zhCN": "朱诺",
+      "role": "support"
     },
     {
       "id": "kiriko",
@@ -220,7 +241,8 @@
         "heroes/kiriko/kiriko_red.png"
       ],
       "hero_guid": "000000000231.075",
-      "name_zhCN": "雾子"
+      "name_zhCN": "雾子",
+      "role": "support"
     },
     {
       "id": "lifeweaver",
@@ -230,7 +252,8 @@
         "heroes/lifeweaver/lifeweaver_red.png"
       ],
       "hero_guid": "000000000291.075",
-      "name_zhCN": "生命之梭"
+      "name_zhCN": "生命之梭",
+      "role": "support"
     },
     {
       "id": "lucio",
@@ -240,7 +263,8 @@
         "heroes/lucio/lucio_red.png"
       ],
       "hero_guid": "000000000079.075",
-      "name_zhCN": "卢西奥"
+      "name_zhCN": "卢西奥",
+      "role": "support"
     },
     {
       "id": "mauga",
@@ -250,7 +274,8 @@
         "heroes/mauga/mauga_red.png"
       ],
       "hero_guid": "00000000030A.075",
-      "name_zhCN": "毛加"
+      "name_zhCN": "毛加",
+      "role": "tank"
     },
     {
       "id": "mei",
@@ -260,7 +285,8 @@
         "heroes/mei/mei_red.png"
       ],
       "hero_guid": "0000000000DD.075",
-      "name_zhCN": "美"
+      "name_zhCN": "美",
+      "role": "damage"
     },
     {
       "id": "mercy",
@@ -270,7 +296,8 @@
         "heroes/mercy/mercy_red.png"
       ],
       "hero_guid": "000000000004.075",
-      "name_zhCN": "天使"
+      "name_zhCN": "天使",
+      "role": "support"
     },
     {
       "id": "mizuki",
@@ -280,7 +307,8 @@
         "heroes/mizuki/mizuki_red.png"
       ],
       "hero_guid": "0000000004E3.075",
-      "name_zhCN": "瑞稀"
+      "name_zhCN": "瑞稀",
+      "role": "support"
     },
     {
       "id": "moira",
@@ -290,7 +318,8 @@
         "heroes/moira/moira_red.png"
       ],
       "hero_guid": "0000000001A2.075",
-      "name_zhCN": "莫伊拉"
+      "name_zhCN": "莫伊拉",
+      "role": "support"
     },
     {
       "id": "orisa",
@@ -300,7 +329,8 @@
         "heroes/orisa/orisa_red.png"
       ],
       "hero_guid": "00000000013E.075",
-      "name_zhCN": "奥丽莎"
+      "name_zhCN": "奥丽莎",
+      "role": "tank"
     },
     {
       "id": "pharah",
@@ -310,7 +340,8 @@
         "heroes/pharah/pharah_red.png"
       ],
       "hero_guid": "000000000008.075",
-      "name_zhCN": "法老之鹰"
+      "name_zhCN": "法老之鹰",
+      "role": "damage"
     },
     {
       "id": "ramattra",
@@ -320,7 +351,8 @@
         "heroes/ramattra/ramattra_red.png"
       ],
       "hero_guid": "00000000028D.075",
-      "name_zhCN": "拉玛刹"
+      "name_zhCN": "拉玛刹",
+      "role": "tank"
     },
     {
       "id": "reaper",
@@ -330,7 +362,8 @@
         "heroes/reaper/reaper_red.png"
       ],
       "hero_guid": "000000000002.075",
-      "name_zhCN": "死神"
+      "name_zhCN": "死神",
+      "role": "damage"
     },
     {
       "id": "reinhardt",
@@ -340,7 +373,8 @@
         "heroes/reinhardt/reinhardt_red.png"
       ],
       "hero_guid": "000000000007.075",
-      "name_zhCN": "莱因哈特"
+      "name_zhCN": "莱因哈特",
+      "role": "tank"
     },
     {
       "id": "roadhog",
@@ -350,7 +384,8 @@
         "heroes/roadhog/roadhog_red.png"
       ],
       "hero_guid": "000000000040.075",
-      "name_zhCN": "路霸"
+      "name_zhCN": "路霸",
+      "role": "tank"
     },
     {
       "id": "shion",
@@ -360,7 +395,8 @@
         "heroes/shion/shion_red.png"
       ],
       "hero_guid": "00000000052C.075",
-      "name_zhCN": "死怨"
+      "name_zhCN": "死怨",
+      "role": "damage"
     },
     {
       "id": "sierra",
@@ -370,7 +406,8 @@
         "heroes/sierra/sierra_red.png"
       ],
       "hero_guid": "0000000004D2.075",
-      "name_zhCN": "西拉"
+      "name_zhCN": "西拉",
+      "role": "damage"
     },
     {
       "id": "sigma",
@@ -380,7 +417,8 @@
         "heroes/sigma/sigma_red.png"
       ],
       "hero_guid": "00000000023B.075",
-      "name_zhCN": "西格玛"
+      "name_zhCN": "西格玛",
+      "role": "tank"
     },
     {
       "id": "sojourn",
@@ -390,7 +428,8 @@
         "heroes/sojourn/sojourn_red.png"
       ],
       "hero_guid": "0000000001EC.075",
-      "name_zhCN": "索杰恩"
+      "name_zhCN": "索杰恩",
+      "role": "damage"
     },
     {
       "id": "soldier-76",
@@ -400,7 +439,8 @@
         "heroes/soldier-76/soldier_76_red.png"
       ],
       "hero_guid": "00000000006E.075",
-      "name_zhCN": "士兵：76"
+      "name_zhCN": "士兵：76",
+      "role": "damage"
     },
     {
       "id": "sombra",
@@ -410,7 +450,8 @@
         "heroes/sombra/sombra_red.png"
       ],
       "hero_guid": "00000000012E.075",
-      "name_zhCN": "黑影"
+      "name_zhCN": "黑影",
+      "role": "support"
     },
     {
       "id": "symmetra",
@@ -420,7 +461,8 @@
         "heroes/symmetra/symmetra_red.png"
       ],
       "hero_guid": "000000000016.075",
-      "name_zhCN": "秩序之光"
+      "name_zhCN": "秩序之光",
+      "role": "damage"
     },
     {
       "id": "torbjorn",
@@ -430,7 +472,8 @@
         "heroes/torbjorn/torbjorn_red.png"
       ],
       "hero_guid": "000000000006.075",
-      "name_zhCN": "托比昂"
+      "name_zhCN": "托比昂",
+      "role": "damage"
     },
     {
       "id": "tracer",
@@ -440,7 +483,8 @@
         "heroes/tracer/tracer_red.png"
       ],
       "hero_guid": "000000000003.075",
-      "name_zhCN": "猎空"
+      "name_zhCN": "猎空",
+      "role": "damage"
     },
     {
       "id": "vendetta",
@@ -450,7 +494,8 @@
         "heroes/vendetta/vendetta_red.png"
       ],
       "hero_guid": "000000000472.075",
-      "name_zhCN": "斩仇"
+      "name_zhCN": "斩仇",
+      "role": "damage"
     },
     {
       "id": "venture",
@@ -460,7 +505,8 @@
         "heroes/venture/venture_red.png"
       ],
       "hero_guid": "00000000032B.075",
-      "name_zhCN": "探奇"
+      "name_zhCN": "探奇",
+      "role": "damage"
     },
     {
       "id": "widowmaker",
@@ -470,7 +516,8 @@
         "heroes/widowmaker/widowmaker_red.png"
       ],
       "hero_guid": "00000000000A.075",
-      "name_zhCN": "黑百合"
+      "name_zhCN": "黑百合",
+      "role": "damage"
     },
     {
       "id": "winston",
@@ -480,7 +527,8 @@
         "heroes/winston/winston_red.png"
       ],
       "hero_guid": "000000000009.075",
-      "name_zhCN": "温斯顿"
+      "name_zhCN": "温斯顿",
+      "role": "tank"
     },
     {
       "id": "wrecking-ball",
@@ -490,7 +538,8 @@
         "heroes/wrecking-ball/wrecking_ball_red.png"
       ],
       "hero_guid": "0000000001CA.075",
-      "name_zhCN": "破坏球"
+      "name_zhCN": "破坏球",
+      "role": "tank"
     },
     {
       "id": "wuyang",
@@ -500,7 +549,8 @@
         "heroes/wuyang/wuyang_red.png"
       ],
       "hero_guid": "0000000003C3.075",
-      "name_zhCN": "无漾"
+      "name_zhCN": "无漾",
+      "role": "support"
     },
     {
       "id": "zarya",
@@ -510,7 +560,8 @@
         "heroes/zarya/zarya_red.png"
       ],
       "hero_guid": "000000000068.075",
-      "name_zhCN": "查莉娅"
+      "name_zhCN": "查莉娅",
+      "role": "tank"
     },
     {
       "id": "zenyatta",
@@ -520,7 +571,8 @@
         "heroes/zenyatta/zenyatta_red.png"
       ],
       "hero_guid": "000000000020.075",
-      "name_zhCN": "禅雅塔"
+      "name_zhCN": "禅雅塔",
+      "role": "support"
     },
     {
       "id": "doctrine",
@@ -530,7 +582,8 @@
         "heroes/doctrine/doctrine_red.png"
       ],
       "hero_guid": "000000000570.075",
-      "name_zhCN": "血律"
+      "name_zhCN": "血律",
+      "role": "support"
     },
     {
       "id": "dmon",
@@ -540,7 +593,8 @@
         "heroes/dmon/dmon_red.png"
       ],
       "hero_guid": "000000000542.075",
-      "name_zhCN": "D.Mon"
+      "name_zhCN": "D.Mon",
+      "role": "tank"
     }
   ],
   "perks": [

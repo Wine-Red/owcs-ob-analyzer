@@ -19,6 +19,98 @@ static QString normalize(QString s) {
     s.chop(1);
   return s;
 }
+QStringList parseRoster(const QString &text) {
+  QStringList result;
+  for (const auto &line : text.split(QRegularExpression("[\\r\\n]+"))) {
+    auto name = normalize(line);
+    if (!name.isEmpty() && name.toUcs4().size() <= 32 &&
+        !result.contains(name, Qt::CaseInsensitive))
+      result.append(name);
+  }
+  return result;
+}
+namespace {
+double substitution(char32_t a, char32_t b) {
+  if (a == b)
+    return 0;
+  for (const auto &group : {QStringLiteral("0o"), QStringLiteral("1il"), QStringLiteral("5s"),
+                            QStringLiteral("2z"), QStringLiteral("8b")})
+    if (a <= 127 && b <= 127 && group.contains(QChar(ushort(a))) &&
+        group.contains(QChar(ushort(b))))
+      return .15;
+  return 1;
+}
+double distance(const QString &a, const QString &b) {
+  const auto x = a.toUcs4(), y = b.toUcs4();
+  std::vector<std::vector<double>> d(x.size() + 1, std::vector<double>(y.size() + 1));
+  for (int i = 0; i <= x.size(); ++i)
+    d[i][0] = i;
+  for (int j = 0; j <= y.size(); ++j)
+    d[0][j] = j;
+  for (int i = 1; i <= x.size(); ++i)
+    for (int j = 1; j <= y.size(); ++j) {
+      d[i][j] = std::min(
+          {d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + substitution(x[i - 1], y[j - 1])});
+      if (i > 1 && j > 1 && x[i - 1] == y[j - 2] && x[i - 2] == y[j - 1])
+        d[i][j] = std::min(d[i][j], d[i - 2][j - 2] + .75);
+    }
+  return d.back().back();
+}
+} // namespace
+RosterMatch resolveRoster(const QString &text, const QStringList &roster) {
+  const auto name = normalize(text), key = name.toCaseFolded();
+  const int length = key.toUcs4().size();
+  if (!length || length > 32)
+    return {};
+  if (roster.isEmpty())
+    return {name, 1};
+  QStringList exact;
+  for (const auto &entry : roster)
+    if (normalize(entry).toCaseFolded() == key)
+      exact.append(entry);
+  if (!exact.isEmpty())
+    return exact.size() == 1 ? RosterMatch{exact.front(), 1} : RosterMatch{};
+  RosterMatch best;
+  double runner = 0;
+  int bestLength = 0;
+  for (const auto &entry : roster) {
+    auto candidate = normalize(entry).toCaseFolded();
+    int n = candidate.toUcs4().size(), longest = std::max(n, length),
+        shortest = std::min(n, length);
+    if (!n || n > 32 || shortest < longest * .75 ||
+        std::abs(n - length) > (shortest < 9    ? 1
+                                : shortest < 13 ? 2
+                                                : 3))
+      continue;
+    double score = 1 - distance(key, candidate) / longest;
+    if (score > best.score) {
+      runner = best.score;
+      best = {entry, score};
+      bestLength = shortest;
+    } else
+      runner = std::max(runner, score);
+  }
+  // Short IDs have very little evidence: only near-identical glyph readings pass.
+  // Longer IDs can tolerate omissions, substitutions and adjacent transpositions.
+  double threshold = bestLength <= 3 ? .90 : bestLength == 4 ? .80 : bestLength < 9 ? .78 : .76;
+  double margin = bestLength <= 3 ? .15 : bestLength <= 5 ? .12 : .08;
+  return best.score >= threshold && best.score - runner >= margin ? best : RosterMatch{};
+}
+QString matchRoster(const QString &text, const QStringList &roster) {
+  return resolveRoster(text, roster).name;
+}
+bool isEmptySlotName(const QString &text) {
+  const auto key = normalize(text).toCaseFolded();
+  return key == QStringLiteral("等待玩家") || key == "waitingforplayer" ||
+         key == "waitingforplayers";
+}
+RosterMatch resolveName(const QString &text, const QStringList &roster) {
+  const auto name = normalize(text);
+  if (name.isEmpty() || name.toUcs4().size() > 32 || isEmptySlotName(name))
+    return {};
+  auto match = resolveRoster(name, roster);
+  return match.name.isEmpty() ? RosterMatch{name, 1} : match;
+}
 struct NameReader::Impl {
   Ort::Env env{nullptr};
   Ort::Session session{nullptr};
@@ -96,16 +188,31 @@ struct NameReader::Impl {
 };
 NameReader::NameReader(const QString &dir) : impl_(std::make_unique<Impl>(dir)) {}
 NameReader::~NameReader() = default;
-Match NameReader::read(const cv::Mat &image) {
+Match NameReader::read(const cv::Mat &image, const QStringList &roster) {
   if (image.empty())
     return {};
-  auto a = impl_->infer(image);
+  // The scoreboard is translucent. Feeding the entire colored name cell to
+  // OCR lets background texture become extra characters after short names.
+  // Restrict both readings to the actual neutral, bright glyph foreground.
+  auto mask = Recognizer::textMask(image);
+  std::vector<cv::Point> points;
+  cv::findNonZero(mask, points);
+  if (points.size() < 10)
+    return {};
+  cv::Mat tight, foreground, inverse;
+  cv::copyMakeBorder(mask(cv::boundingRect(points)), tight, 3, 3, 3, 3, cv::BORDER_CONSTANT,
+                     cv::Scalar(0));
+  cv::cvtColor(tight, foreground, cv::COLOR_GRAY2BGR);
+  cv::bitwise_not(foreground, inverse);
+  auto a = impl_->infer(foreground);
   if (a.confidence < .72 || a.id.isEmpty() || a.id.size() > 32)
     return {};
-  cv::Mat gray, bgr;
-  cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
-  cv::cvtColor(gray, bgr, cv::COLOR_GRAY2BGR);
-  auto b = impl_->infer(bgr);
+  auto b = impl_->infer(inverse);
+  auto matchedA = resolveName(a.id, roster), matchedB = resolveName(b.id, roster);
+  a.id = matchedA.name;
+  b.id = matchedB.name;
+  a.confidence = std::min(a.confidence, matchedA.score);
+  b.confidence = std::min(b.confidence, matchedB.score);
   if (a.id.toCaseFolded() != b.id.toCaseFolded() || b.confidence < .72)
     return {};
   bool valid = false;

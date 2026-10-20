@@ -173,6 +173,14 @@ Recognizer::Recognizer(const QString &dir) {
     if (hudIndices_.at<int>(i) < 0 || hudIndices_.at<int>(i) >= hudNames_.size())
       throw std::runtime_error("Invalid HUD hero index in recognition pack");
   ready_ = readImage(dir + "/ready.png", cv::IMREAD_GRAYSCALE);
+  // Plugin UI evidence lives outside replaceable hero resource packs.
+  auto ui = [&](QString name) {
+    const auto path = dir + "/../interruptions/" + name;
+    return QFile::exists(path) ? readImage(path, cv::IMREAD_GRAYSCALE) : cv::Mat{};
+  };
+  emptyPortrait_ = ui("empty-slot-portrait.png");
+  emptyName_ = ui("empty-slot-name.png");
+  pauseMask_ = ui("pause-zhCN.png");
   auto placeholder = readImage(dir + "/unselected-hud.png");
   unselectedHud_ = gray(placeholder);
   unselectedPanel_ =
@@ -954,7 +962,41 @@ cv::Mat Recognizer::signature(const cv::Mat &im) {
   auto mask = textMask(im);
   if (cv::countNonZero(mask) < 10)
     return {};
-  return normalized(resize(mask, 96, 24));
+  cv::Mat soft;
+  resize(mask, 148, 28).convertTo(soft, CV_32F, 1. / 255);
+  // Subpixel OBS scaling changes hard threshold edges, not the occupant.
+  cv::GaussianBlur(soft, soft, {0, 0}, 1);
+  return normalized(soft);
+}
+double Recognizer::signatureSimilarity(const cv::Mat &a, const cv::Mat &b) {
+  if (a.empty() || b.empty())
+    return 0;
+  // Align small layout shifts, then compare local glyph windows too. A long
+  // shared prefix must never hide a changed final digit/letter in the average.
+  auto reference = a.reshape(1, 28), current = b.reshape(1, 28);
+  double background = 0;
+  cv::minMaxLoc(current, &background);
+  cv::Mat padded, scores;
+  cv::copyMakeBorder(current, padded, 2, 2, 2, 2, cv::BORDER_CONSTANT, cv::Scalar(background));
+  cv::matchTemplate(padded, reference, scores, cv::TM_CCOEFF_NORMED);
+  double best = 0;
+  cv::Point location;
+  cv::minMaxLoc(scores, nullptr, &best, nullptr, &location);
+  auto aligned = padded(cv::Rect(location, reference.size()));
+  double refBackground = 0;
+  cv::minMaxLoc(reference, &refBackground);
+  for (int x = 0; x < reference.cols - 15; x += 16) {
+    cv::Rect window(x, 0, std::min(32, reference.cols - x), reference.rows);
+    auto aWindow = reference(window), bWindow = aligned(window);
+    double aEnergy = cv::norm(aWindow - refBackground, cv::NORM_L2);
+    double bEnergy = cv::norm(bWindow - background, cv::NORM_L2);
+    if (std::max(aEnergy, bEnergy) < .08)
+      continue;
+    cv::Mat local;
+    cv::matchTemplate(aWindow, bWindow, local, cv::TM_CCOEFF_NORMED);
+    best = std::min(best, double(local.at<float>(0, 0)) + .02);
+  }
+  return best;
 }
 Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
   Observation result;
@@ -969,6 +1011,30 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
     return result;
   }
   result.visible = true;
+  // Detect the banner independently of player names. Only intersecting crops
+  // are withheld; an interruption must never stop the other rows.
+  cv::Rect pauseArea;
+  cv::Mat hsv, orange;
+  cv::cvtColor(im, hsv, cv::COLOR_BGR2HSV);
+  cv::inRange(hsv, cv::Scalar(8, 140, 130), cv::Scalar(30, 255, 255), orange);
+  cv::Rect search(p->left, rnd(p->top + 220 * p->scale), p->right - p->left, rnd(200 * p->scale));
+  search &= cv::Rect(0, 0, im.cols, im.rows);
+  auto banner = pauseMask_.empty()
+                    ? cv::Mat{}
+                    : resize(pauseMask_, std::max(1, rnd(pauseMask_.cols * p->scale)),
+                             std::max(1, rnd(pauseMask_.rows * p->scale)));
+  if (!banner.empty() && search.width >= banner.cols && search.height >= banner.rows) {
+    cv::Mat scores;
+    cv::matchTemplate(orange(search), banner, scores, cv::TM_CCOEFF_NORMED);
+    double score = 0;
+    cv::Point at;
+    cv::minMaxLoc(scores, nullptr, &score, nullptr, &at);
+    if (score >= .70) {
+      result.paused = true;
+      pauseArea =
+          cv::Rect(search.x + at.x - 4, search.y + at.y - 4, banner.cols + 8, banner.rows + 8);
+    }
+  }
   result.bounds = {p->left, p->top, p->right, rnd(p->top + 639 * p->scale)};
   double width = (p->right - p->left) / p->scale;
   int perkLayout = width > 740 ? 2 : (width > 700 ? 1 : 0), evidenceRows = 0;
@@ -977,6 +1043,9 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
                                               "damage",       "healing", "mitigated"};
   const std::array<int, 6> offsets{-376, -334, -291, -225, -149, -72};
   for (int row = 0; row < 10; row++) {
+    auto occluded = [&](double a, double b, double c, double d, bool right = false) {
+      return !(p->rect(row, a, b, c, d, right) & pauseArea).empty();
+    };
     auto trace = [&](const QString &field, double a, double b, double c, double d, bool right,
                      bool native) {
       if (!cropTrace)
@@ -1004,6 +1073,8 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
     auto readNumber = [&](const QString &field, double a, double b, double c, double d, bool right,
                           int maximum) {
       trace(field, a, b, c, d, right, true);
+      if (occluded(a, b, c, d, right))
+        return Number{};
       auto reading = number(detailCrop(a, b, c, d, right), maximum);
       // Source and normalized sampling have different antialiasing phases.
       // Only retry an abstention, using the same segmentation/acceptance rules.
@@ -1015,6 +1086,25 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
     };
     trace("portrait", 23, -27, 77, 27, false, true);
     auto identity = face(detailCrop(23, -27, 77, 27));
+    auto emptyScore = [&](const cv::Mat &patch, const cv::Mat &reference, int w, int h) {
+      if (reference.empty() || patch.empty())
+        return 0.;
+      cv::Mat scores;
+      cv::matchTemplate(gray(resize(patch, w, h)), reference, scores, cv::TM_CCOEFF_NORMED);
+      double score = 0;
+      cv::minMaxLoc(scores, nullptr, &score);
+      return score;
+    };
+    // The placeholder dots animate; the text is a second independent anchor.
+    // Search nearby alignment instead of weakening the shape threshold.
+    const auto emptyPortraitScore = emptyScore(crop(20, -30, 80, 30), emptyPortrait_, 60, 60);
+    const auto emptyNameScore = emptyScore(crop(116, -20, 270, 14), emptyName_, 154, 34);
+    const bool empty =
+        !occluded(23, -27, 267, 27) && (emptyPortraitScore >= .92 || emptyNameScore >= .92);
+    if (occluded(23, -27, 77, 27)) {
+      identity = {};
+      identity.portraitOccluded = true;
+    }
     bool unselected = identity.unselected;
     double placeholderScore = identity.selectionConfidence;
     trace("ultimate_ready", 84, -13, 110, 13, false, false);
@@ -1031,7 +1121,7 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
       readyScore = std::max(readyScore, aligned);
     }
     auto charge = readNumber("ultimate_charge", 87, -9, 107, 10, false, 100);
-    bool ready = readyScore > .8;
+    bool ready = readyScore > .8 && !occluded(82, -15, 112, 15);
     if (ready)
       charge = {100, readyScore};
     const bool dead = identity.life == "dead";
@@ -1054,13 +1144,16 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
       int x = tier == "major" ? -470 : -422;
       if (shown)
         trace("perk_" + tier, x - 20, -20, x + 20, 20, true, true);
-      perks[tier] = shown ? perk(detailCrop(x - 20, -20, x + 20, 20, true), hero.id, tier)
-                          : QJsonObject{{"id", QJsonValue::Null},
-                                        {"selection", "not_shown"},
-                                        {"confidence", .95}};
+      perks[tier] = shown && !occluded(x - 20, -20, x + 20, 20, true)
+                        ? perk(detailCrop(x - 20, -20, x + 20, 20, true), hero.id, tier)
+                        : QJsonObject{{"id", QJsonValue::Null},
+                                      {"selection", shown ? "unknown" : "not_shown"},
+                                      {"confidence", .95}};
     }
     QString life = identity.life;
     result.players.append(QJsonObject{
+        {"slot_status", empty ? "empty" : "occupied"},
+        {"name_occluded", occluded(119, -17, 267, 11)},
         {"hero", nullable(hero.id)},
         {"hero_selection",
          unselected ? "unselected" : (hero.id.isEmpty() ? "unknown" : "selected")},
@@ -1077,8 +1170,9 @@ Observation Recognizer::detect(const cv::Mat &frame, QJsonArray *cropTrace) {
         {"stats", stats},
         {"stat_confidence", confidence}});
     trace("display_name", 119, -17, 267, 11, false, false);
-    result.names[row] = crop(119, -17, 267, 11).clone();
-    bool evidence = numericColumns >= 4 && charge.value.has_value();
+    if (!empty && !occluded(119, -17, 267, 11))
+      result.names[row] = crop(119, -17, 267, 11).clone();
+    bool evidence = empty || (numericColumns >= 4 && charge.value.has_value());
     evidenceRows += evidence;
     evidenceTeams[row / 5] += evidence;
   }

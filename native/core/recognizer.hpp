@@ -39,6 +39,7 @@ struct Panel {
 struct Observation {
   bool visible = false;
   bool confirmed = false;
+  bool paused = false;
   int hudOffset = -10000;
   QJsonArray players;
   QJsonArray bounds;
@@ -56,6 +57,7 @@ public:
   QJsonObject perk(const cv::Mat &, const QString &hero, const QString &tier) const;
   static cv::Mat textMask(const cv::Mat &);
   static cv::Mat signature(const cv::Mat &);
+  static double signatureSimilarity(const cv::Mat &, const cv::Mat &);
   QString resourceVersion() const { return resourceVersion_; }
   const QJsonObject &localizedNames() const { return localizedNames_; }
 
@@ -68,7 +70,7 @@ private:
   int locateHud(const cv::Mat &);
   cv::Mat digits_, digitLabels_, portraits_, hud_, hudCoarse_, hudIndices_, perks_, ready_;
   ForegroundBank fullBank_, centerBank_, hudBank_, hudCoarseBank_;
-  cv::Mat unselectedHud_, unselectedPanel_;
+  cv::Mat unselectedHud_, unselectedPanel_, emptyPortrait_, emptyName_, pauseMask_;
   QStringList portraitNames_, hudNames_;
   QString resourceVersion_;
   QJsonArray perkNames_;

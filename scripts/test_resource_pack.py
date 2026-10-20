@@ -28,6 +28,7 @@ class ResourcePackTests(unittest.TestCase):
         source = copy.deepcopy(self.source)
         for item in source['heroes'] + source['perks']:
             item.pop('name_zhCN', None)
+            item.pop('role', None)
         self.assertEqual(localized_names(source), {'heroes': {}, 'perks': {}})
         duplicate = copy.deepcopy(self.source['perks'][0])
         duplicate['name_zhCN'] = '错误名称'

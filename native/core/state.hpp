@@ -17,6 +17,7 @@ struct Field {
   double candidateConfidence = 0;
   QString decision = "unobserved";
   double confidence = 0;
+  bool retained = false;
   bool observe(QJsonValue, double, qint64, int required = 2, Confirmation = Confirmation::Exact,
                qint64 candidateWindow = 1000);
   QJsonObject metadata(qint64 now, bool visible, int ttl = 1000) const;
@@ -28,6 +29,9 @@ struct Player {
   Field pendingName;
   QJsonValue chargeReadyCandidate = QJsonValue::Null;
   bool nameUncertain = false;
+  bool textUncertain = false;
+  bool empty = false;
+  qint64 nameVerified = -1;
   bool heroPending = false;
   int generation = 0;
 };
@@ -35,13 +39,17 @@ class State {
 public:
   explicit State(QString streamId);
   QJsonObject update(const Observation &, const QString &source, qint64 now, double latency);
+  QJsonObject snapshot(const Observation &, const QString &source, qint64 now, double latency);
   void name(int row, Match result, qint64 now);
-  bool needsName(int row) const;
+  bool needsName(int row, qint64 now = -1) const;
   void reset();
   static QJsonObject age(QJsonObject snapshot, qint64 now);
 
 private:
   std::array<Player, 10> players_;
+  QMap<QString, QMap<QString, Field>> history_;
+  QMap<QString, int> lastRows_;
+  QStringList playerOrder_;
   QString streamId_, sessionId_;
   qint64 sequence_ = 0, lastVisible_ = -1;
   int panelCount_ = 0;

@@ -1,0 +1,14 @@
+{
+  "source": "User-provided Overwatch screenshots, 2026-10-19",
+  "coordinate_width": 1600,
+  "pause_language": "zh-CN",
+  "files": {
+    "disconnected.png": "dd2f6542c3492f10674ca961afc21a2d1127d03e012b64e7de28ceb57414fd2c",
+    "paused.png": "fd3260fa90edfebf262d9f9735c615d9e5c47d52779e1e4f63d2855fc8983a13"
+  },
+  "templates": {
+    "empty-slot-portrait.png": "facafafebadd7d03b29c2a4e0e3bf64da94d1062975c01a21f4e2c0574530229",
+    "empty-slot-name.png": "1f6224d2a171575ac9363e7447e57370811cd958f36cb3d4dcf7181dc33a07bd",
+    "pause-zhCN.png": "1395a0333edb82a70144e320e54ec70e2304e9a2320bf84ebe079506403c751a"
+  }
+}

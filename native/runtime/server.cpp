@@ -174,7 +174,8 @@ void Server::read(QTcpSocket *s) {
   QJsonObject result;
   int code = 200;
   if (url.path() == "/health")
-    result = {{"service", "owcs-ob-obs-plugin"}, {"version", "0.5.5"}, {"status", "ok"}};
+    result = {
+        {"service", "owcs-ob-obs-plugin"}, {"version", OWCS_PLUGIN_VERSION}, {"status", "ok"}};
   else if (url.path() == "/v1/streams") {
     QJsonArray list;
     for (const auto &value : Registry::instance().streams()) {

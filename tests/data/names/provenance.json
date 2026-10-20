@@ -1,0 +1,107 @@
+{
+  "source": "codex-clipboard-74fcbfb3-b25b-4bd2-a442-adec676aa337.png",
+  "sha256": "3e7da5a65fb2dfe7354e1db89c553b9ead18ddc040c8616ce1bcf07bec1d3871",
+  "note": "Name-only crops of OBS preview, not complete raw game frames",
+  "crops": [
+    {
+      "file": "ALPHARI.png",
+      "expected": "ALPHARI",
+      "rect": [
+        436,
+        338,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "EZHAN.png",
+      "expected": "EZHAN",
+      "rect": [
+        436,
+        381,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "LENGSA.png",
+      "expected": "LENGSA",
+      "rect": [
+        436,
+        423,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "MAG.png",
+      "expected": "MAG",
+      "rect": [
+        436,
+        466,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "RECALL.png",
+      "expected": "RECALL",
+      "rect": [
+        436,
+        509,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "800.png",
+      "expected": "800",
+      "rect": [
+        436,
+        601,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "DAMO.png",
+      "expected": "DAMO",
+      "rect": [
+        436,
+        644,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "IR1S.png",
+      "expected": "IR1S",
+      "rect": [
+        436,
+        687,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "INSANE.png",
+      "expected": "INSANE",
+      "rect": [
+        436,
+        730,
+        116,
+        23
+      ]
+    },
+    {
+      "file": "VICTORIA.png",
+      "expected": "VICTORIA",
+      "rect": [
+        436,
+        773,
+        116,
+        23
+      ]
+    }
+  ]
+}

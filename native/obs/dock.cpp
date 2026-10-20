@@ -2,6 +2,8 @@
 #include "../core/public_state.hpp"
 #include "../runtime/registry.hpp"
 #include "../runtime/server.hpp"
+#include "../core/player_rows.hpp"
+#include "roster_dialog.hpp"
 #include <QApplication>
 #include <QBrush>
 #include <QCheckBox>
@@ -14,6 +16,7 @@
 #include <QHeaderView>
 #include <QJsonDocument>
 #include <QLabel>
+#include <QPointer>
 #include <QPushButton>
 #include <QSaveFile>
 #include <QSignalBlocker>
@@ -35,6 +38,9 @@ public:
   QTableWidget *table;
   QSpinBox *port;
   QCheckBox *lan;
+  QPushButton *rosterButton;
+  QPushButton *clearButton;
+  QPointer<QDialog> rosterDialog;
   Dock() {
     auto layout = new QVBoxLayout(this);
     auto instructions =
@@ -43,14 +49,29 @@ public:
     layout->addWidget(instructions);
     streams = new QComboBox;
     layout->addWidget(streams);
+    char *rosterPath = obs_module_config_path("roster.json");
+    QString rosterFile = QString::fromUtf8(rosterPath ? rosterPath : "");
+    bfree(rosterPath);
+    owcs::loadRoster(rosterFile);
+    auto rosterClient = new owcs::LiquipediaClient(
+        QFileInfo(rosterFile).absolutePath() + "/liquipedia-cache", this);
+    rosterButton = new QPushButton(QStringLiteral("选手名单"));
+    layout->addWidget(rosterButton);
+    connect(rosterButton, &QPushButton::clicked, this, [this, rosterFile, rosterClient] {
+      if (!rosterDialog)
+        rosterDialog = owcs::createRosterDialog(rosterFile, rosterClient, this);
+      rosterDialog->show();
+      rosterDialog->raise();
+      rosterDialog->activateWindow();
+    });
     status = new QLabel(QStringLiteral("等待视频源"));
     status->setWordWrap(true);
     layout->addWidget(status);
-    table = new QTableWidget(10, 11);
-    table->setHorizontalHeaderLabels({QStringLiteral("队/行"), QStringLiteral("选手"),
-                                      QStringLiteral("英雄"), QStringLiteral("生存"),
-                                      QStringLiteral("大招"), QStringLiteral("威能"), "E", "A", "D",
-                                      QStringLiteral("伤害"), QStringLiteral("治疗/抵挡")});
+    table = new QTableWidget(0, 12);
+    table->setHorizontalHeaderLabels(
+        {QStringLiteral("状态/位置"), QStringLiteral("选手"), QStringLiteral("英雄"),
+         QStringLiteral("生存"), QStringLiteral("大招"), QStringLiteral("威能"), "E", "A", "D",
+         QStringLiteral("伤害"), QStringLiteral("治疗/抵挡"), QStringLiteral("职责")});
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     table->verticalHeader()->hide();
@@ -71,8 +92,13 @@ public:
     auto actions = new QHBoxLayout;
     auto copy = new QPushButton(QStringLiteral("复制 JSON"));
     auto save = new QPushButton(QStringLiteral("导出 JSON"));
+    clearButton = new QPushButton(QStringLiteral("清空数据"));
+    clearButton->setObjectName("owcsClearData");
+    clearButton->setToolTip(
+        QStringLiteral("清空当前来源的选手数据和历史，保留选手名单与设置；识别继续运行"));
     actions->addWidget(copy);
     actions->addWidget(save);
+    actions->addWidget(clearButton);
     layout->addLayout(actions);
     char *config = obs_module_config_path("settings.json");
     obs_data_t *data = config ? obs_data_create_from_json_file(config) : nullptr;
@@ -106,6 +132,10 @@ public:
       QApplication::clipboard()->setText(QString::fromUtf8(
           QJsonDocument(owcs::publicState(owcs::Registry::instance().state())).toJson()));
     });
+    connect(clearButton, &QPushButton::clicked, this, [this] {
+      owcs::Registry::instance().clear(streams->currentData().toString());
+      refresh();
+    });
     connect(save, &QPushButton::clicked, this, [this] {
       auto path = QFileDialog::getSaveFileName(this, QStringLiteral("导出当前观战数据"),
                                                "owcs-state.json", "JSON (*.json)");
@@ -133,6 +163,8 @@ public:
                : (v.isString() ? v.toString() : QString::number(v.toInt()));
   }
   void refresh() {
+    rosterButton->setText(
+        QStringLiteral("选手名单（%1 人）").arg(owcs::Registry::instance().roster().size()));
     auto list = owcs::Registry::instance().streams();
     {
       QSignalBlocker block(streams);
@@ -148,8 +180,9 @@ public:
         streams->setCurrentIndex(index);
     }
     auto s = owcs::Registry::instance().state();
+    clearButton->setEnabled(streams->count() > 0);
     auto b = s["scoreboard"].toObject();
-    const auto rows = s["players"].toArray();
+    const auto rows = owcs::orderedPlayerRows(s["participants"].toArray());
     bool retained = false;
     for (auto row : rows) {
       const auto player = row.toObject();
@@ -163,6 +196,8 @@ public:
       text = QStringLiteral("视频输入正常，识别正在处理；暂时显示已获得的结果");
     if (s["analysis_status"] == "initializing")
       text = QStringLiteral("已收到视频，正在初始化识别");
+    if (s["analysis_status"] == "cleared")
+      text = QStringLiteral("数据已清空，等待新画面重新识别");
     if (s["source_status"] == "stale")
       text = QStringLiteral("超过 2.5 秒未收到视频帧：检查来源是否仍在渲染");
     if (s["source_status"] == "stopped")
@@ -174,7 +209,10 @@ public:
     else if (retained)
       text += QStringLiteral("；灰色值为历史观测，— 表示尚未识别");
     status->setText(text);
-    for (int i = 0; i < 10; i++) {
+    if (s["game_paused"].toBool())
+      status->setText(text + QStringLiteral("；游戏暂停，遮挡处保留历史，其余行继续识别"));
+    table->setRowCount(rows.size());
+    for (int i = 0; i < rows.size(); i++) {
       auto p = (i < rows.size() ? rows[i] : QJsonValue{}).toObject(),
            board = p["scoreboard"].toObject(), stats = board["stats"].toObject(),
            fields = board["fields"].toObject();
@@ -189,7 +227,11 @@ public:
           perkText += owcs::localizedDisplay(v["id"], v["name_zhCN"]) + " ";
       }
       QStringList values{
-          QString(i < 5 ? "A%1" : "B%1").arg(i % 5 + 1),
+          p["presence_status"] == "missing" ? QStringLiteral("离场")
+          : p["presence_status"] != "present" || s["source_status"] != "online" ||
+                  s["analysis_status"] == "delayed"
+              ? QStringLiteral("待确认")
+              : QString(p["side"] == "left" ? "A%1" : "B%1").arg(p["slot"].toInt()),
           fresh("display_name", p["display_name"]),
           p["hero_selection"] == "unselected"
               ? fresh("hero_selection", QStringLiteral("未选英雄"))
@@ -201,7 +243,11 @@ public:
           fresh("assists", stats["assists"]),
           fresh("deaths", stats["deaths"]),
           fresh("damage", stats["damage"]),
-          fresh("healing", stats["healing"]) + " / " + fresh("mitigated", stats["mitigated"])};
+          fresh("healing", stats["healing"]) + " / " + fresh("mitigated", stats["mitigated"]),
+          fresh("hero", p["role"] == "tank"      ? QStringLiteral("重装")
+                        : p["role"] == "damage"  ? QStringLiteral("输出")
+                        : p["role"] == "support" ? QStringLiteral("支援")
+                                                 : QStringLiteral("—"))};
       const QList<QStringList> fieldKeys{{},
                                          {"display_name"},
                                          {"hero", "hero_selection"},
@@ -212,11 +258,13 @@ public:
                                          {"assists"},
                                          {"deaths"},
                                          {"damage"},
-                                         {"healing", "mitigated"}};
+                                         {"healing", "mitigated"},
+                                         {"hero"}};
       for (int j = 0; j < values.size(); j++) {
         if (!table->item(i, j))
           table->setItem(i, j, new QTableWidgetItem);
         table->item(i, j)->setText(values[j]);
+        table->item(i, j)->setData(Qt::UserRole, p["player_id"].toString());
         bool stale = false;
         for (const auto &key : fieldKeys[j])
           stale |= fields[key].toObject()["status"] == "stale";

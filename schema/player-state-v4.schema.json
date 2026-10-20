@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "OWCS compact state v3",
+  "title": "OWCS player state v4",
   "type": "object",
   "properties": {
     "schema_version": {
-      "const": "3.0"
+      "const": "4.0"
     },
     "status": {
       "enum": [
@@ -35,32 +35,13 @@
     },
     "players": {
       "type": "array",
+      "maxItems": 100,
       "items": {
         "type": "object",
         "properties": {
-          "slot_id": {
-            "type": "string"
-          },
-          "side": {
-            "enum": [
-              "left",
-              "right"
-            ]
-          },
-          "slot": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 5
-          },
-          "identity_generation": {
-            "type": "integer",
-            "minimum": 0
-          },
           "display_name": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": "string",
+            "minLength": 1
           },
           "hero": {
             "type": [
@@ -72,14 +53,14 @@
             "enum": [
               "selected",
               "unselected",
-              "unknown"
+              null
             ]
           },
           "life_state": {
             "enum": [
               "alive",
               "dead",
-              "unknown"
+              null
             ]
           },
           "ultimate_charge": {
@@ -163,7 +144,10 @@
             "type": "object",
             "properties": {
               "minor": {
-                "type": "object",
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "properties": {
                   "id": {
                     "type": [
@@ -175,8 +159,7 @@
                     "enum": [
                       "selected",
                       "unselected",
-                      "not_shown",
-                      "unknown"
+                      "not_shown"
                     ]
                   },
                   "name_zhCN": {
@@ -193,7 +176,10 @@
                 "additionalProperties": false
               },
               "major": {
-                "type": "object",
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "properties": {
                   "id": {
                     "type": [
@@ -205,8 +191,7 @@
                     "enum": [
                       "selected",
                       "unselected",
-                      "not_shown",
-                      "unknown"
+                      "not_shown"
                     ]
                   },
                   "name_zhCN": {
@@ -252,42 +237,43 @@
             },
             "uniqueItems": true
           },
-          "unknown_fields": {
-            "type": "array",
-            "items": {
-              "enum": [
-                "display_name",
-                "hero",
-                "hero_selection",
-                "life_state",
-                "respawn_seconds",
-                "ultimate_charge",
-                "ultimate_ready",
-                "perks.minor",
-                "perks.major",
-                "stats.eliminations",
-                "stats.assists",
-                "stats.deaths",
-                "stats.damage",
-                "stats.healing",
-                "stats.mitigated"
-              ]
-            },
-            "uniqueItems": true
-          },
           "hero_name_zhCN": {
             "type": [
               "string",
               "null"
             ],
             "description": "Chinese display name; follows hero validity, null if unavailable."
+          },
+          "role": {
+            "enum": [
+              "tank",
+              "damage",
+              "support",
+              null
+            ],
+            "description": "Derived from confirmed hero; follows hero validity."
+          },
+          "player_id": {
+            "type": "string",
+            "minLength": 6
+          },
+          "presence_status": {
+            "enum": [
+              "present",
+              "missing",
+              "unconfirmed"
+            ]
+          },
+          "team": {
+            "enum": [
+              "A",
+              "B",
+              null
+            ],
+            "description": "Current confirmed scoreboard side (A upper/left, B lower/right), or last confirmed side for historical identities; null if unconfirmed. Not an organization or locked lineup."
           }
         },
         "required": [
-          "slot_id",
-          "side",
-          "slot",
-          "identity_generation",
           "display_name",
           "hero",
           "hero_selection",
@@ -298,14 +284,23 @@
           "stats",
           "perks",
           "stale_fields",
-          "unknown_fields"
+          "player_id",
+          "presence_status",
+          "team"
         ],
         "additionalProperties": false
       },
-      "maxItems": 10
+      "description": "One record per confirmed player identity, including retained history. Bind by player_id, never array index."
     },
     "error": {
       "type": "string"
+    },
+    "game_paused": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "True when the supported pause banner is detected; null if panel unavailable."
     }
   },
   "required": [

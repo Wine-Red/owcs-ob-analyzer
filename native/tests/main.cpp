@@ -1,14 +1,18 @@
 #include "core/names.hpp"
 #include "core/public_state.hpp"
 #include "core/recognizer.hpp"
+#include "core/roster.hpp"
 #include "core/state.hpp"
 #include "life_regression.hpp"
+#include "roster_regression.hpp"
+#include "runtime/liquipedia.hpp"
 #include "runtime/registry.hpp"
 #include "state_regression.hpp"
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
+#include <QTimer>
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -21,6 +25,42 @@ int main(int argc, char **argv) {
     auto args = app.arguments();
     if (args.size() < 3)
       return 2;
+    if (args.contains("--roster-audit")) {
+      auto report = rosterRegression(args[2]);
+      std::cout << QJsonDocument(report).toJson().toStdString();
+      return report["failures"].toInt() ? 1 : 0;
+    }
+    if (args.contains("--liquipedia-search") || args.contains("--liquipedia-roster")) {
+      bool search = args.contains("--liquipedia-search");
+      int index = args.indexOf(search ? "--liquipedia-search" : "--liquipedia-roster");
+      if (index + 1 >= args.size())
+        return 2;
+      owcs::LiquipediaClient client(QDir::tempPath() + "/owcs-ob-liquipedia-tests");
+      auto callback = [&](QJsonObject data, QString error) {
+        if (!search && error.isEmpty()) {
+          auto page = data["parse"].toObject();
+          auto roster = owcs::parseTournamentRoster(page["text"].toObject()["*"].toString());
+          data = {{"title", page["title"]},
+                  {"revision", page["revid"]},
+                  {"names", QJsonArray::fromStringList(roster.names)},
+                  {"warnings", QJsonArray::fromStringList(roster.warnings)}};
+          if (roster.names.isEmpty())
+            error = "No roster found";
+        }
+        if (!error.isEmpty())
+          data["error"] = error;
+        std::cout << QJsonDocument(data).toJson().toStdString();
+        app.exit(error.isEmpty() ? 0 : 1);
+      };
+      QTimer::singleShot(0, &client, [&] {
+        if (search)
+          client.search(args[index + 1], callback);
+        else
+          client.tournament(args[index + 1], callback);
+      });
+      QTimer::singleShot(90000, &app, [&] { app.exit(3); });
+      return app.exec();
+    }
     owcs::Recognizer r(args[1]);
     auto path = args[2];
     if (args.contains("--state-audit")) {
@@ -585,7 +625,7 @@ int main(int argc, char **argv) {
           "first frame reported before analysis finishes");
     stale["source_status"] = "online";
     stale["source"] = QJsonObject{{"captured_at", double(now - 6000)}, {"cycle_latency_ms", 6000}};
-    registry.publish("heartbeat-test", stale);
+    registry.publish("heartbeat-test", stale, registry.resetToken("heartbeat-test").generation);
     auto delayed = registry.state("heartbeat-test");
     check(delayed["source_status"] == "online" && delayed["source_age_ms"].toDouble() < 1000,
           "fresh input remains online during slow analysis");
@@ -613,9 +653,9 @@ int main(int argc, char **argv) {
     auto uncertain = state.update(changed, "test", 10200, 0);
     check(board(uncertain)["identity_generation"] == 0 &&
               board(uncertain)["stats"].toObject()["damage"] == 4350 &&
-              board(uncertain)["fields"].toObject()["damage"].toObject()["status"] == "fresh" &&
+              board(uncertain)["fields"].toObject()["damage"].toObject()["status"] == "stale" &&
               uncertain["players"].toArray()[0].toObject()["display_name"].isNull(),
-          "name recheck hides only attribution, not independent row readings");
+          "name recheck retains history as stale without attribution");
     auto recovered = state.update(obs, "test", 10400, 0);
     check(board(recovered)["identity_generation"] == 0 &&
               board(recovered)["fields"].toObject()["damage"].toObject()["status"] == "fresh",
@@ -623,8 +663,8 @@ int main(int argc, char **argv) {
     for (int i = 0; i < 3; ++i)
       reset = state.update(changed, "test", 10600 + i * 200, 0);
     check(board(reset)["identity_generation"] == 0 &&
-              board(reset)["stats"] == changed.players[0].toObject()["stats"] && state.needsName(0),
-          "persistent visual name difference cannot reset or block row data");
+              board(reset)["stats"].toObject()["damage"].toInt() == 4350 && state.needsName(0),
+          "persistent visual name difference cannot overwrite historical counters");
     state.name(0, {"PLAYER_A", .99}, 11010);
     state.name(0, {"PLAYER_A", .99}, 11020);
     state.name(0, {"PLAYER_A", .99}, 11030);
@@ -675,19 +715,47 @@ int main(int argc, char **argv) {
               board(pendingSwap)["ultimate_charge"] == 3,
           "replacement hero and its charge confirm after intermittent miss");
     // Public projection must preserve business values without leaking diagnostics.
-    auto compact = owcs::publicState(snapshot);
+    // Supply confirmed named records to isolate projection/localization tests.
+    // Real name confirmation, movement and history are covered by interruption tests.
+    auto identified = [](QJsonObject source) {
+      QJsonArray participants;
+      auto rows = source["players"].toArray();
+      for (int i = 0; i < rows.size(); ++i) {
+        auto row = rows[i].toObject();
+        row["player_id"] = "name:fixture" + QString::number(i);
+        row["display_name"] = "Fixture" + QString::number(i);
+        row["presence_status"] = "present";
+        auto board = row["scoreboard"].toObject(), fields = board["fields"].toObject();
+        fields["display_name"] = QJsonObject{{"status", "fresh"}};
+        board["fields"] = fields;
+        row["scoreboard"] = board;
+        participants.append(row);
+      }
+      source["participants"] = participants;
+      return source;
+    };
+    auto namedSnapshot = identified(snapshot);
+    auto compact = owcs::publicState(namedSnapshot);
     {
       const auto names = r.localizedNames();
       check(names["heroes"].toObject().size() == 54, "all hero Chinese names shipped");
+      check(names["roles"].toObject().size() == 54 &&
+                names["roles"].toObject()["tracer"] == "damage" &&
+                names["roles"].toObject()["ana"] == "support" &&
+                names["roles"].toObject()["winston"] == "tank",
+            "client hero roles shipped");
       check(names["heroes"].toObject()["tracer"] == QStringLiteral("猎空"),
             "client hero translation");
-      auto translated = owcs::publicState(owcs::localizedState(snapshot, names));
+      auto translated = owcs::publicState(owcs::localizedState(namedSnapshot, names));
       auto translatedRows = translated["players"].toArray();
       for (int i = 0; i < translatedRows.size(); ++i) {
         auto row = translatedRows[i].toObject();
         row.remove("hero_name_zhCN");
+        row.remove("role");
         auto perks = row["perks"].toObject();
         for (auto tier : {"minor", "major"}) {
+          if (perks[tier].isNull())
+            continue;
           auto perk = perks[tier].toObject();
           perk.remove("name_zhCN");
           perks[tier] = perk;
@@ -695,6 +763,7 @@ int main(int argc, char **argv) {
         row["perks"] = perks;
         auto legacy = compact["players"].toArray()[i].toObject();
         legacy.remove("hero_name_zhCN");
+        legacy.remove("role");
         check(row == legacy, "localization preserves every legacy field");
       }
       check(owcs::localizedDisplay("tracer", QStringLiteral("猎空")) == QStringLiteral("猎空") &&
@@ -709,8 +778,7 @@ int main(int argc, char **argv) {
             {"scoreboard",
              QJsonObject{{"perks", QJsonObject{{tier, QJsonObject{{"id", id},
                                                                   {"selection", selection}}}}}}}};
-        return owcs::publicState(
-                   owcs::localizedState({{"players", QJsonArray{row}}}, catalog))["players"]
+        return owcs::localizedState({{"players", QJsonArray{row}}}, catalog)["players"]
             .toArray()[0]
             .toObject();
       };
@@ -721,7 +789,7 @@ int main(int argc, char **argv) {
           auto labels = hero.value().toObject()[tier].toObject();
           for (auto perk = labels.begin(); perk != labels.end(); ++perk) {
             auto row = labelRow(hero.key(), tier, perk.key(), "selected", names);
-            auto value = row["perks"].toObject()[tier].toObject();
+            auto value = row["scoreboard"].toObject()["perks"].toObject()[tier].toObject();
             check(value["id"] == perk.key() && value["name_zhCN"] == perk.value() &&
                       row["hero_name_zhCN"].isString(),
                   "hero/tier scoped perk Chinese name");
@@ -731,11 +799,21 @@ int main(int argc, char **argv) {
       }
       check(translatedPerks == 216, "all active perk labels shipped");
       auto noLabels = labelRow("tracer", "major", "Blink Packs", "selected", {});
+      check(noLabels["role"].isNull() &&
+                labelRow("ana", "major", QJsonValue::Null, "unknown", names)["role"] == "support" &&
+                labelRow(QJsonValue::Null, "major", QJsonValue::Null, "unknown", names)["role"]
+                    .isNull(),
+            "role follows confirmed hero and tolerates older resource packs");
       check(noLabels["hero"] == "tracer" && noLabels["hero_name_zhCN"].isNull() &&
-                noLabels["perks"].toObject()["major"].toObject()["name_zhCN"].isNull(),
+                noLabels["scoreboard"]
+                    .toObject()["perks"]
+                    .toObject()["major"]
+                    .toObject()["name_zhCN"]
+                    .isNull(),
             "older resource packs retain IDs without fabricated names");
       for (auto selection : {"unselected", "not_shown", "unknown"})
-        check(labelRow("tracer", "major", "Blink Packs", selection, names)["perks"]
+        check(labelRow("tracer", "major", "Blink Packs", selection, names)["scoreboard"]
+                  .toObject()["perks"]
                   .toObject()["major"]
                   .toObject()["name_zhCN"]
                   .isNull(),
@@ -743,13 +821,14 @@ int main(int argc, char **argv) {
       check(labelRow(QJsonValue::Null, "major", "Blink Packs", "selected", names)["hero_name_zhCN"]
                 .isNull(),
             "pending hero has no Chinese label");
-      check(labelRow("ana", "major", "Blink Packs", "selected", names)["perks"]
+      check(labelRow("ana", "major", "Blink Packs", "selected", names)["scoreboard"]
+                .toObject()["perks"]
                 .toObject()["major"]
                 .toObject()["name_zhCN"]
                 .isNull(),
             "hero swap cannot reuse another hero's translation");
       auto oldLabels =
-          owcs::publicState(owcs::State::age(owcs::localizedState(snapshot, names), 3000));
+          owcs::publicState(owcs::State::age(owcs::localizedState(namedSnapshot, names), 3000));
       check(oldLabels["players"].toArray()[0].toObject()["hero_name_zhCN"] ==
                     translatedRows[0].toObject()["hero_name_zhCN"] &&
                 oldLabels["players"].toArray()[0].toObject()["stale_fields"].toArray().contains(
@@ -757,28 +836,40 @@ int main(int argc, char **argv) {
             "retained Chinese name shares hero staleness");
     }
     auto compactRow = compact["players"].toArray()[0].toObject();
-    check(compact["schema_version"] == "3.0" && compact["panel_visible"].toBool(),
+    check(compact["schema_version"] == "4.0" && compact["panel_visible"].toBool(),
           "compact confirmed panel");
     check(compactRow["stats"] == board(snapshot)["stats"], "compact preserves counters");
     check(!compact.contains("source") && !compact.contains("hud") &&
               !compact.contains("recognition") && !compactRow.contains("scoreboard") &&
               !compactRow.contains("hero_confidence"),
           "compact excludes diagnostics");
-    check(compactRow["unknown_fields"].toArray().contains("display_name"),
-          "unread name explicitly unknown");
+    check(owcs::publicState(snapshot)["players"].toArray().isEmpty(),
+          "unidentified physical rows never create anonymous public players");
+    for (const auto &value : compact["players"].toArray()) {
+      const auto row = value.toObject();
+      check(!row.contains("side") && !row.contains("slot") && !row.contains("slot_id") &&
+                !row.contains("position") && !row.contains("identity_status") &&
+                !row.contains("identity_generation") && !row.contains("unknown_fields") &&
+                !row.contains("historical_player_id") && !row.contains("historical_display_name") &&
+                !row.contains("slot_status"),
+            "public player omits physical and internal state");
+    }
+    check(!compact.contains("players_by_id") && !compact.contains("player_order") &&
+              !compact.contains("retained_players"),
+          "one public player collection only");
     check(!compactRow["stale_fields"].toArray().contains("stats.damage"),
           "current counter not stale");
-    auto publicStale = owcs::publicState(owcs::State::age(snapshot, 3000));
+    auto publicStale = owcs::publicState(owcs::State::age(namedSnapshot, 3000));
     check(publicStale["status"] == "stale" && !publicStale["panel_visible"].toBool(),
           "offline snapshot never appears current");
     check(publicStale["players"].toArray()[0].toObject()["stale_fields"].toArray().contains(
               "stats.damage"),
           "stale counter path preserved");
-    auto publicHidden = owcs::publicState(hidden);
+    auto publicHidden = owcs::publicState(identified(hidden));
     check(!publicHidden["panel_visible"].toBool() &&
               publicHidden["players"].toArray()[0].toObject()["stats"] == board(hidden)["stats"],
           "hidden retains historical values");
-    auto delayedSnapshot = snapshot;
+    auto delayedSnapshot = namedSnapshot;
     delayedSnapshot["analysis_status"] = "delayed";
     auto publicDelayed = owcs::publicState(delayedSnapshot);
     check(publicDelayed["status"] == "delayed" &&
@@ -789,9 +880,11 @@ int main(int argc, char **argv) {
         QJsonObject{{"source_status", "waiting"}, {"analysis_status", "initializing"}});
     check(unavailable["players"].toArray().isEmpty() && unavailable["status"] == "waiting",
           "compact initializing response");
-    auto publicPending = owcs::publicState(missedSwap)["players"].toArray()[0].toObject();
+    auto publicPending =
+        owcs::publicState(identified(missedSwap))["players"].toArray()[0].toObject();
     check(publicPending["hero"].isNull() &&
-              publicPending["unknown_fields"].toArray().contains("hero"),
+              !publicPending["stale_fields"].toArray().contains("hero") &&
+              publicPending["role"].isNull() && publicPending["hero_name_zhCN"].isNull(),
           "pending swap is unknown not historical hero");
     check(QJsonDocument(compact).toJson(QJsonDocument::Compact).size() <
               QJsonDocument(snapshot).toJson(QJsonDocument::Compact).size() / 2,
@@ -827,6 +920,11 @@ int main(int argc, char **argv) {
       if (!item.toObject()["passed"].toBool())
         std::cerr << QJsonDocument(item.toObject()).toJson(QJsonDocument::Compact).toStdString()
                   << "\n";
+    auto rosterAudit = rosterRegression(path + "/../roster");
+    checks += rosterAudit["checks"].toInt();
+    failures += rosterAudit["failures"].toInt();
+    for (auto error : rosterAudit["errors"].toArray())
+      std::cerr << error.toString().toStdString() << "\n";
     std::cout << checks << " checks; " << failures << " failures\n";
     return failures ? 1 : 0;
   } catch (const std::exception &e) {

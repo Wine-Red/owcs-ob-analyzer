@@ -3,6 +3,7 @@ import argparse
 import ctypes
 from ctypes import wintypes
 import json
+import os
 from pathlib import Path
 import socket
 import subprocess
@@ -23,7 +24,11 @@ def close_obs(process):
     def close_window(hwnd, _):
         pid = wintypes.DWORD()
         user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
-        if pid.value == process.pid:
+        title = ctypes.create_unicode_buffer(512)
+        user32.GetWindowTextW(hwnd, title, len(title))
+        if pid.value == process.pid and title.value.startswith('OBS '):
+            # Close the main window, as a user would. Closing every Qt utility
+            # and floating dock independently can interfere with teardown.
             user32.PostMessageW(hwnd, 0x0010, 0, 0)  # WM_CLOSE
         return True
 
@@ -62,6 +67,11 @@ def main():
           '[BasicWindow]\nPreviewEnabled=true\n[Video]\nRenderer=Direct3D 11\n'
           '[OBSWebSocket]\nFirstLoad=false\nServerEnabled=true\nAuthRequired=false\n'
           f'AlertsEnabled=false\nServerPort={args.websocket_port}\n')
+    # OBS 32 stores user preferences here instead of global.ini. Discard saved
+    # layout and exit confirmations from earlier disposable UI test runs.
+    write('user.ini', '[General]\nFirstRun=true\nEnableAutoUpdates=false\nConfirmOnExit=false\n'
+          '[Basic]\nProfile=Test\nProfileDir=Test\nSceneCollection=Test\nSceneCollectionFile=Test\n'
+          '[BasicWindow]\nPreviewEnabled=true\nSysTrayEnabled=false\n')
     write('basic/profiles/Test/basic.ini', '[General]\nName=Test\n[Video]\nBaseCX=1600\nBaseCY=1000\n'
           'OutputCX=1600\nOutputCY=1000\nFPSType=0\nFPSCommon=30\n'
           '[Audio]\nSampleRate=48000\nChannelSetup=Stereo\n')
@@ -83,7 +93,8 @@ def main():
     process = subprocess.Popen([str(host / 'bin/64bit/obs64.exe'), '--portable', '--multi',
                                 '--disable-updater', '--disable-shutdown-check',
                                 '--profile', 'Test', '--collection', 'Test'],
-                               cwd=host / 'bin/64bit', startupinfo=startup)
+                               cwd=host / 'bin/64bit', startupinfo=startup,
+                               env={**os.environ, 'QT_ACCESSIBILITY': '1'})
     try:
         for _ in range(90):
             assert process.poll() is None, f'OBS exited early: {process.returncode}'
@@ -108,7 +119,8 @@ def main():
             raise AssertionError('OBS WebSocket server did not start')
         subprocess.run([sys.executable, str(ROOT / 'scripts/test-obs-integration.py'),
                         '--websocket-port', str(args.websocket_port), '--api-port', str(args.api_port),
-                        '--output', str(output), '--expect-obs-version', args.version],
+                        '--output', str(output), '--expect-obs-version', args.version,
+                        '--obs-pid', str(process.pid)],
                        check=True, timeout=240)
     finally:
         exit_code = close_obs(process) if process.poll() is None else process.returncode

@@ -97,7 +97,17 @@ def localized_names(source):
             if perk['id'] in tier and tier[perk['id']] != name.strip():
                 raise ValueError(f'Conflicting Chinese perk name: {perk["id"]}')
             tier[perk['id']] = name.strip()
-    return {'heroes': heroes, 'perks': perks}
+    roles = {}
+    for hero in source['heroes']:
+        role = hero.get('role')
+        if role is not None:
+            if role not in ('tank', 'damage', 'support'):
+                raise ValueError(f'Invalid hero role: {hero["id"]}')
+            roles[hero['id']] = role
+    result = {'heroes': heroes, 'perks': perks}
+    if roles:
+        result['roles'] = roles
+    return result
 
 
 def foreground_masks(images):

@@ -1,69 +1,84 @@
-# 精简数据 API v3
+# 实时选手 API v4
 
-插件 0.4.0 起，HTTP、WebSocket、复制 JSON 和导出 JSON 只提供此格式；不提供详细模式。端口默认 8765，仅监听本机。接口路径仍为 `/v1`，响应 `schema_version` 升为 `3.0`，这是对旧结构的破坏性变更。
+插件 0.6.0 起，HTTP、WebSocket、复制 JSON 和导出 JSON 统一使用 `schema_version: "4.0"`。只输出一份 `players` 列表，每位选手只出现一次；当前数据和保留的历史都在同一条记录里。接口路径仍为 `/v1`。
+
+## 接入
 
 | 请求 | 说明 |
 |---|---|
-| GET /health | 服务状态及插件版本 |
-| GET /v1/streams | 来源列表：stream_id、name、selected |
-| GET /v1/state?stream=ID | 精简快照；省略 ID 使用停靠窗口所选来源 |
-| WS /v1/state-stream?stream=ID | 连接时及随后约每 200ms 发送完整精简快照 |
+| GET /health | 服务状态、插件版本 |
+| GET /v1/streams | 来源列表及所选来源 |
+| GET /v1/state?stream=ID | 完整快照；省略 ID 使用面板所选来源 |
+| WS /v1/state-stream?stream=ID | 连接时及随后约每 200ms 发送完整快照 |
 
-没有来源、初始化中或核心不可用时，HTTP 返回 503；WebSocket 保持连接并等待恢复。未知来源不会退回其他来源。未知路径返回 404。接口只读，连接上限 32；允许局域网需在插件界面启用，无账号认证。
+默认端口 8765，仅监听本机；可在插件界面允许局域网。接口只读，无账号认证，连接上限 32。没有来源、初始化中或核心不可用时 HTTP 返回 503，WebSocket 等待恢复；未知来源不会回退到其他来源。
 
-## 顶层
+## 选手列表
 
-- `schema_version`: `3.0`。
-- `stream_id`、`session_id`：来源及识别会话标识，有对应状态时提供。
-- `sequence`：识别结果序号；WebSocket 重发同一结果时可不变，但过期列表会重新计算。
-- `observed_at`：本次识别结果生成时间，不代表所有保留字段都重新识别过。
-- `status`：online / delayed / stale / stopped / waiting / error。online 仅说明来源和处理在线，字段有效性仍看下方列表。delayed 表示结果所用帧超过 1500ms；stale 表示超过 2500ms 未收到输入。
-- `panel_visible`：当前处理在线且面板已经连续确认；等待、延迟、暂停或断流时为 false。
-- `players`：按计分板顺序排列的十行；尚无识别结果时为空数组。
-- `error`：仅错误状态出现，提供故障原因。
+以 `player_id` 绑定选手，不以数组下标、队伍或画面行号绑定。ID 为 `name:` 加 NFKC 规范化、忽略大小写的已确认昵称；名单未匹配或候选过近时使用确认后的 OCR 名字。等待玩家和从未确认身份的行不建立选手记录。完全同名的不同人无法仅凭画面区分。
 
-## 每名选手
+列表按当前或最后确认的面板位置排列，已确认离场的历史置后。顺序可能随补位变化，但 ID 和数据归属不变。不锁定十人，不推断比赛周期，不自动累加。会话内最多保留 100 位选手，优先淘汰最早的不在场记录。
 
-`slot_id`、`side`、`slot`、`identity_generation`、`display_name`、`hero`、`hero_selection`、`life_state`、`ultimate_charge`、`ultimate_ready`、`respawn_seconds`、`stats`、`perks`、`stale_fields`、`unknown_fields`。
+| 字段 | 含义 |
+|---|---|
+| player_id、display_name | 选手身份和展示名 |
+| team | A：面板上方/左侧；B：下方/右侧；未确认时 null。暂未确认或离场时保留最后确认的归属，确认换边后更新；不表示实际俱乐部 |
+| presence_status | present：当前确认在场；unconfirmed：遮挡、复核或面板不可用；missing：最后所在侧的占位身份均已确认，但此人未出现。不推断掉线原因 |
+| hero、hero_name_zhCN | 英雄标识和中文名，未知为 null |
+| role | tank / damage / support / null，来自已确认英雄，随英雄变化 |
+| hero_selection | selected / unselected / null，区分选中英雄、明确未选择和未知 |
+| life_state | alive / dead / null |
+| ultimate_charge、ultimate_ready | 大招百分比和是否就绪，未知为 null |
+| respawn_seconds | 复活剩余秒数，未知为 null |
+| perks.minor、perks.major | 已确认时为 `{id, name_zhCN, selection}`；selection 为 selected / unselected / not_shown。未知时整个 tier 为 null |
+| stats | eliminations / assists / deaths / damage / healing / mitigated，未知为 null，不能当作 0 |
+| stale_fields | 来自历史、当前未重新确认的字段路径；空数组表示没有历史字段 |
 
-- `side`: left / right，分别表示计分板上队 / 下队，沿用旧命名。`slot` 为该队 1–5 行，不是顶栏位置。
-- 使用 `stream_id + session_id + slot_id + identity_generation` 区分行身份；不是跨地图的永久选手 ID。
-- `hero` 保留原英文标识；`hero_name_zhCN` 为对应的客户端简体中文名或 null。中文仅为展示元数据，不参与识别或身份确认。
-- `hero_selection`: selected / unselected / unknown。确认问号头像时为 unselected，并清空旧英雄、大招、威能、生存状态。
-- `life_state`: alive / dead / unknown。累计阵亡不是当前生存状态。
-- `ultimate_charge`: 0–100 或 null；`ultimate_ready`: true / false / null；`respawn_seconds`: 非负整数或 null。
-- `stats`: eliminations / assists / deaths / damage / healing / mitigated，均为非负整数或 null。
-- `perks.minor`、`perks.major`: `{id, name_zhCN, selection}`，selection 为 selected / unselected / not_shown / unknown。id 保留原英文名称或 null；name_zhCN 为对应的客户端简体中文名，未选择、未知或资源未提供译名时为 null。
+`hero_name_zhCN` 和 `role` 随 `hero` 的历史标记；威能名称随 `perks.minor` / `perks.major`。`team` 是否为当前确认的归属看 `presence_status`，不新增独立状态。
 
-0.5.3 新增中文字段，保留原英文值和 schema_version 3.0。调用方应忽略未使用的扩展字段；使用旧版 `additionalProperties: false` Schema 严格校验的调用方需要更新 Schema。中文字段沿用 `hero` 或 `perks.minor/major` 的有效性标记，不新增独立识别状态。旧资源包没有译名时，API 中文字段为 null，OBS 面板回退显示英文。
+暂停只遮住部分字段时，清晰字段继续更新，被遮挡字段保留并标为历史；姓名归属不确定时保留该选手自己的历史，不接收其他占位者的数值。重连后使用新的已确认读数，包括 0 和低于历史的值，不相加。
+
+例如，以下为一条记录的节选：
 
 ```json
-{"hero":"tracer","hero_name_zhCN":"猎空","perks":{"major":{"id":"Blink Packs","name_zhCN":"闪现急救包","selection":"selected"}}}
+{
+  "player_id": "name:insane",
+  "display_name": "Insane",
+  "team": "B",
+  "presence_status": "present",
+  "hero": "tracer",
+  "stats": {"eliminations": 4, "assists": 0, "deaths": 4, "damage": 3789, "healing": 0, "mitigated": 0},
+  "stale_fields": ["stats.damage"]
+}
 ```
 
-## 字段有效性
+这里伤害是最后一次确认的 3789；其他已知、未标历史的字段可作为当前有效观测。仅需持续展示时可直接显示保留值；需要实时性时检查对应路径是否在 `stale_fields` 中。
 
-`stale_fields` 列出保留了历史观测、但当前不可视为实时的字段；`unknown_fields` 列出尚未确认或暂时未知的字段。列表使用相对于选手对象的路径，例如 `hero`、`life_state`、`stats.damage`、`perks.minor`。
+字段重新识别并确认后，会自动从 `stale_fields` 中移除，即使确认后的数值与原来相同。空数组只表示没有历史标记，不表示所有字段都有值；尚未确认的字段仍可能为 null。
 
-在本版本定义的 15 个观测字段中，未出现在两个列表里的字段是有效观测。两个列表互斥。`null` 不转成 0；“未选择 / 未显示的威能”可以是已确认的有效状态，即 id 为 null 但不在 unknown_fields 中。
+## 快照信息
 
-数值和图标新鲜期为 1000ms，名字为 15000ms；面板不可用、来源停止、断流或结果延迟时，已知字段全部标为 stale。局部漏读只影响对应字段，不使整行失效。英雄替换待确认时，仅英雄身份和已选威能归属为 unknown；生存、倒计时、大招和各项统计按自己的观测继续更新。明确头像遮挡时保留历史英雄，不刷新其观察时间；历史生存状态不阻止清晰新头像更新。
+顶层只包含快照元数据和 `players`：
 
-消费示例：
+- `schema_version`：4.0；严格 JSON Schema 见 `schema/player-state-v4.schema.json`。
+- `stream_id`、`session_id`：区分来源和手动重置后的识别会话。有对应状态时提供；不自动识别比赛边界。
+- `sequence`、`observed_at`：快照序号和生成时间，不表示所有历史字段刚刚更新。
+- `status`：online / delayed / stale / stopped / waiting / error，描述来源和处理状态。
+- `panel_visible`：当前面板是否有效；游戏暂停但面板仍可读时可以为 true。
+- `game_paused`：检测到支持的中文暂停横幅时为 true，未检测到为 false，面板不可用为 null。
+- `error`：仅错误状态提供原因。
+
+面板消失、来源停止或结果过期时，选手仍在 `players` 中，`presence_status` 为 unconfirmed，已知观测标为历史。选手从未确认过的字段用 null 表示，不另输出 `unknown_fields`。
+
+## 清空和迁移
+
+“清空数据”立即清除所选来源的选手和历史；新画面建立新的 `session_id`。后台旧结果不能重新写入。名单、接口设置和其他来源不受影响。修改名单或关闭再开启识别也会重置会话。切换比赛时如需彻底丢弃上一场历史，可手动清空。
+
+从 v3 迁移：只遍历 `players`，按 `stream_id + session_id + player_id` 绑定。删除对 `players_by_id`、`player_order`、`retained_players` 的读取；不再输出 side、slot、slot_id、position、identity_generation、identity_status、slot_status 和 historical_*。不再用数组长度表示当前在场人数，需要时筛选 `presence_status == "present"`。未知字段改为 null；历史仍使用 `stale_fields`。
 
 ```javascript
-const field = 'stats.damage';
-const usable = !player.stale_fields.includes(field)
-            && !player.unknown_fields.includes(field);
-const damage = usable ? player.stats.damage : null;
+for (const player of state.players) {
+  const key = `${state.stream_id}:${state.session_id}:${player.player_id}`;
+  // 按 key 更新同一个选手；player.team 用于分队展示。
+}
 ```
-
-## 从旧格式迁移
-
-- `players[].scoreboard.stats/perks/ultimate_charge/ultimate_ready/respawn_seconds/identity_generation` 移到选手对象直属层。
-- 原 `scoreboard.fields.*` 替换为 `stale_fields` / `unknown_fields`。
-- 去除重复置信度、confirmed 状态、逐字段时间、每行 updated_at、面板坐标、HUD 定位、Tab 持键、耗时、资源版本等诊断信息。
-- 顶层 source_status / analysis_status 合并为 status；面板状态统一为 panel_visible；不再提供 type 字段。
-- JSON Schema：`schema/player-state-v3.schema.json`。内部诊断快照不构成公开接口。
-
-0.5.2 起，姓名外观异常时仅 `display_name` 暂为未知，其他字段仍按行更新；OCR 确认换人后才增加 `identity_generation` 并清理旧历史。连续变化数字通过后一次观测确认前一次实际值，保留原观测时间，通常落后一个有效采样周期；不存在固定增长幅度上限。内部确认决策仅供开发诊断，不增加公开 API 字段。

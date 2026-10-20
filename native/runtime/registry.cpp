@@ -5,9 +5,36 @@ Registry &Registry::instance() {
   static Registry r;
   return r;
 }
-void Registry::publish(const QString &id, QJsonObject s) {
+QStringList Registry::roster() const {
+  QMutexLocker lock(&mutex_);
+  return roster_;
+}
+void Registry::setRoster(QStringList names) {
+  QMutexLocker lock(&mutex_);
+  roster_ = std::move(names);
+}
+ResetToken Registry::resetToken(const QString &id) const {
+  QMutexLocker lock(&mutex_);
+  return entries_.value(id).reset;
+}
+bool Registry::clear(const QString &id) {
+  QMutexLocker lock(&mutex_);
+  auto it = entries_.find(id);
+  if (it == entries_.end())
+    return false;
+  ++it->reset.generation;
+  it->reset.after = monotonicMs();
+  it->snapshot = {};
+  it->seen = it->reset.after;
+  return true;
+}
+void Registry::publish(const QString &id, QJsonObject s, quint64 resetGeneration) {
   QMutexLocker lock(&mutex_);
   auto &entry = entries_[id];
+  // A result already being recognized when Clear was clicked cannot refill
+  // the table or API with the discarded session's history.
+  if (resetGeneration != entry.reset.generation)
+    return;
   entry.snapshot = std::move(s);
   entry.seen = monotonicMs();
   if (selected_.isEmpty())
@@ -47,7 +74,7 @@ QJsonObject Registry::state(const QString &id) const {
             {"stream_id", it.key()},
             {"source_status", inputAge > 2500 ? "stale" : "waiting"},
             {"source_age_ms", double(inputAge)},
-            {"analysis_status", "initializing"},
+            {"analysis_status", it->reset.after >= 0 ? "cleared" : "initializing"},
             {"source", QJsonObject{{"name", it->source}}}};
   auto result = State::age(it->snapshot, now - it->seen);
   result["source_age_ms"] = double(inputAge);

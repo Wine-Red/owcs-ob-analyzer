@@ -20,7 +20,7 @@ class ClientPerkTests(unittest.TestCase):
         self.hero_guid = '000000000001.075'
         perks = [{'GUID': f'{i:012X}.09F', 'TextureGUID': f'{i:012X}.004', 'Name': f'Perk {i}'}
                  for i in range(1, 5)]
-        self.heroes = {self.hero_guid: {'Name': 'Lúcio', 'IsHero': True, 'Perks': perks}}
+        self.heroes = {self.hero_guid: {'Name': 'Lúcio', 'IsHero': True, 'Class': 'Support', 'Perks': perks}}
         self.talents = {f'{i:012X}.134': {'GUID': None, 'TalentType': 'Perk',
                         'Loadout': {'GUID': p['GUID'], 'HeroName': None},
                         'Major': i > 2, 'Level': 3 if i > 2 else 2}
@@ -32,7 +32,7 @@ class ClientPerkTests(unittest.TestCase):
     def test_hero_localization_uses_guid_not_display_text(self):
         entries = [{'id': 'lucio'}]
         localize_heroes(self.heroes, {self.hero_guid: {'Name': '卢西奥'}}, entries)
-        self.assertEqual(entries[0], {'id': 'lucio', 'hero_guid': self.hero_guid, 'name_zhCN': '卢西奥'})
+        self.assertEqual(entries[0], {'id': 'lucio', 'hero_guid': self.hero_guid, 'name_zhCN': '卢西奥', 'role': 'support'})
         with self.assertRaisesRegex(ValueError, 'Missing Chinese hero'):
             localize_heroes(self.heroes, {}, entries)
 

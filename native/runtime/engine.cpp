@@ -51,6 +51,7 @@ void Engine::pause() {
   }
   tab_.release();
   Registry::instance().releaseInput(id_);
+  const auto reset = Registry::instance().resetToken(id_);
   auto snapshot = Registry::instance().state(id_);
   if (snapshot["type"] == "state.snapshot") {
     snapshot["source_status"] = "stopped";
@@ -59,7 +60,7 @@ void Engine::pause() {
     b["confirmed"] = false;
     b["tab_held"] = false;
     snapshot["scoreboard"] = b;
-    Registry::instance().publish(id_, State::age(snapshot, 0));
+    Registry::instance().publish(id_, State::age(snapshot, 0), reset.generation);
   }
 }
 void Engine::run() {
@@ -68,8 +69,10 @@ void Engine::run() {
     Recognizer reader(assets_);
     std::unique_ptr<NameReader> names;
     State state(id_);
+    QStringList roster;
     int nameRow = 0;
     unsigned previousGeneration = generation_;
+    quint64 previousReset = 0;
     qint64 authorized = -10000, opening = -1, lastRetry = -1;
     QString error;
     // Explicit developer opt-in only. Bound both storage and capture frequency.
@@ -96,6 +99,20 @@ void Engine::run() {
       }
       if (!config.enabled)
         continue;
+      const auto reset = Registry::instance().resetToken(id_);
+      if (reset.generation != previousReset) {
+        state.reset();
+        nameRow = 0;
+        previousReset = reset.generation;
+      }
+      // Pending frames captured before Clear belong to the discarded session.
+      if (captured <= reset.after)
+        continue;
+      const auto currentRoster = Registry::instance().roster();
+      if (roster != currentRoster) {
+        state.reset();
+        roster = currentRoster;
+      }
       if (gen != previousGeneration) {
         state.reset();
         previousGeneration = gen;
@@ -107,25 +124,28 @@ void Engine::run() {
       cv::Mat bgr;
       cv::cvtColor(frame, bgr, cv::COLOR_BGRA2BGR);
       auto observed = reader.detect(bgr);
-      auto snapshot = state.update(observed, source, start, monotonicMs() - start);
-      snapshot = localizedState(snapshot, reader.localizedNames());
-      snapshot["recognition"] =
-          QJsonObject{{"asset_format", 3}, {"resource_version", reader.resourceVersion()}};
+      state.update(observed, source, start, monotonicMs() - start);
       if (observed.visible && config.names) {
         int checked = 0, read = 0;
         while (checked++ < 10 && read < 2) {
           int row = nameRow;
           nameRow = (nameRow + 1) % 10;
-          if (!state.needsName(row))
+          if (!state.needsName(row, start))
             continue;
           if (!names)
             names = std::make_unique<NameReader>(assets_);
-          state.name(row, names->read(observed.names[row]), start);
+          state.name(row, names->read(observed.names[row], roster), start);
           ++read;
           if (monotonicMs() - start >= 140)
             break;
         }
       }
+      // Publish this cycle's identity decision, not the pre-OCR pending state.
+      // Serializing again does not observe/confirm the frame a second time.
+      auto snapshot = localizedState(state.snapshot(observed, source, start, monotonicMs() - start),
+                                     reader.localizedNames());
+      snapshot["recognition"] =
+          QJsonObject{{"asset_format", 3}, {"resource_version", reader.resourceVersion()}};
       if (!diagnosticDir.isEmpty() && diagnosticCount < 60 && start - diagnosticLast >= 800) {
         diagnosticLast = start;
         if (QDir().mkpath(diagnosticDir)) {
@@ -190,16 +210,18 @@ void Engine::run() {
       // a delayed result as a newly captured frame, even while input is healthy.
       snapshot = State::age(snapshot, monotonicMs() - start);
       snapshot["source_status"] = "online";
-      Registry::instance().publish(id_, snapshot);
+      Registry::instance().publish(id_, snapshot, reset.generation);
     }
   } catch (const std::exception &e) {
     tab_.release();
     Registry::instance().releaseInput(id_);
-    Registry::instance().publish(id_, {{"type", "state.unavailable"},
-                                       {"schema_version", "2.0"},
-                                       {"stream_id", id_},
-                                       {"source_status", "error"},
-                                       {"error", QString::fromUtf8(e.what())}});
+    Registry::instance().publish(id_,
+                                 {{"type", "state.unavailable"},
+                                  {"schema_version", "2.0"},
+                                  {"stream_id", id_},
+                                  {"source_status", "error"},
+                                  {"error", QString::fromUtf8(e.what())}},
+                                 Registry::instance().resetToken(id_).generation);
   }
 }
 } // namespace owcs

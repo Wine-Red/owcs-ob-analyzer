@@ -172,12 +172,16 @@ def localize_heroes(heroes, localized, entries):
     """Join display names by client hero GUID, preserving existing English IDs."""
     by_id = {canonical_name(h['Name']): (key, h) for key, h in heroes.items() if h.get('IsHero')}
     for entry in entries:
-        key, _ = by_id[canonical_name(entry['id'])]
+        key, hero = by_id[canonical_name(entry['id'])]
         name = localized.get(key, {}).get('Name')
         if not isinstance(name, str) or not name.strip():
             raise ValueError(f'Missing Chinese hero name: {entry["id"]}')
         entry['hero_guid'] = guid(key)
         entry['name_zhCN'] = name.strip()
+        role = hero.get('Class', '').lower()
+        if role not in ('tank', 'damage', 'support'):
+            raise ValueError(f'Missing or invalid client hero class: {entry["id"]}')
+        entry['role'] = role
 
 
 def stage(raw, source, output, resource_version):
