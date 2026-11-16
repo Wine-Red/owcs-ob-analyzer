@@ -1,4 +1,5 @@
 #pragma once
+#include "tab_refresh.hpp"
 #include <QString>
 #include <atomic>
 #include <mutex>
@@ -10,6 +11,7 @@ public:
   TabHold();
   ~TabHold();
   void update(bool enabled, bool allowed);
+  void configureRefresh(bool enabled, int seconds);
   void release();
   bool held() const;
   QString error() const;
@@ -26,5 +28,6 @@ private:
   bool owned_ = false;
   qint64 lease_ = 0;
   QString error_;
+  TabRefresh refresh_;
 };
 } // namespace owcs

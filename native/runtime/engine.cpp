@@ -27,6 +27,7 @@ void Engine::configure(Settings s) {
   {
     std::lock_guard lock(mutex_);
     settings_ = s;
+    tab_.configureRefresh(s.refreshTab, s.refreshTabSeconds);
   }
   if (pauseNow) {
     tab_.release();

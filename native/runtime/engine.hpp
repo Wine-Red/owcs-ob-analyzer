@@ -6,6 +6,8 @@
 namespace owcs {
 struct Settings {
   bool enabled = true, autoTab = false, names = true;
+  bool refreshTab = false;
+  int refreshTabSeconds = 10;
   int fps = 5;
 };
 class Engine {

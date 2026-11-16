@@ -51,7 +51,8 @@ QJsonObject publicState(const QJsonObject &s) {
   if (status == "error")
     result["error"] = s["error"].isString() ? s["error"] : QJsonValue("recognition_unavailable");
   QJsonArray rows;
-  for (const auto &value : orderedPlayerRows(s["participants"].toArray())) {
+  for (const auto &value :
+       orderedPlayerRows(s["participants"].toArray(), s["player_priorities"].toObject())) {
     const auto p = value.toObject(), b = p["scoreboard"].toObject();
     const auto id = p["player_id"].toString();
     if (id.isEmpty())

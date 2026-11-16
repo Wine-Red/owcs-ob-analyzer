@@ -8,12 +8,14 @@ Windows x64 原生 OBS 插件，自动识别守望先锋 OB 计分板中的选�
 
 适用 Windows 10/11 x64、OBS Studio 30.0 及以上。
 
-1. 从 [Releases](https://github.com/Wine-Red/owcs-ob-analyzer/releases/latest) 下载 `OWCS-OB-Analyzer-OBS-0.6.0-windows-x64.zip` 并解压。
+1. 从 [Releases](https://github.com/Wine-Red/owcs-ob-analyzer/releases/latest) 下载 `OWCS-OB-Analyzer-OBS-0.6.1-windows-x64.zip` 并解压。
 2. 退出 OBS，将安装包中的 `obs-plugins` 和 `data` 文件夹复制到 OBS 安装根目录，与原目录合并；也可执行包内 `Install.ps1`。
 3. **每次以管理员身份启动 OBS**。
 4. 在视频源的“滤镜 → 效果滤镜”中添加“OWCS 观战数据识别”，在“停靠窗口”菜单打开“OWCS 观战数据”。
 
 本机观战可在滤镜属性中开启“自动按住 Tab”，切回游戏后使用。默认数据接口为 `http://127.0.0.1:8765/v1/state`。
+
+0.6.1 新增威能记忆、定时重按 Tab 和选手优先级排序。**定时重按 Tab 在视频源 → 滤镜 → OWCS 观战数据识别的滤镜属性中开启和设置**，需同时开启自动 Tab；默认关闭，间隔默认 10 秒，可设为 2–300 秒。选手优先级在停靠面板第一列调整，数字越小越靠前。
 
 详细安装步骤见 [安装指南](README_USER.md)，接口说明见 [API 文档](docs/STATE_API.md)。
 

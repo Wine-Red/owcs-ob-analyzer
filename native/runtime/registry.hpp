@@ -21,6 +21,8 @@ public:
   void releaseInput(const QString &id);
   QStringList roster() const;
   void setRoster(QStringList);
+  QJsonObject playerPriorities() const;
+  void setPlayerPriorities(QJsonObject);
 
 private:
   struct Entry {
@@ -34,5 +36,6 @@ private:
   QMap<QString, Entry> entries_;
   QString selected_, inputOwner_;
   QStringList roster_;
+  QJsonObject playerPriorities_;
 };
 } // namespace owcs

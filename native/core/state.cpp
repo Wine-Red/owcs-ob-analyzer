@@ -277,6 +277,17 @@ QJsonObject State::update(const Observation &obs, const QString &source, qint64 
         bool accepted = selection != "unselected" &&
                         (emptySlot || (perk["selection"] == "selected" && !p.heroPending &&
                                        !raw["hero"].isNull() && raw["hero"] == f["hero"].value));
+        // A held scoreboard can lose its perk icons. Only positive, hero-bound
+        // observations may replace a confirmed choice; disappearance is history,
+        // not proof that the player unlearned it. Hero/identity resets above still
+        // discard the old choice before we reach this point.
+        const bool remembered = f[tier].value.toObject()["selection"] == "selected";
+        if (remembered && (!accepted || emptySlot)) {
+          f[tier].retained = true;
+          f[tier].candidate = QJsonValue::Null;
+          f[tier].count = 0;
+          accepted = false;
+        }
         f[tier].observe(accepted ? QJsonValue(perk) : QJsonValue(QJsonValue::Null), confidence, now,
                         3);
       }

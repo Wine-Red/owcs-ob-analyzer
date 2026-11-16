@@ -25,6 +25,8 @@ void update(void *data, obs_data_t *settings) {
   owcs::Settings s;
   s.enabled = obs_data_get_bool(settings, "enabled");
   s.autoTab = obs_data_get_bool(settings, "auto_tab");
+  s.refreshTab = obs_data_get_bool(settings, "refresh_tab");
+  s.refreshTabSeconds = std::clamp(int(obs_data_get_int(settings, "refresh_tab_seconds")), 2, 300);
   s.names = obs_data_get_bool(settings, "recognize_names");
   s.fps = std::clamp(int(obs_data_get_int(settings, "fps")), 1, 10);
   f->fps = s.fps;
@@ -65,15 +67,29 @@ void destroy(void *data) {
 void defaults(obs_data_t *s) {
   obs_data_set_default_bool(s, "enabled", true);
   obs_data_set_default_bool(s, "auto_tab", false);
+  obs_data_set_default_bool(s, "refresh_tab", false);
+  obs_data_set_default_int(s, "refresh_tab_seconds", 10);
   obs_data_set_default_bool(s, "recognize_names", true);
   obs_data_set_default_int(s, "fps", 5);
+}
+bool inputProperties(obs_properties_t *p, obs_property_t *, obs_data_t *s) {
+  const bool automatic = obs_data_get_bool(s, "auto_tab");
+  obs_property_set_enabled(obs_properties_get(p, "refresh_tab"), automatic);
+  obs_property_set_enabled(obs_properties_get(p, "refresh_tab_seconds"),
+                           automatic && obs_data_get_bool(s, "refresh_tab"));
+  return true;
 }
 obs_properties_t *properties(void *) {
   auto p = obs_properties_create();
   obs_properties_add_bool(p, "enabled", obs_module_text("Filter.Enabled"));
   obs_properties_add_int_slider(p, "fps", obs_module_text("Filter.Fps"), 1, 10, 1);
   obs_properties_add_bool(p, "recognize_names", obs_module_text("Filter.Names"));
-  obs_properties_add_bool(p, "auto_tab", obs_module_text("Filter.AutoTab"));
+  auto automatic = obs_properties_add_bool(p, "auto_tab", obs_module_text("Filter.AutoTab"));
+  auto refresh = obs_properties_add_bool(p, "refresh_tab", obs_module_text("Filter.RefreshTab"));
+  obs_properties_add_int(p, "refresh_tab_seconds", obs_module_text("Filter.RefreshTabSeconds"), 2,
+                         300, 1);
+  obs_property_set_modified_callback(automatic, inputProperties);
+  obs_property_set_modified_callback(refresh, inputProperties);
   obs_properties_add_text(p, "help", obs_module_text("Filter.Help"), OBS_TEXT_INFO);
   return p;
 }

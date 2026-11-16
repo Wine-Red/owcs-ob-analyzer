@@ -1,9 +1,18 @@
 #include "registry.hpp"
+#include "../core/player_rows.hpp"
 #include <QMutexLocker>
 namespace owcs {
 Registry &Registry::instance() {
   static Registry r;
   return r;
+}
+QJsonObject Registry::playerPriorities() const {
+  QMutexLocker lock(&mutex_);
+  return playerPriorities_;
+}
+void Registry::setPlayerPriorities(QJsonObject priorities) {
+  QMutexLocker lock(&mutex_);
+  playerPriorities_ = normalizedPlayerPriorities(priorities);
 }
 QStringList Registry::roster() const {
   QMutexLocker lock(&mutex_);
@@ -77,6 +86,7 @@ QJsonObject Registry::state(const QString &id) const {
             {"analysis_status", it->reset.after >= 0 ? "cleared" : "initializing"},
             {"source", QJsonObject{{"name", it->source}}}};
   auto result = State::age(it->snapshot, now - it->seen);
+  result["player_priorities"] = playerPriorities_;
   result["source_age_ms"] = double(inputAge);
   if (it->snapshot["source_status"] == "online")
     result["source_status"] = inputAge > 2500 ? "stale" : "online";

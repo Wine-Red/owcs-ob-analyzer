@@ -47,6 +47,7 @@ void TabHold::send(bool down) {
 void TabHold::update(bool enabled, bool allowed) {
   std::lock_guard lock(mutex_);
   if (!enabled || !allowed) {
+    refresh_.reset();
     if (owned_)
       send(false);
     if (!enabled && !owned_)
@@ -54,9 +55,19 @@ void TabHold::update(bool enabled, bool allowed) {
     return;
   }
   if (owned_ && !foregroundGame()) {
+    refresh_.reset();
     send(false);
     return;
   }
+  const auto now = monotonicMs();
+  if (owned_ && refresh_.due(now)) {
+    send(false);
+    if (!owned_)
+      refresh_.released(now);
+    return;
+  }
+  if (refresh_.waiting(now))
+    return;
   if (!owned_) {
     HWND hwnd = GetForegroundWindow();
     DWORD pid = 0;
@@ -84,19 +95,28 @@ void TabHold::update(bool enabled, bool allowed) {
     pid_ = pid;
     error_.clear();
     send(true);
+    if (owned_)
+      refresh_.pressed(now);
   }
   lease_ = monotonicMs() + 1500;
+}
+void TabHold::configureRefresh(bool enabled, int seconds) {
+  std::lock_guard lock(mutex_);
+  refresh_.configure(enabled, seconds);
 }
 void TabHold::watch() {
   while (!stop_) {
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     std::lock_guard lock(mutex_);
-    if (owned_ && (!foregroundGame() || monotonicMs() > lease_))
+    if (owned_ && (!foregroundGame() || monotonicMs() > lease_)) {
+      refresh_.reset();
       send(false);
+    }
   }
 }
 void TabHold::release() {
   std::lock_guard lock(mutex_);
+  refresh_.reset();
   if (owned_)
     send(false);
 }
