@@ -81,6 +81,16 @@ void State::reset() {
   lastVisible_ = -1;
   panelCount_ = 0;
 }
+void State::clearPerks() {
+  auto clear = [](QMap<QString, Field> &fields) {
+    fields.remove("minor");
+    fields.remove("major");
+  };
+  for (auto &player : players_)
+    clear(player.fields);
+  for (auto &fields : history_)
+    clear(fields);
+}
 void State::name(int row, Match result, qint64 now) {
   if (row < 0 || row >= 10)
     return;

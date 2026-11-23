@@ -182,15 +182,16 @@ int main(int argc, char **argv) {
                        {"hero", "tracer"},
                        {"scoreboard", QJsonObject{{"stats", QJsonObject{{"damage", slot * 123}}}}}};
   };
-  QJsonArray rows{player("beta", "right", 1), player("alpha", "left", 1),
+  QJsonArray rows{player("alpha", "left", 1), player("beta", "right", 1),
                   player("gone", "left", 2, "missing")};
   QJsonObject priorities{{"name:beta", 1}, {"name:gone", 1}};
   auto ordered = owcs::orderedPlayerRows(rows, priorities);
-  check(ordered[0] == rows[0] && ordered[1] == rows[1] && ordered[2] == rows[2],
-        "priority orders whole records, departures still last");
-  check(owcs::orderedPlayerRows(rows)[0] == rows[1], "default preserves physical order");
+  check(ordered[0] == rows[1] && ordered[1] == rows[2] && ordered[2] == rows[0],
+        "missing players keep their priority instead of moving last");
+  check(owcs::orderedPlayerRows(rows) == rows, "default preserves first-confirmation order");
   priorities["name:alpha"] = 1;
-  check(owcs::orderedPlayerRows(rows, priorities)[0] == rows[1], "ties use physical order");
+  check(owcs::orderedPlayerRows(rows, priorities) == rows,
+        "ties preserve first-confirmation order");
   check(owcs::normalizedPlayerPriorities({{"name:bad", -1},
                                           {"name:fraction", 1.5},
                                           {"name:string", "1"},
@@ -216,18 +217,24 @@ int main(int argc, char **argv) {
   auto spin = qobject_cast<QSpinBox *>(table->cellWidget(1, 0));
   check(spin && spin->objectName() == "priority:name:beta", "priority editor belongs to ID");
   spin->setValue(1);
-  widget.activateWindow();
+  // WA_DontShowOnScreen has no native activation in headless runs. Set Qt's
+  // active window explicitly without stealing focus from the user's desktop.
+  QT_WARNING_PUSH
+  QT_WARNING_DISABLE_DEPRECATED
+  QApplication::setActiveWindow(&widget);
+  QT_WARNING_POP
   spin->setFocus();
   app.processEvents();
+  check(spin->hasFocus(), "hidden UI test establishes editor focus deterministically");
   widget.refresh(snapshot);
   check(table->cellWidget(1, 0) == spin && spin->value() == 1,
         "periodic refresh cannot overwrite an active editor");
   auto liveRows = rows;
-  auto livePlayer = liveRows[0].toObject();
+  auto livePlayer = liveRows[1].toObject();
   auto liveBoard = livePlayer["scoreboard"].toObject();
   liveBoard["stats"] = QJsonObject{{"damage", 4321}};
   livePlayer["scoreboard"] = liveBoard;
-  liveRows[0] = livePlayer;
+  liveRows[1] = livePlayer;
   auto liveSnapshot = snapshot;
   liveSnapshot["participants"] = liveRows;
   widget.refresh(liveSnapshot);
@@ -241,6 +248,31 @@ int main(int argc, char **argv) {
   check(api["players"].toArray()[0].toObject()["player_id"] == "name:beta" &&
             !api.contains("player_priorities"),
         "API uses order without exposing internal config");
+  for (const auto presence : {"missing", "unconfirmed", "present"}) {
+    auto changedRows = rows;
+    auto changed = changedRows[1].toObject();
+    changed["presence_status"] = presence;
+    changed["side"] = "left";
+    changed["slot"] = 5;
+    changedRows[1] = changed;
+    auto changedSnapshot = snapshot;
+    changedSnapshot["participants"] = changedRows;
+    registry.publish("priority-test", changedSnapshot, 0);
+    widget.refresh(registry.state("priority-test"));
+    check(table->item(0, 2)->text() == "beta" && table->item(1, 2)->text() == "alpha" &&
+              owcs::publicState(registry.state("priority-test"))["players"]
+                      .toArray()[0]
+                      .toObject()["player_id"] == "name:beta",
+          "UI and API keep priority order through departure, Tab loss and reconnect");
+    check(table->item(0, 1)->text() == (QString(presence) == "missing" ? QStringLiteral("离场")
+                                        : QString(presence) == "unconfirmed"
+                                            ? QStringLiteral("待确认")
+                                            : "A5") &&
+              table->item(0, 10)->text() == "123",
+          "fixed row updates presence label while retaining player data");
+    check(owcs::orderedPlayerRows(changedRows) == changedRows,
+          "equal-priority order ignores presence, side and slot changes");
+  }
   QFile file(temp.path() + "/order.json");
   file.open(QIODevice::ReadOnly);
   check(QJsonDocument::fromJson(file.readAll()).object()["name:beta"] == 1,

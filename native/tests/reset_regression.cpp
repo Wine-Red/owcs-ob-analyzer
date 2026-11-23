@@ -23,16 +23,85 @@ int main(int argc, char **argv) {
   auto image = owcs::readImage(args[2] + "/perks.png");
   auto observation = reader.detect(image);
   owcs::State state("clear-a");
-  state.update(observation, "fixture", 0, 0);
-  state.update(observation, "fixture", 200, 0);
-  for (int n = 0; n < 3; ++n)
-    state.name(0, {"Alpha", .99}, 210 + n);
-  auto seeded = state.snapshot(observation, "fixture", 220, 0);
+  qint64 now = 0;
+  auto observe = [&](const owcs::Observation &frame, int count) {
+    for (int i = 0; i < count; ++i)
+      state.update(frame, "fixture", ++now, 0);
+  };
+  auto identify = [&](const QString &name) {
+    for (int i = 0; i < 3; ++i)
+      state.name(1, {name, .99}, ++now);
+  };
+  observe(observation, 5);
+  identify("Alpha");
+  identify("Beta"); // Alpha's confirmed perks now exist only in the identity history.
+  observe(observation, 5);
+  auto seeded =
+      owcs::localizedState(state.snapshot(observation, "fixture", now, 0), reader.localizedNames());
   registry.setRoster({"Alpha", "Beta"});
   registry.received("clear-a", "fixture", owcs::monotonicMs());
   registry.received("clear-b", "other", owcs::monotonicMs());
-  registry.publish("clear-a", seeded, 0);
+  check(registry.clear("clear-a", owcs::ClearScope::Perks) &&
+            registry.state("clear-a")["analysis_status"] == "initializing",
+        "clearing perks before recognition preserves waiting state");
+  auto seededGeneration = registry.resetToken("clear-a").generation;
+  registry.publish("clear-a", seeded, seededGeneration);
   registry.publish("clear-b", seeded, 0);
+  auto original = owcs::publicState(registry.state("clear-a"));
+  check(original["players"].toArray().size() == 2, "fixture has archived and active identities");
+  auto expectedPlayers = original["players"].toArray();
+  const QJsonObject noPerks{{"minor", QJsonValue::Null}, {"major", QJsonValue::Null}};
+  for (auto row = expectedPlayers.begin(); row != expectedPlayers.end(); ++row) {
+    auto player = row->toObject();
+    auto perks = player["perks"].toObject();
+    check(perks["minor"].toObject()["id"] == "Partial Scan" &&
+              perks["major"].toObject()["id"] == "Focused Rush",
+          "both tiers were confirmed for each identity before clear");
+    player["perks"] = noPerks;
+    QJsonArray stale;
+    for (const auto &key : player["stale_fields"].toArray())
+      if (!key.toString().startsWith("perks."))
+        stale.append(key);
+    player["stale_fields"] = stale;
+    *row = player;
+  }
+  registry.clear("clear-a", owcs::ClearScope::Perks);
+  registry.publish("clear-a", seeded, seededGeneration);
+  auto cleared = owcs::publicState(registry.state("clear-a"));
+  check(cleared["session_id"] == original["session_id"] && cleared["players"] == expectedPlayers,
+        "perk clear takes effect immediately, preserving all other player fields and order");
+  check(owcs::publicState(registry.state("clear-b"))["players"] == original["players"],
+        "perk clear leaves the other source's selections intact");
+
+  // Same hero after halftime: reconfirm empty slots and restore an archived player.
+  auto emptySlots = observation;
+  auto row = emptySlots.players[1].toObject();
+  const QJsonObject unselected{
+      {"selection", "unselected"}, {"id", QJsonValue::Null}, {"confidence", .99}};
+  row["perks"] = QJsonObject{{"minor", unselected}, {"major", unselected}};
+  emptySlots.players[1] = row;
+  state.clearPerks();
+  auto activePerks = [&] {
+    return test::physicalPlayer(state.snapshot(emptySlots, "fixture", now, 0), 1)["perks"]
+        .toObject();
+  };
+  observe(emptySlots, 3);
+  check(activePerks()["minor"].toObject()["selection"] == "unselected" &&
+            activePerks()["major"].toObject()["selection"] == "unselected",
+        "same hero can confirm both empty slots after halftime");
+  identify("Alpha");
+  check(activePerks()["minor"].toObject()["selection"] == "unknown" &&
+            activePerks()["major"].toObject()["selection"] == "unknown",
+        "reconnecting an archived player cannot restore pre-click perk memory");
+  observe(observation, 2);
+  state.clearPerks();
+  observe(observation, 1);
+  check(activePerks()["minor"].toObject()["selection"] == "unknown",
+        "pre-click partial confirmations cannot carry into the next round");
+  observe(observation, 2);
+  check(activePerks()["minor"].toObject()["id"] == "Partial Scan" &&
+            activePerks()["major"].toObject()["id"] == "Focused Rush",
+        "perks can be learned again after three post-click observations");
   const auto previous = registry.resetToken("clear-a");
   check(registry.clear("clear-a"), "clear existing source succeeds");
   auto empty = owcs::publicState(registry.state("clear-a"));
@@ -77,11 +146,27 @@ int main(int argc, char **argv) {
       engine.submit(bgra.clone(), "fixture", owcs::monotonicMs());
       return wait([&] { return registry.state("clear-worker")["sequence"].toDouble() > sequence; });
     };
-    check(tick() && tick(), "worker recognizes frames before clear");
+    check(tick() && tick() && tick() && tick(), "worker recognizes frames before clear");
     auto old = registry.state("clear-worker");
     check(test::physicalPlayer(old, 0)["stats"].toObject()["damage"] == 4350,
           "worker has confirmed data to clear");
+    registry.clear("clear-worker", owcs::ClearScope::Perks);
+    engine.submit(bgra.clone(), "fixture", registry.resetToken("clear-worker").after);
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    check(tick() && tick(), "worker resumes after perk clear");
+    auto partial = registry.state("clear-worker");
+    check(
+        partial["session_id"] == old["session_id"] &&
+            test::physicalPlayer(partial, 0)["stats"] == test::physicalPlayer(old, 0)["stats"] &&
+            test::physicalPlayer(partial, 1)["perks"].toObject()["minor"].toObject()["selection"] ==
+                "unknown",
+        "queued pre-click capture cannot count toward post-clear perk confirmation");
+    check(tick() && test::physicalPlayer(registry.state("clear-worker"), 1)["perks"]
+                            .toObject()["minor"]
+                            .toObject()["id"] == "Partial Scan",
+          "actual worker confirms a newly observed perk");
     registry.clear("clear-worker");
+    registry.clear("clear-worker", owcs::ClearScope::Perks);
     auto reset = registry.resetToken("clear-worker");
     engine.submit(bgra.clone(), "fixture", reset.after);
     std::this_thread::sleep_for(std::chrono::milliseconds(300));

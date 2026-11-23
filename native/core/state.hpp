@@ -43,6 +43,7 @@ public:
   void name(int row, Match result, qint64 now);
   bool needsName(int row, qint64 now = -1) const;
   void reset();
+  void clearPerks();
   static QJsonObject age(QJsonObject snapshot, qint64 now);
 
 private:

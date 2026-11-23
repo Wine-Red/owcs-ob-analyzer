@@ -102,11 +102,15 @@ void Engine::run() {
         continue;
       const auto reset = Registry::instance().resetToken(id_);
       if (reset.generation != previousReset) {
-        state.reset();
-        nameRow = 0;
+        if (reset.lastSessionReset > previousReset) {
+          state.reset();
+          nameRow = 0;
+        } else {
+          state.clearPerks();
+        }
         previousReset = reset.generation;
       }
-      // Pending frames captured before Clear belong to the discarded session.
+      // A queued pre-click frame cannot seed cleared fields.
       if (captured <= reset.after)
         continue;
       const auto currentRoster = Registry::instance().roster();

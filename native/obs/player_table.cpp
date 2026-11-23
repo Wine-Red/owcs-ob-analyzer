@@ -27,8 +27,8 @@ PlayerTable::PlayerTable(QString orderFile, QWidget *parent)
     : QWidget(parent), orderFile_(std::move(orderFile)) {
   auto layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
-  auto hint = new QLabel(QStringLiteral(
-      "选手优先级：数字越小越靠前，回车或离开输入框后保存；默认 1000，离场选手置后。"));
+  auto hint = new QLabel(QStringLiteral("选手优先级：数字越小越靠前；同值按本次会话首次确认顺序排列"
+                                        "。掉线或暂时识别不到时保留位置和历史数据。"));
   hint->setWordWrap(true);
   layout->addWidget(hint);
   table_ = new QTableWidget(0, 13);
@@ -44,7 +44,7 @@ PlayerTable::PlayerTable(QString orderFile, QWidget *parent)
 
   auto reset = new QPushButton(QStringLiteral("恢复默认顺序"));
   reset->setObjectName("resetPlayerOrder");
-  reset->setToolTip(QStringLiteral("清除所有来源的选手优先级设置，恢复按面板位置排列"));
+  reset->setToolTip(QStringLiteral("清除所有来源的选手优先级设置，恢复各会话首次确认的顺序"));
   layout->addWidget(reset);
   message_ = new QLabel;
   message_->setObjectName("playerOrderMessage");
@@ -123,7 +123,8 @@ void PlayerTable::render() {
       priority->setKeyboardTracking(false);
       priority->setValue(playerPriority(priorities, id));
       priority->setEnabled(!id.isEmpty());
-      priority->setToolTip(QStringLiteral("数字越小越靠前；默认 1000；同值按面板位置排序"));
+      priority->setToolTip(QStringLiteral(
+          "数字越小越靠前；默认 1000；同值按本次会话首次确认顺序排列。回车或离开输入框后保存"));
       table_->setCellWidget(i, 0, priority);
       connect(priority, &QSpinBox::editingFinished, this, [this, priority, id] {
         auto updated = Registry::instance().playerPriorities();

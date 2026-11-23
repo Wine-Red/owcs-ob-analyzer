@@ -26,15 +26,38 @@ ResetToken Registry::resetToken(const QString &id) const {
   QMutexLocker lock(&mutex_);
   return entries_.value(id).reset;
 }
-bool Registry::clear(const QString &id) {
+bool Registry::clear(const QString &id, ClearScope scope) {
   QMutexLocker lock(&mutex_);
   auto it = entries_.find(id);
   if (it == entries_.end())
     return false;
   ++it->reset.generation;
   it->reset.after = monotonicMs();
-  it->snapshot = {};
-  it->seen = it->reset.after;
+  if (scope == ClearScope::AllData) {
+    it->reset.lastSessionReset = it->reset.generation;
+    it->snapshot = {};
+    it->seen = it->reset.after;
+  } else if (it->snapshot.value("type") == "state.snapshot") {
+    // The dock and API must reflect the click even if the source has stopped.
+    const QJsonObject unknown{
+        {"id", QJsonValue::Null}, {"selection", "unknown"}, {"name_zhCN", QJsonValue::Null}};
+    const auto metadata = Field{}.metadata(it->reset.after, false);
+    for (auto collection : {"players", "participants"}) {
+      auto rows = it->snapshot[collection].toArray();
+      for (auto row = rows.begin(); row != rows.end(); ++row) {
+        auto player = row->toObject();
+        auto board = player["scoreboard"].toObject();
+        auto fields = board["fields"].toObject();
+        fields["minor"] = metadata;
+        fields["major"] = metadata;
+        board["fields"] = fields;
+        board["perks"] = QJsonObject{{"minor", unknown}, {"major", unknown}};
+        player["scoreboard"] = board;
+        *row = player;
+      }
+      it->snapshot[collection] = rows;
+    }
+  }
   return true;
 }
 void Registry::publish(const QString &id, QJsonObject s, quint64 resetGeneration) {
@@ -83,7 +106,7 @@ QJsonObject Registry::state(const QString &id) const {
             {"stream_id", it.key()},
             {"source_status", inputAge > 2500 ? "stale" : "waiting"},
             {"source_age_ms", double(inputAge)},
-            {"analysis_status", it->reset.after >= 0 ? "cleared" : "initializing"},
+            {"analysis_status", it->reset.lastSessionReset ? "cleared" : "initializing"},
             {"source", QJsonObject{{"name", it->source}}}};
   auto result = State::age(it->snapshot, now - it->seen);
   result["player_priorities"] = playerPriorities_;

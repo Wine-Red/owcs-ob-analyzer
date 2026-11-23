@@ -289,6 +289,15 @@ int main(int argc, char **argv) {
     identify(i, i);
   auto initialNamed = advance();
   auto stableOrder = test::ids(initialNamed);
+  QJsonObject priorities;
+  for (int i = 0; i < 9; ++i)
+    priorities["name:person" + QString::number(i)] = 9 - i;
+  auto prioritized = [&](QJsonObject snapshot) {
+    snapshot["player_priorities"] = priorities;
+    return owcs::publicState(snapshot);
+  };
+  const auto fixedPriorityOrder =
+      test::ids(prioritized(compacting.snapshot(current, "test", t, 0)));
   auto dockRows = [&] {
     return owcs::orderedPlayerRows(
         compacting.snapshot(current, "test", t, 0)["participants"].toArray());
@@ -300,16 +309,14 @@ int main(int argc, char **argv) {
     return ids;
   };
   QJsonArray expectedDockIds;
-  for (int i = 0; i < 9; ++i)
+  for (int i : {1, 2, 3, 4, 5, 6, 8, 0, 7})
     expectedDockIds.append("name:person" + QString::number(i));
   check(dockIds() == expectedDockIds && stableOrder == expectedDockIds,
-        "late confirmations publish one named list in scoreboard display order");
+        "late confirmations append to a stable first-confirmation order");
   check(initialNamed["players"].toArray().size() == 9,
         "named output contains confirmed players, never the waiting slot");
   for (int i = 0; i < 9; ++i)
-    check(named(initialNamed, i)["team"] == (i < 5 ? "A" : "B") &&
-              initialNamed["players"].toArray()[i].toObject()["team"] ==
-                  named(initialNamed, i)["team"],
+    check(named(initialNamed, i)["team"] == (i < 5 ? "A" : "B"),
           "confirmed named and physical records agree on team: " + QString::number(i));
   check(!initialNamed.contains("players_by_id") && !initialNamed.contains("retained_players") &&
             !initialNamed.contains("player_order"),
@@ -333,11 +340,8 @@ int main(int argc, char **argv) {
   auto compressed = advance();
   check(compressed["players"].toArray().size() == 9,
         "compaction preserves nine identities without creating a waiting player");
-  auto compactedDockIds = expectedDockIds;
-  compactedDockIds.removeAt(1);
-  compactedDockIds.append("name:person1");
-  check(dockIds() == compactedDockIds,
-        "compacted active rows precede the departed player's historical record");
+  check(dockIds() == expectedDockIds && test::ids(compressed) == stableOrder,
+        "compaction and departure retain every display position");
   const auto rawParticipants = compacting.snapshot(current, "test", t, 0)["participants"].toArray();
   const auto sortedParticipants = owcs::orderedPlayerRows(rawParticipants);
   bool recordsIntact = true;
@@ -364,6 +368,37 @@ int main(int argc, char **argv) {
               named(compressed, i)["stats"] == named(initialNamed, i)["stats"],
           "shifted occupant owns its values: " + QString::number(i));
 
+  auto checkFixedOrder = [&](const char *label) {
+    const auto snapshot = compacting.snapshot(current, "test", t, 0);
+    QJsonArray ids;
+    for (const auto &row : owcs::orderedPlayerRows(snapshot["participants"].toArray(), priorities))
+      ids.append(row.toObject()["player_id"]);
+    check(ids == fixedPriorityOrder && test::ids(prioritized(snapshot)) == fixedPriorityOrder &&
+              dockIds() == stableOrder && test::ids(owcs::publicState(snapshot)) == stableOrder,
+          label);
+  };
+  checkFixedOrder("departure keeps explicit priorities and default ties in dock and API");
+  const auto compactedObservation = current;
+  current.visible = current.confirmed = false;
+  const auto hidden = advance();
+  checkFixedOrder("Tab release after departure cannot move any player");
+  check(named(hidden, 1)["presence_status"] == "unconfirmed" &&
+            named(hidden, 1)["stats"] == named(compressed, 1)["stats"] &&
+            named(hidden, 1)["stale_fields"].toArray().contains("stats.damage"),
+        "hidden departed record retains stats and explicitly marks history");
+  current = compactedObservation;
+  advance();
+  checkFixedOrder("first returning Tab frame keeps all positions during confirmation");
+  const auto reopened = advance();
+  checkFixedOrder("confirmed Tab panel cannot move departed player to the bottom");
+  check(named(reopened, 1)["presence_status"] == "missing" &&
+            named(reopened, 1)["stats"] == named(compressed, 1)["stats"],
+        "restored panel marks departure without losing history");
+  const auto aged = owcs::State::age(compacting.snapshot(current, "test", t, 0), 4000);
+  check(test::ids(prioritized(aged)) == fixedPriorityOrder &&
+            test::ids(owcs::publicState(aged)) == stableOrder,
+        "stale source cannot reorder explicit priorities or default ties");
+
   // The same name returns to its original position with ALL counters reset.
   current = full;
   auto returning = current.players[1].toObject();
@@ -377,8 +412,8 @@ int main(int argc, char **argv) {
     identify(i, i);
   advance();
   auto reconnected = advance();
-  check(dockIds() == expectedDockIds,
-        "reconnected identity returns to its current scoreboard position");
+  checkFixedOrder("reconnection preserves both explicit-priority and equal-priority order");
+  check(dockIds() == expectedDockIds, "reconnected identity keeps its fixed display position");
   check(test::ids(reconnected) == stableOrder &&
             named(reconnected, 1)["presence_status"] == "present" &&
             named(reconnected, 1)["player_id"] == "name:person1",
@@ -410,6 +445,7 @@ int main(int argc, char **argv) {
   identify(5, 0);
   advance();
   auto crossSide = advance();
+  checkFixedOrder("team and physical slot changes preserve fixed order");
   auto beforePauseDockIds = dockIds();
   check(named(crossSide, 0)["team"] == "B" &&
             named(crossSide, 0)["stats"] == named(initialNamed, 0)["stats"] &&

@@ -37,6 +37,7 @@ public:
   QSpinBox *port;
   QCheckBox *lan;
   QPushButton *rosterButton;
+  QPushButton *clearPerksButton;
   QPushButton *clearButton;
   QPointer<QDialog> rosterDialog;
   Dock() {
@@ -85,12 +86,17 @@ public:
     auto actions = new QHBoxLayout;
     auto copy = new QPushButton(QStringLiteral("复制 JSON"));
     auto save = new QPushButton(QStringLiteral("导出 JSON"));
+    clearPerksButton = new QPushButton(QStringLiteral("清空威能"));
+    clearPerksButton->setObjectName("owcsClearPerks");
+    clearPerksButton->setToolTip(
+        QStringLiteral("攻防互换后，清空当前来源所有选手的大小威能，保留选手顺序与比赛统计"));
     clearButton = new QPushButton(QStringLiteral("清空数据"));
     clearButton->setObjectName("owcsClearData");
     clearButton->setToolTip(
         QStringLiteral("清空当前来源的选手数据和历史，保留选手名单与设置；识别继续运行"));
     actions->addWidget(copy);
     actions->addWidget(save);
+    actions->addWidget(clearPerksButton);
     actions->addWidget(clearButton);
     layout->addLayout(actions);
     char *config = obs_module_config_path("settings.json");
@@ -125,6 +131,10 @@ public:
       QApplication::clipboard()->setText(QString::fromUtf8(
           QJsonDocument(owcs::publicState(owcs::Registry::instance().state())).toJson()));
     });
+    connect(clearPerksButton, &QPushButton::clicked, this, [this] {
+      owcs::Registry::instance().clear(streams->currentData().toString(), owcs::ClearScope::Perks);
+      refresh();
+    });
     connect(clearButton, &QPushButton::clicked, this, [this] {
       owcs::Registry::instance().clear(streams->currentData().toString());
       refresh();
@@ -156,19 +166,18 @@ public:
     auto list = owcs::Registry::instance().streams();
     {
       QSignalBlocker block(streams);
-      auto selected = streams->currentData().toString();
       streams->clear();
       for (auto v : list) {
         auto o = v.toObject();
         streams->addItem(o["name"].toString() + " · " + o["stream_id"].toString().left(8),
                          o["stream_id"].toString());
+        if (o["selected"].toBool())
+          streams->setCurrentIndex(streams->count() - 1);
       }
-      int index = streams->findData(selected);
-      if (index >= 0)
-        streams->setCurrentIndex(index);
     }
     auto s = owcs::Registry::instance().state();
     clearButton->setEnabled(streams->count() > 0);
+    clearPerksButton->setEnabled(streams->count() > 0);
     auto b = s["scoreboard"].toObject();
     const auto rows = owcs::orderedPlayerRows(s["participants"].toArray());
     bool retained = false;

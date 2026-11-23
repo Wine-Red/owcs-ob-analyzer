@@ -4,13 +4,15 @@
 namespace owcs {
 struct ResetToken {
   quint64 generation = 0;
+  quint64 lastSessionReset = 0;
   qint64 after = -1;
 };
+enum class ClearScope { AllData, Perks };
 class Registry {
 public:
   static Registry &instance();
   void publish(const QString &, QJsonObject, quint64 resetGeneration);
-  bool clear(const QString &id);
+  bool clear(const QString &id, ClearScope scope = ClearScope::AllData);
   ResetToken resetToken(const QString &id) const;
   void received(const QString &, const QString &source, qint64 captured);
   void remove(const QString &);
